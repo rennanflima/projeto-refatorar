@@ -5401,6 +5401,7 @@
         "nome": "PIT",
         "descricao": "Plano Individual de Trabalho",
         "is_ativo": true,
+        "categoria_pai": null,
         "categoria_atividade": [
             1,
             2,
@@ -5413,7 +5414,6 @@
             7,
             5
         ],
-        "categoria_pai": null,
         "situacao_processso": [
             3,
             2,
@@ -5602,6 +5602,42 @@
     }
 },
 {
+    "model": "core.responsavelunidade",
+    "pk": 1,
+    "fields": {
+        "servidor": 1,
+        "unidade": 122,
+        "nivel_responsabilidade": "V",
+        "data_inicio": "2018-05-25",
+        "data_termino": "2018-08-31",
+        "id_responsabilidade_sig": 2601
+    }
+},
+{
+    "model": "core.responsavelunidade",
+    "pk": 2,
+    "fields": {
+        "servidor": 2,
+        "unidade": 21,
+        "nivel_responsabilidade": "C",
+        "data_inicio": "2017-02-01",
+        "data_termino": null,
+        "id_responsabilidade_sig": 1903
+    }
+},
+{
+    "model": "core.responsavelunidade",
+    "pk": 3,
+    "fields": {
+        "servidor": 3,
+        "unidade": 39,
+        "nivel_responsabilidade": "C",
+        "data_inicio": "2019-03-06",
+        "data_termino": null,
+        "id_responsabilidade_sig": 2779
+    }
+},
+{
     "model": "core.fluxoprocesso",
     "pk": 1,
     "fields": {
@@ -5632,6 +5668,1026 @@
         "ordem": 2,
         "is_avaliadora": false,
         "is_ativo": true
+    }
+},
+{
+    "model": "core.vinculoservidorunidade",
+    "pk": 1,
+    "fields": {
+        "unidade": 259,
+        "servidor": 1,
+        "portaria": "2",
+        "tipo_vinculo": "M",
+        "data_inicio": "2019-08-14",
+        "data_termino": null,
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.processo",
+    "pk": 6,
+    "fields": {
+        "criado_em": "2019-10-02T21:54:04.950Z",
+        "ultima_modificacao_em": "2019-10-02T22:14:48.286Z",
+        "criado_por": 2,
+        "modificado_por": 2,
+        "numero_processo": "201921/22",
+        "ano": 2019,
+        "semestre": 2,
+        "assunto": "",
+        "quantidade_leitura": 0,
+        "processo_pai": null,
+        "tipo_processo": 1,
+        "interessado": 2,
+        "unidade_interessada": null,
+        "situacao": 2
+    }
+},
+{
+    "model": "core.processo",
+    "pk": 7,
+    "fields": {
+        "criado_em": "2019-10-07T15:34:26.651Z",
+        "ultima_modificacao_em": "2019-10-07T15:34:26.651Z",
+        "criado_por": 2,
+        "modificado_por": 2,
+        "numero_processo": "201911/22",
+        "ano": 2019,
+        "semestre": 1,
+        "assunto": "",
+        "quantidade_leitura": 0,
+        "processo_pai": null,
+        "tipo_processo": 1,
+        "interessado": 2,
+        "unidade_interessada": null,
+        "situacao": 1
+    }
+},
+{
+    "model": "core.processo",
+    "pk": 8,
+    "fields": {
+        "criado_em": "2019-10-07T17:16:21.226Z",
+        "ultima_modificacao_em": "2019-10-07T17:16:21.226Z",
+        "criado_por": 3,
+        "modificado_por": 3,
+        "numero_processo": "201911/32",
+        "ano": 2019,
+        "semestre": 1,
+        "assunto": "",
+        "quantidade_leitura": 0,
+        "processo_pai": null,
+        "tipo_processo": 1,
+        "interessado": 3,
+        "unidade_interessada": null,
+        "situacao": 1
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 11,
+    "fields": {
+        "atividade": 2,
+        "descricao": "",
+        "ch_semanal": "0.83",
+        "processo": 6,
+        "is_editavel": false,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 12,
+    "fields": {
+        "atividade": 2,
+        "descricao": "",
+        "ch_semanal": "0.83",
+        "processo": 6,
+        "is_editavel": false,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 13,
+    "fields": {
+        "atividade": 2,
+        "descricao": "",
+        "ch_semanal": "0.83",
+        "processo": 6,
+        "is_editavel": false,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 14,
+    "fields": {
+        "atividade": 2,
+        "descricao": "",
+        "ch_semanal": "0.83",
+        "processo": 6,
+        "is_editavel": false,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 15,
+    "fields": {
+        "atividade": 2,
+        "descricao": "",
+        "ch_semanal": "0.83",
+        "processo": 6,
+        "is_editavel": false,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 16,
+    "fields": {
+        "atividade": 2,
+        "descricao": "",
+        "ch_semanal": "2.50",
+        "processo": 6,
+        "is_editavel": false,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 17,
+    "fields": {
+        "atividade": 2,
+        "descricao": "",
+        "ch_semanal": "1.67",
+        "processo": 6,
+        "is_editavel": false,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 18,
+    "fields": {
+        "atividade": 4,
+        "descricao": "",
+        "ch_semanal": "1.00",
+        "processo": 6,
+        "is_editavel": true,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 19,
+    "fields": {
+        "atividade": 1,
+        "descricao": "",
+        "ch_semanal": "1.00",
+        "processo": 6,
+        "is_editavel": true,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 20,
+    "fields": {
+        "atividade": 3,
+        "descricao": "",
+        "ch_semanal": "8.32",
+        "processo": 6,
+        "is_editavel": false,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 21,
+    "fields": {
+        "atividade": 6,
+        "descricao": "",
+        "ch_semanal": "1.00",
+        "processo": 6,
+        "is_editavel": true,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 22,
+    "fields": {
+        "atividade": 7,
+        "descricao": "",
+        "ch_semanal": "2.50",
+        "processo": 6,
+        "is_editavel": true,
+        "is_obrigatorio": true,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.registroatividade",
+    "pk": 23,
+    "fields": {
+        "atividade": 79,
+        "descricao": "Chefia/Diretoria: DIPED - DIRETORIA POLITICAS DE EDUC PROFISSIONAL - DIPED",
+        "ch_semanal": "17.86",
+        "processo": 6,
+        "is_editavel": true,
+        "is_obrigatorio": false,
+        "situacao": "AGUARDANDO_VALIDACAO",
+        "justificativa": "",
+        "avaliador": null,
+        "data_avaliacao": null
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 31,
+    "fields": {
+        "argumento": 1,
+        "valor_texto": "T\u00c9CNICO EM INFORM\u00c1TICA PARA INTERNET - MATUTINO: TIPI06-SOCIOLOGIA I (T01/REGULAR)",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 11
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 32,
+    "fields": {
+        "argumento": 2,
+        "valor_texto": "T\u00c9CNICO - Integrado",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 11
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 33,
+    "fields": {
+        "argumento": 4,
+        "valor_texto": "5M5",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 11
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 34,
+    "fields": {
+        "argumento": 5,
+        "valor_texto": "",
+        "valor_inteiro": 1,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 11
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 35,
+    "fields": {
+        "argumento": 6,
+        "valor_texto": "CAMPUS RIO BRANCO",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 11
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 36,
+    "fields": {
+        "argumento": 13,
+        "valor_texto": "2019/1",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 11
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 37,
+    "fields": {
+        "argumento": 1,
+        "valor_texto": "T\u00c9CNICO EM INFORM\u00c1TICA PARA INTERNET - MATUTINO: TIPI06-SOCIOLOGIA I (T02/REGULAR)",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 12
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 38,
+    "fields": {
+        "argumento": 2,
+        "valor_texto": "T\u00c9CNICO - Integrado",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 12
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 39,
+    "fields": {
+        "argumento": 4,
+        "valor_texto": "6M3",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 12
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 40,
+    "fields": {
+        "argumento": 5,
+        "valor_texto": "",
+        "valor_inteiro": 1,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 12
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 41,
+    "fields": {
+        "argumento": 6,
+        "valor_texto": "CAMPUS RIO BRANCO",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 12
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 42,
+    "fields": {
+        "argumento": 13,
+        "valor_texto": "2019/1",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 12
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 43,
+    "fields": {
+        "argumento": 1,
+        "valor_texto": "T\u00c9CNICO EM INFORM\u00c1TICA PARA INTERNET - MATUTINO: TIPI33-SOCIOLOGIA III (T01/REGULAR)",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 13
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 44,
+    "fields": {
+        "argumento": 2,
+        "valor_texto": "T\u00c9CNICO - Integrado",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 13
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 45,
+    "fields": {
+        "argumento": 4,
+        "valor_texto": "6M1",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 13
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 46,
+    "fields": {
+        "argumento": 5,
+        "valor_texto": "",
+        "valor_inteiro": 1,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 13
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 47,
+    "fields": {
+        "argumento": 6,
+        "valor_texto": "CAMPUS RIO BRANCO",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 13
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 48,
+    "fields": {
+        "argumento": 13,
+        "valor_texto": "2019/1",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 13
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 49,
+    "fields": {
+        "argumento": 1,
+        "valor_texto": "T\u00c9CNICO EM INFORM\u00c1TICA PARA INTERNET - MATUTINO: TIPI20-SOCIOLOGIA II (T01/REGULAR)",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 14
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 50,
+    "fields": {
+        "argumento": 2,
+        "valor_texto": "T\u00c9CNICO - Integrado",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 14
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 51,
+    "fields": {
+        "argumento": 4,
+        "valor_texto": "6M4",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 14
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 52,
+    "fields": {
+        "argumento": 5,
+        "valor_texto": "",
+        "valor_inteiro": 1,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 14
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 53,
+    "fields": {
+        "argumento": 6,
+        "valor_texto": "CAMPUS RIO BRANCO",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 14
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 54,
+    "fields": {
+        "argumento": 13,
+        "valor_texto": "2019/1",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 14
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 55,
+    "fields": {
+        "argumento": 1,
+        "valor_texto": "T\u00c9CNICO EM INFORM\u00c1TICA - MATUTINO: INFI1654-SOCIOLOGIA IV (T01/REGULAR)",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 15
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 56,
+    "fields": {
+        "argumento": 2,
+        "valor_texto": "T\u00c9CNICO - Integrado",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 15
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 57,
+    "fields": {
+        "argumento": 4,
+        "valor_texto": "6M5",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 15
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 58,
+    "fields": {
+        "argumento": 5,
+        "valor_texto": "",
+        "valor_inteiro": 1,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 15
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 59,
+    "fields": {
+        "argumento": 6,
+        "valor_texto": "CAMPUS RIO BRANCO",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 15
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 60,
+    "fields": {
+        "argumento": 13,
+        "valor_texto": "2019/1",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 15
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 61,
+    "fields": {
+        "argumento": 1,
+        "valor_texto": "BACHARELADO EM ADMINISTRA\u00c7\u00c3O: COSADM011-SOCIOLOGIA APLICADA \u00c0S ORGANIZA\u00c7\u00d5ES (T2\u00b0P VES/REGULAR)",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 16
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 62,
+    "fields": {
+        "argumento": 2,
+        "valor_texto": "GRADUA\u00c7\u00c3O",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 16
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 63,
+    "fields": {
+        "argumento": 4,
+        "valor_texto": "6T123",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 16
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 64,
+    "fields": {
+        "argumento": 5,
+        "valor_texto": "",
+        "valor_inteiro": 3,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 16
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 65,
+    "fields": {
+        "argumento": 6,
+        "valor_texto": "CAMPUS RIO BRANCO",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 16
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 66,
+    "fields": {
+        "argumento": 13,
+        "valor_texto": "2019/2",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 16
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 67,
+    "fields": {
+        "argumento": 1,
+        "valor_texto": "LICENCIATURA EM MATEM\u00c1TICA: COSMA - 206-SOCIOLOGIA GERAL (T2\u00baM/REGULAR)",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 17
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 68,
+    "fields": {
+        "argumento": 2,
+        "valor_texto": "GRADUA\u00c7\u00c3O",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 17
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 69,
+    "fields": {
+        "argumento": 4,
+        "valor_texto": "5M34",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 17
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 70,
+    "fields": {
+        "argumento": 5,
+        "valor_texto": "",
+        "valor_inteiro": 2,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 17
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 71,
+    "fields": {
+        "argumento": 6,
+        "valor_texto": "CAMPUS RIO BRANCO",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 17
+    }
+},
+{
+    "model": "core.informacaoargumento",
+    "pk": 72,
+    "fields": {
+        "argumento": 13,
+        "valor_texto": "2019/2",
+        "valor_inteiro": null,
+        "valor_decimal": null,
+        "valor_data": null,
+        "valor_hora": null,
+        "valor_data_hora": null,
+        "valor_boolean": null,
+        "valor_arquivo": "",
+        "registro_atividade": 17
+    }
+},
+{
+    "model": "core.assinatura",
+    "pk": 1,
+    "fields": {
+        "data_assinatura": "2019-10-02T22:07:37.614Z",
+        "servidor_assinante": 2,
+        "is_autenticador": true,
+        "content_type": 29,
+        "object_id": 1
+    }
+},
+{
+    "model": "core.assinatura",
+    "pk": 2,
+    "fields": {
+        "data_assinatura": "2019-10-02T22:14:42.287Z",
+        "servidor_assinante": 3,
+        "is_autenticador": true,
+        "content_type": 30,
+        "object_id": 1
+    }
+},
+{
+    "model": "core.documentoprocesso",
+    "pk": 1,
+    "fields": {
+        "criado_em": "2019-10-02T22:14:28.610Z",
+        "ultima_modificacao_em": "2019-10-02T22:14:28.610Z",
+        "criado_por": 3,
+        "modificado_por": 3,
+        "processo": 6,
+        "titulo": "Aprova\u00e7\u00e3o de Envio",
+        "tipo_documento": "DESPACHO",
+        "texto": "<p>Aprovado o envio, pois....</p>",
+        "arquivo": ""
+    }
+},
+{
+    "model": "core.tramite",
+    "pk": 1,
+    "fields": {
+        "processo": 6,
+        "servidor_origem": 2,
+        "unidade_origem": 39,
+        "data_criacao": "2019-10-02T22:07:37.577Z",
+        "data_envio": "2019-10-02T22:07:37.577Z",
+        "servidor_destino": null,
+        "unidade_destino": 39,
+        "data_recebimento": "2019-10-02T22:11:29.505Z",
+        "servidor_recebimento": 3
+    }
+},
+{
+    "model": "core.tramite",
+    "pk": 2,
+    "fields": {
+        "processo": 6,
+        "servidor_origem": 3,
+        "unidade_origem": 39,
+        "data_criacao": "2019-10-02T22:14:48.283Z",
+        "data_envio": "2019-10-02T22:14:48.283Z",
+        "servidor_destino": null,
+        "unidade_destino": 259,
+        "data_recebimento": null,
+        "servidor_recebimento": null
     }
 }
 ]
