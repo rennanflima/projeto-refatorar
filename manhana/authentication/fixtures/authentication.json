@@ -1,0 +1,68 @@
+[
+{
+    "model": "authentication.grupodocente",
+    "pk": 1,
+    "fields": {
+        "nome": "Grupo 1",
+        "descricao": "Constitu\u00eddo pelos docentes em regime de trabalho de 20 horas.",
+        "is_ativo": true,
+        "grupo_pai": null,
+        "ch_semanal": "20.00"
+    }
+},
+{
+    "model": "authentication.grupodocente",
+    "pk": 2,
+    "fields": {
+        "nome": "Grupo 2",
+        "descricao": "Constitu\u00eddo pelos docentes em regime de trabalho de 40 horas e/ou dedica\u00e7\u00e3o exclusiva.",
+        "is_ativo": true,
+        "grupo_pai": null,
+        "ch_semanal": "40.00"
+    }
+},
+{
+    "model": "authentication.grupodocente",
+    "pk": 3,
+    "fields": {
+        "nome": "Grupo 3 (20 horas)",
+        "descricao": "Constitu\u00eddo pelos docentes substitutos e tempor\u00e1rios contratados em regime de 20 horas.",
+        "is_ativo": true,
+        "grupo_pai": null,
+        "ch_semanal": "20.00"
+    }
+},
+{
+    "model": "authentication.grupodocente",
+    "pk": 4,
+    "fields": {
+        "nome": "Grupo 3 (40 horas)",
+        "descricao": "Constitu\u00eddo pelos docentes substitutos e tempor\u00e1rios contratados em regime de 40 horas.",
+        "is_ativo": true,
+        "grupo_pai": null,
+        "ch_semanal": "40.00"
+    }
+},
+{
+    "model": "authentication.grupodocente",
+    "pk": 5,
+    "fields": {
+        "nome": "Grupo 2 (Regime Especial 20h)",
+        "descricao": "Constitu\u00eddo pelos docentes em regime de trabalho de 40 horas e/ou dedica\u00e7\u00e3o exclusiva, com regime especial de 20 horas",
+        "is_ativo": true,
+        "grupo_pai": 2,
+        "ch_semanal": "20.00"
+    }
+},
+{
+    "model": "authentication.grupodocente",
+    "pk": 6,
+    "fields": {
+        "nome": "Grupo 2 (Regime Especial 30h)",
+        "descricao": "Constitu\u00eddo pelos docentes em regime de trabalho de 40 horas e/ou dedica\u00e7\u00e3o exclusiva, com regime especial de 30 horas",
+        "is_ativo": true,
+        "grupo_pai": 2,
+        "ch_semanal": "30.00"
+    }
+}
+]

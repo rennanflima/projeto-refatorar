@@ -1,0 +1,35 @@
+{% for p in processo_anexos %}
+    <tr role="row">
+        <th scope="row">{{ forloop.counter }}</th>
+        <td class="text-center">
+            <a class="btn js-detail-atividade" href="{% url 'core:processo-detalhe' p.id %}" title="Visualizar processo"><span aria-hidden="true"><i class="far fa-eye"></i></span></a>
+            {% if p.processo_pai.ultima_movimentacao.unidade_destino == p.unidade_interessada %}
+            
+                <button class="btn js-arquivar-processo" data-toggle="modal" data-id="{{ p.id }}" data-target="#confirmaExcluirProcesso"  title="Arquivar {{ p.tipo_processo }}">
+                    <i class="fas fa-archive" aria-hidden="true"></i>
+                </button>
+                
+                <button class="btn js-excluir-documento" data-toggle="modal" data-id="{{ p.id }}" data-target="#confirmaExcluirProcesso"  title="Excluir {{ p.tipo_processo }}">
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                </button>
+            {% endif %}
+        </td>
+        <td>{{ p.numero_processo }}</td>
+        <td>{{ p.ano|stringformat:"i" }}/{{ p.semestre }}</td>
+        <td>{{ p.tipo_processo }}</td>
+        <td>{{ p.interessado.pessoa.user.get_full_name }}</td>
+        <td>{{ p.situacao }}
+            {% if request.session.avaliador %}
+                {% if p.ultima_movimentacao.tipo_despacho == 'PARECER' %}
+                    : Aguardando despacho
+                {% elif p.ultima_movimentacao.tipo_despacho == 'SOLICITACAO' %}
+                    : Aguardando parecer
+                {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="7">Nenhum processo encontrado.</td>
+    </tr>
+{% endfor %}

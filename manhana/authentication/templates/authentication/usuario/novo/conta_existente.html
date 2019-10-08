@@ -1,0 +1,14 @@
+{% extends 'authentication/layout/base.html' %}
+{% load bootstrap4 %}
+{% block conteudo %}
+<div class="justify-content-center">
+    <div class="jumbotron col-sm-9" style="margin: 0 auto;">
+        <h1 class="display-4">Conta existente</h1>
+        <p class="lead">Informamos que você já possui uma conta no CADU. Agora você já pode usufruir dos sistema que o usam para autenticação.</p>
+        <hr class="my-4">
+        <p>Por gentileza clique no botão abaixo para voltar ao sistema de chamados técnicos - GLPI.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'cas_ng_login' %}" role="button">Acessar sistema</a>
+        <a class="btn btn-lg btn-secondary" href="http://trocasenha.ifac.edu.br" role="button">Esqueci minha senha</a> 
+    </div>
+</div>
+{% endblock conteudo %}

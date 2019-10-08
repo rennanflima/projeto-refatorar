@@ -1,0 +1,59 @@
+{% extends 'core/layout/base.html' %}
+{% load bootstrap4 %}
+
+{%block breadcrumb%}                   
+    <li class="breadcrumb-item ">
+        <a href="{% url 'core:caixa-entrada' %}">Processo</a>
+    </li>
+    <li class="breadcrumb-item active">Atividade</li>
+    <li class="breadcrumb-item active">Obrigatórias</li>
+{% endblock %}
+
+{% block title_page %}{{categoria}} obrigatórias{% endblock %}
+
+{% block conteudo %}
+<form method="POST" action="">{% csrf_token %}
+    <fieldset>
+        <!-- <table id="table_id" class="table table-bordered table-striped dataTable" role="grid" width="100%">
+                <thead>
+                    <tr role="row">
+                        <th class="text-center">Atividade</th>
+                        <th class="text-center">Carga horária semanal (h)</th>
+                        <th class="text-center">Observação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in atividades %}
+                        <tr role="row">
+                            <td>{{ a.descricao }}</td>
+                            <td>
+                                <input type="number" name="ch_semanal" step="0.01" class="form-control" title="" required="" value="{{ a.ch_minima|stringformat:'1.2f' }}" data-atividade="{{ a.pk }}">
+                            </td>
+                            <td>{{ a.observacao }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr role="row">
+                            <td class="text-center" colspan="5">
+                                <h5>Nenhuma atividade obrigatória </h5>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table> -->
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    {% bootstrap_form form %}
+                </div>
+            </div>
+        {%endfor%}
+        <!-- {% bootstrap_formset formset %} -->
+    </fieldset>
+    <hr>
+
+    <p>Você deseja adicionar as atividades obrigatórias da {{categoria}} no seu PIT?</p>
+    <input type="submit" class="btn btn-info" value="Sim, tenho certeza">
+    <a href="{% url 'core:processo-editar' processo.pk %}" class="btn btn-secondary" class="button cancel-link">Não, me leve de volta</a>
+</form>
+{% endblock conteudo %}

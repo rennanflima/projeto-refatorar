@@ -1,0 +1,116 @@
+{% extends 'authentication/layout/base.html' %}
+{% load bootstrap4 %}
+
+{% block conteudo %}
+<div class="progress">
+    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{progress}}%"
+        aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
+        {{progress}}% concluído.
+    </div>
+</div>
+<p style="font-size: 20px; margin-top: 10px; margin-bottom: 30px;">Conforme os dados informados na tela anterior
+    encontramos o servidor abaixo.</p>
+<div class="container">
+    <h2>Detalhar Usuário</h2>
+    <hr>
+    <div class="card-body">
+        <div class="form-group">
+            <label>Nome: </label>
+            {{ user.first_name }} {{ user.last_name }}
+        </div>
+
+        {% if user.pessoa.nome_mae %}
+            <div class="form-group">
+                <label>Nome da Mãe: </label>
+                {{ user.pessoa.nome_mae }}
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label>Nome do Pai: </label>
+            {% if user.pessoa.nome_pai %}
+                {{ user.pessoa.nome_pai }}
+            {% endif %}
+        </div>
+
+        {% if user.pessoa.registro_geral %}
+            <div class="form-group">
+                <label>RG: </label>    
+                {{user.pessoa.registro_geral}}  {{user.pessoa.rg_orgao_expedidor}} / {{user.pessoa.get_rg_uf_display}}
+            </div> 
+        {% endif %}
+
+        <div class="form-group">
+            <label>CPF: </label>
+            {{ user.pessoa.cpf }}
+        </div>
+
+        <div class="form-group">
+            <label>Data de Nascimento: </label>
+            {{user.pessoa.data_nascimento|date:"d/m/Y" }}
+        </div>
+
+        <div class="form-group">
+            <label>Grupo Sanguíneo: </label>    
+            {% if user.pessoa.grupo_sanguineo %}
+                {{ user.pessoa.get_grupo_sanguineo_display }} 
+            {%endif%}
+        </div>
+    </div>
+
+    <p style="font-size: 20px; margin-top: 10px; margin-bottom: 30px;">Conforme os dados informados na tela anterior
+            encontramos o servidor abaixo.</p>
+    <form method="post">
+        {% csrf_token %}
+        <h4>Vínculo de Servidor</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Siape</th>
+                    <th scope="col">Cargo</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Situação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for servidor in servidores %}
+                <tr>
+                    <td class="text-center">
+                        <input class="form-check-input" type="checkbox" name="perfil_servidor"
+                            value="{{ servidor.id|stringformat:'i' }}">
+                    </td>
+                    <th scope="row">{{ servidor.siape|stringformat:"i" }}</th>
+                    <td>{{ servidor.cargo }}</td>
+                    <td>{{ servidor.categoria }}</td>
+                    <td>{{ servidor.situacao }}</td>
+                </tr>
+                {%empty%}
+                <tr class="text-center">
+                    <td colspan="5">Nenhum vinculo de servidor encontrado.</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        <hr>
+        {% if not user.email %}
+            <p style="font-size: 18px; margin-top: 20px; margin-bottom: 30px;">Para prosseguirmos com o seu cadastro
+                precisamos que você informe seu E-MAIL INSTITUCIONAL no campo abaixo, <i>ou clique em <b>Voltar</b> caso não
+                    seja você:</i></p>
+            <div class="input-group mb-3 mt-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                </div>
+                <input type="text" class="form-control {% if is_valid %}is-invalid {% endif %}" name="email" id="email"
+                    {% if user.email %}value="{{user.email}}"{% endif %} placeholder="E-mail institucional" aria-label="E-mail"
+                    {% if not user.email %}required="true"{% endif %} aria-describedby="basic-addon1">
+                {% if is_valid %}
+                    <div class="invalid-feedback">E-mail inválido.</div>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% bootstrap_button "Confirmar vinculo" button_type="submit" button_class="btn-info col" %}
+        <a href="{% url 'core:vw_index' %}" class="btn col btn-danger mt-2">Voltar</a>
+    </form>
+</div>
+{% endblock conteudo %}

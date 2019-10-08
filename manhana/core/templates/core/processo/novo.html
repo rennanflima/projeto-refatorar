@@ -1,0 +1,45 @@
+{% extends 'core/layout/base.html' %}
+
+{% load bootstrap4 %}
+
+
+
+<!-- Breadcrumbs-->
+{%block breadcrumb%}                   
+    <li class="breadcrumb-item ">
+        <a href="{% url 'core:caixa-entrada' %}">Processo</a>
+    </li>
+    <li class="breadcrumb-item active">Novo</li>
+{% endblock %}
+
+{% block progress_bar %}{% include "core/layout/progress_bar.html" %}{%endblock%}
+
+{% block title_page %}Adicionar processo{% endblock %}
+
+{% block conteudo %}
+<form method="POST" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <hr>
+    <a href="{% url 'core:caixa-entrada'%}" class="btn btn-danger ml-2 float-right"><i class="fas fa-times-circle" aria-hidden="true"></i> Cancelar</a>
+    <button class="btn btn-success ml-2 float-right" type="submit"><i class="fas fa-plus-circle" aria-hidden="true"></i> Criar processo</button>
+</form>
+{% endblock conteudo %}
+
+{% block javascript %}
+<script>
+$(document).ready(function() {
+    $("#id_progress_bar").hide();
+    $('#id_tipo_processo').on('change', function () {
+        if ($('#id_tipo_processo').val() == '') {
+            var option = '<option selected value="">------</option>';
+            $('#id_progress_bar').hide();
+        } else {
+            if ($('#id_tipo_processo').val() > 1){
+                $('#id_progress_bar').show();
+            }
+        }
+    });
+});
+</script>
+{% endblock javascript %}

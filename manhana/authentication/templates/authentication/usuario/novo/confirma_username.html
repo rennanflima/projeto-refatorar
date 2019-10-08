@@ -1,0 +1,63 @@
+{% extends 'authentication/layout/base.html' %}
+{% load bootstrap4 %}
+
+{% block conteudo %}
+<div class="progress">
+    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{progress}}%"
+        aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
+        {{progress}}% concluído.
+    </div>
+</div>
+<p style="font-size: 20px; margin-top: 10px; margin-bottom: 30px;">Buscamos seu usuário em nossa base e não conseguimos encontra-lo</p>
+<div class="card card-custom" style="margin: 0 auto;">
+    <div class="card-body">
+        <h5 class="card-title">Confirma Nome de Usuário</h5>
+        <hr>
+        <form method="POST" class="form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>E-mail institucional: </label>
+                <p>{{ email }}</p>
+            </div>
+            <div class="form-group">
+                <label for="username">Nome de usuário/Login</label>
+                <input type="username" class="form-control" id="username" name="username">
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-success ml-2 float-right">Buscar</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="confirmModalCenter" tabindex="-1" role="dialog" aria-labelledby="confirmModalCenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Confirmação</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Seu usuário do computador ou CADU é '{{ username }}' ?</p>
+            </div>
+            <div class="modal-footer">                
+                <a href="{% url 'auth:user_novo' pessoa_id %}" class="btn btn-warning">Não tenho usuário</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                <a href="#" class="btn btn-primary">Sim</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock conteudo %}
+
+{% block javascript %}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#confirmModalCenter').modal('show');
+    })
+</script>
+{% endblock %}

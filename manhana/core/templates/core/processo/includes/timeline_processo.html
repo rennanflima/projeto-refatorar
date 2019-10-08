@@ -1,0 +1,18 @@
+<ul class="timeline">
+    {% for tl in processo.timeline %}
+        <li>
+            <div class="toast" data-autohide="false" style="min-width: 100%">
+                <div class="toast-header">
+                    <strong class="mr-auto">{{ tl.autor }}</strong>
+                    <small>{{ tl.data|date:"SHORT_DATETIME_FORMAT" }}</small>
+                </div>
+                <div class="toast-body">
+                    <p>{{ tl.descricao }}</p>
+                    {% if tl.recebimento %}
+                        <p>{{ tl.recebimento }}</p>
+                    {%endif%}
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

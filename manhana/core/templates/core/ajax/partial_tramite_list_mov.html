@@ -1,0 +1,21 @@
+{% for t in tramites %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>
+            <button type="button" class="btn js-detail-tramite" data-url="{% url 'core:ajax-tramite-detail-mov' t.id %}"
+                data-toggle="tooltip" data-placement="right" title="Visualizar movimentação">
+                <span aria-hidden="true"><i class="far fa-eye"></i></span>
+            </button>
+        </td>
+        <td>{{ t.destino }}</td>
+        <td>{{ t.data_envio }}</td>
+        <td>{{ t.origem }}</td>
+        <td>{{ t.data_recebimento|default:" - " }}</td>
+        <td>{{ t.servidor_recebimento|default:" - " }}</td>
+        
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="7">Nenhuma movimentação encontrada</td>
+    </tr>
+{% endfor %}

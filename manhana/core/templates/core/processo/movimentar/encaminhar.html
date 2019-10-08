@@ -1,0 +1,43 @@
+{% extends 'core/layout/base.html' %}
+
+{% load bootstrap4 %}
+
+<!-- Breadcrumbs-->
+{%block breadcrumb%}                   
+    <li class="breadcrumb-item ">
+        <a href="{% url 'core:caixa-entrada' %}">Processo</a>
+    </li>
+    <li class="breadcrumb-item active">Encaminhar</li>
+{% endblock %}
+
+{% block title_page %}Encaminhar {{processo.tipo_processo.descricao}} N.º {{processo.numero_processo}} {% endblock %}
+
+{% block conteudo %}
+<form method="POST" class="form">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="unidade">Destino</label>
+        <select class="form-control" id="unidade" name="unidade">
+            <option value="">------</option>
+            {% for un in unidades_fluxo %}
+                <option value="{{un.value}}">{{ un.str }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <hr>
+    <a href="{% url 'core:processo-movimentar' processo.id %}" class="btn btn-danger ml-2 float-right"><i class="fas fa-times-circle" aria-hidden="true"></i> Cancelar</a>
+    <button id="btn-encaminhar" type="submit" class="btn btn-primary ml-2 float-right"title="Encaminhar {{ processo.tipo_processo }}">
+            <i class="fas fa-share-square" aria-hidden="true"></i> Encaminhar {{ processo.tipo_processo }}</button>
+</form>
+{% endblock conteudo %}
+
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
+{% endblock javascript %}

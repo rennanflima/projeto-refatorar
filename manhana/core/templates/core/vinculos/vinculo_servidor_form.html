@@ -1,0 +1,28 @@
+{% extends 'core/layout/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{%block breadcrumb%}
+    <li class="breadcrumb-item">Vínculo</li>
+    <li class="breadcrumb-item">{{ unidade }}</li>
+    <li class="breadcrumb-item">Servidores</li>
+    <li class="breadcrumb-item active">{% if form.instance.pk %}Alterar{% else %}Adicionar{% endif %}</li>
+{% endblock %}
+
+{% block title_page %}
+    {% if form.instance.pk %}
+        Alterar vínculo
+    {% else %}
+        Adicionar vínculo
+    {% endif %}
+{% endblock title_page %}
+
+{% block conteudo %}
+    <form method="POST" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <hr>
+        <a href="{% url 'core:lista-servidores-vinculados' unidade.id %}" class="btn btn-danger ml-2 float-right"><i class="fas fa-times-circle" aria-hidden="true"></i> Cancelar</a>
+        <button class="btn btn-success ml-2 float-right" type="submit"><i class="fas fa-save" aria-hidden="true"></i> Salvar</button>
+    </form>
+{% endblock conteudo %}

@@ -1,0 +1,11 @@
+<li> {{ u.nome }} ({{ u.sigla }})
+    {% if u.filhas %}
+        <ul>
+            {% for f in u.filhas %}
+                {% with u=f template_name="core/unidades/tree_unidade.html" %}
+                    {% include template_name %}
+                {% endwith %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</li>

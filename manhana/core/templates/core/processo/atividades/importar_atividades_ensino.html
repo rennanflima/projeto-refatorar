@@ -1,0 +1,72 @@
+{% extends 'core/layout/base.html' %}
+{% load bootstrap4 %}
+
+{% block title_page %}Importar Atividades de Ensino do SIGAA{% endblock %}
+
+{% block conteudo %}
+<fieldset>
+    <legend>Criterios de Busca<hr></legend>
+    <div class="form-group">
+        <b>Docente: </b>
+        {{ processo.interessado.pessoa.user.get_full_name }}
+    </div> 
+    <div class="form-group">
+        <b>Ano: </b>
+        {{ processo.ano|stringformat:"i" }}
+    </div> 
+    <div class="form-group">
+        <b>Período: </b>
+        {{ processo.semestre }}
+    </div> 
+</fieldset>
+<fieldset>
+    <legend>Dados encontrados<hr></legend>
+    <table id="table_id" class="table table-bordered table-striped dataTable" role="grid" width="100%">
+            <thead>
+                <tr role="row">
+                    <th class="text-center">Ano/Semestre</th>
+                    <th class="text-center">Campus</th>
+                    <th class="text-center">Curso</th>
+                    <th class="text-center">Nível</th>
+                    <th class="text-center">Componente curricular</th>
+                    <th class="text-center">Turma / Tipo da turma</th>
+                    <th class="text-center">Horário</th>
+                    <th class="text-center">Carga horária da disciplina (h)</th>
+                    <th class="text-center">Carga horária do docente (h)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in disciplinas %}
+                <tr role="row">
+                    <td>{{ d.ano|stringformat:"i" }}/{{ d.periodo }}</td>
+                    <td>{{ d.curso.unidade_responsavel }}</td>
+                    <td>{{ d.curso.nome }}</td>
+                    <td>
+                        {{ d.curso.nivel }}
+                        {% ifequal d.curso.nivel 'TÉCNICO' %} 
+                            - {{ d.curso.tipo_tecnico}}
+                        {% endifequal %}
+                    </td>
+                    <td>{{ d.componente_curricular }}</td>
+                    <td>{{ d.turma }} / {{ d.tipo_turma }}</td>
+                    <td>{{ d.horario }}</td>
+                    <td>{{ d.carga_horaria }}</td>
+                    <td>{{ d.carga_horaria_docente }}</td>
+                </tr>
+                {% empty %}
+                <tr role="row">
+                    <td class="text-center" colspan="5">
+                        <h5>Nenhuma curso inserido</h5>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</fieldset>
+<hr>
+<form method="POST" action="{% url 'core:importar_disciplinas' processo.pk %}">{% csrf_token %}
+    <p>Você deseja importar suas atividades de ensino do SIGAA e adicionar às suas atividades do PIT?</p>
+    <input type="submit" class="btn btn-info" value="Sim, tenho certeza">
+    <a href="{% url 'core:processo-editar' processo.pk %}" class="btn btn-secondary" class="button cancel-link">Não, me leve de volta</a>
+</form>
+{% endblock conteudo %}

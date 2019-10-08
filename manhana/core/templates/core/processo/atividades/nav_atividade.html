@@ -1,0 +1,102 @@
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        {% for tipo_atividade in categorias_atividades  %}
+            {% ifequal tipo_atividade.slug 'atividades-de-ensino'  %} 
+                <a class="nav-item nav-link {%ifequal slug tipo_atividade.slug%}active{%endifequal%} js-ativ-list" id="nav-{{ tipo_atividade.slug }}-tab" data-toggle="tab" href="#nav-{{ tipo_atividade.slug }}" role="tab" data-id="{{ tipo_atividade.id }}" aria-controls="nav-{{ tipo_atividade.slug }}" aria-selected="true"
+                {% if editando %}data-url="{% url 'core:ajax-atividade-list-editar' processo.id tipo_atividade.id %}"{% else %}data-url="{% url 'core:ajax-atividade-list-detalhe' processo.id tipo_atividade.id %}"{%endif%}>{{ tipo_atividade.label }}</a>    
+            {% endifequal %}
+        {% endfor %}  
+
+        {% for tipo_atividade in categorias_atividades  %}
+            {% ifnotequal tipo_atividade.slug 'atividades-de-ensino'  %}
+                {% if not tipo_atividade.categoria_pai %} 
+                    <a class="nav-item nav-link {%ifequal slug tipo_atividade.slug%}active{%endifequal%} js-ativ-list" id="nav-{{ tipo_atividade.slug }}-tab" data-toggle="tab" href="#nav-{{ tipo_atividade.slug }}" role="tab" aria-controls="nav-{{ tipo_atividade.slug }}" aria-selected="false"
+                    {% if editando %}data-url="{% url 'core:ajax-atividade-list-editar' processo.id tipo_atividade.id %}"{% else %}data-url="{% url 'core:ajax-atividade-list-detalhe' processo.id tipo_atividade.id %}"{%endif%}>{{ tipo_atividade.label }}</a>    
+                {% endif %}
+            {% endifnotequal %}
+        {% endfor %}  
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    {% for tipo_atividade in categorias_atividades  %}
+        {% if not tipo_atividade.categoria_pai %} 
+            <div class="tab-pane fade show {%ifequal slug tipo_atividade.slug%}active{%endifequal%}" id="nav-{{ tipo_atividade.slug }}" role="tabpanel" aria-labelledby="nav-{{ tipo_atividade.slug }}-tab">
+                <div id="tabela_atividade" class="dataTables_wrapper dt-bootstrap4 mt-3">
+                    <table id="table_id" class="table table-bordered table-striped dataTable" role="grid" width="100%">
+                        <thead>
+                            <tr role="row">
+                                <th class="text-center">Ações</th>
+                                <th class="text-center">Tipo de atividade</th>
+                                <th class="text-center">Atividade</th>
+                                <th class="text-center">Carga horária semanal</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th class="text-right" colspan="3">Carga horária semanal total</th>
+                                {% for k,v in processo.subtotal_ch_semanal_tipo_atividade.items %}
+                                    {% ifequal k.slug tipo_atividade.slug %}
+                                        <th class="text-center">{{ v }}</th>
+                                    {% endifequal %}
+                                {% endfor %}
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            {% if editando %}
+                                {% include 'core/ajax/partial_atividade_list_edit.html' %}
+                            {% else %}
+                                {% include 'core/ajax/partial_atividade_list.html' %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    {% if is_paginated %}
+                        <hr>
+                        <span class="float-left">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.</span>
+
+                        <nav aria-label="Páginação do genero" class="float-right">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <!-- If it ain't a search result display, don't append the search query
+                                    to the URL. -->
+                                    {% if not search %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'core:caixa-entrada' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Página anterior</a>
+                                        </li>
+                                    {% else %}
+                                        <!-- Append the searched query to the URL, so that on a search results page,
+                                        the pagination don't revert to listing all the listview items. -->
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'core:caixa-entrada' %}?{{search}}&page={{ page_obj.previous_page_number }}" tabindex="-1">Página anterior</a>
+                                        </li>
+                                    {% endif %}
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">Página anterior</a>
+                                    </li>
+                                {% endif %}
+                                {% for object in page_obj.paginator.page_range %}
+                                    <li class="page-item"><a class="page-link" href="{% url 'core:caixa-entrada' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                                {% endfor %} 
+                                {% if page_obj.has_next %}
+                                    {% if not search %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'core:caixa-entrada' %}?page={{ page_obj.next_page_number }}">Próxima página</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{% url 'core:caixa-entrada' %}?{{search}}&page={{ page_obj.next_page_number }}">Próxima página</a>
+                                        </li>
+                                    {% endif %}
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">Próxima página</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

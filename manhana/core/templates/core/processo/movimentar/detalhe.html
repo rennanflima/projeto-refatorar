@@ -1,0 +1,449 @@
+{% extends 'core/layout/base.html' %}
+
+{% load bootstrap4 %}
+
+
+
+<!-- Breadcrumbs-->
+{%block breadcrumb%}                   
+    <li class="breadcrumb-item ">
+        <a href="{% url 'core:caixa-entrada' %}">Processo</a>
+    </li>
+    <li class="breadcrumb-item active">Detalhe</li>
+{% endblock %}
+
+{% block title_page %}Detalhamento de movimentação do {{processo.tipo_processo.descricao}} N.º {{processo.numero_processo}} {% endblock %}
+
+{% block toolbar %}
+<nav class="navbar navbar-light  bg-white border mb-3">
+    <br>
+    <div class="form-inline">
+        {% if is_unidade_fluxo %}
+            <button type="button" class="btn btn-info mr-sm-2" aria-label="Consultar" title="Consultar" onclick="window.location = '{% url 'core:consulta-novo' processo.id %}'">
+                <span aria-hidden="true"><i class="fas fa-search"></i> Realizar consulta</span>
+            </button>
+        {% endif %}
+
+        {% if request.user != processo.interessado.pessoa.user or request.user != processo.criado_por %}
+            <button type="button" class="btn btn-info  mr-sm-2" onclick="window.location = '{% url 'core:documento-novo' processo.id %}'" title="Inserir Documento">
+                <i class="fas fa-plus" aria-hidden="true"></i> Inserir Documento
+            </button>
+        {% endif %}
+        
+        {% if request.user == processo.interessado.pessoa.user or request.user == processo.criado_por %}
+            {% if processo.situacao.slug == 'rascunho' or  processo.situacao.slug == 'alteracoes-necessarias' or processo.situacao.slug == 'envio-recusado'%}
+                <button type="button" class="btn btn-info mr-sm-2" aria-label="Editar" onclick="window.location = '{% url 'core:processo-editar' processo.id %}'" title="Editar {{processo.tipo_processo}}">
+                    <span aria-hidden="true"><i class="fas fa-edit"></i> Editar {{processo.tipo_processo}}</span>
+                </button>
+            {% endif %}
+            <button type="button" class="btn btn-primary mr-sm-2 js-summary-process" aria-label="Enviar" title="Enviar {{processo.tipo_processo}}" data-url="{% url 'core:ajax-summary-process' processo.id True %}"
+                {% if processo.ch_semanal_total != processo.interessado.grupo.ch_semanal %} disabled {% endif %}>
+                <i class="fas fa-share-square" aria-hidden="true"></i> Enviar {{ processo.tipo_processo }}
+            </button>
+        {% else %}
+            {% if is_chefia %}
+                <button type="button" class="btn btn-primary  mr-sm-2" title="Encaminhar {{ processo.tipo_processo }}" onclick="window.location = '{% url 'core:processo-encaminhar' processo.id %}'">
+                    <i class="fas fa-share-square" aria-hidden="true"></i> Encaminhar {{ processo.tipo_processo }}
+                </button>
+            {% endif %}
+        {% endif %}
+        {% if request.user != processo.interessado.pessoa.user or request.user != processo.criado_por %}
+            {% if processo.situacao.slug != 'recebido' %}
+                {% if processo.ultima_movimentacao %}
+                    {% if not processo.ultima_movimentacao.data_recebimento %}
+                        <button class="btn btn-info mr-sm-2" id="id_receber_processo" data-toggle="modal" data-id="{{ processo.id }}" 
+                                    data-target="#modalRecebimentoProcesso"  title="Receber {{ processo.tipo_processo }}"><i class="fas fa-download"></i> Receber {{ processo.tipo_processo }}</button>
+                        </button>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        <a href="{% url 'core:caixa-entrada' %}" class="btn btn-secondary my-2 my-sm-0">
+                <i aria-hidden="true" class="fa fa-reply">&nbsp;</i> Voltar</a>
+        </div>
+</nav>
+{% endblock %}
+
+{% block conteudo %}
+<div class="row">
+    <div class="col-sm-9">
+        {% include 'core/processo/includes/dados_gerais_processo.html' %}
+
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% if processo.registros_atividade.all %}
+                    <a class="nav-item nav-link" href="#nav-atividades" id="nav-atividades-tab" data-toggle="tab" aria-controls="nav-atividades" aria-selected="true">Atividades</a>
+                {% endif %}
+                <a class="nav-item nav-link js-doc-list" href="#nav-documentos" id="nav-documentos-tab" data-toggle="tab" aria-controls="nav-documentos" aria-selected="false" data-url="{% url 'core:ajax-documento-list-mov' processo.id %}" >Documentos</a>
+                <a class="nav-item nav-link js-proc-list" id="nav-processos-tab" data-toggle="tab" href="#nav-processos" role="tab" aria-controls="nav-processos" aria-selected="false" data-url="{% url 'core:ajax-processos-anexos-list-mov' processo.id %}">Processos Apensados, Anexados e Relacionados</a>
+                <a class="nav-item nav-link js-mov-list" id="nav-movimentacoes-tab" data-toggle="tab" href="#nav-movimentacoes" data-url="{% url 'core:ajax-movimentacao-list' processo.id %}" role="tab" aria-controls="nav-movimentacoes" aria-selected="false">Movimentações</a>
+                <a class="nav-item nav-link" id="nav-notificacoes-tab" data-toggle="tab" href="#nav-notificacoes" role="tab" aria-controls="nav-notificacoes" aria-selected="false">Notificações</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            {% if processo.registros_atividade.all %}
+                <div class="tab-pane fade show" id="nav-atividades" role="tabpanel" aria-labelledby="nav-atividades-tab">
+                    <fieldset class="mt-3">
+                        <legend>Atividades<hr></legend>
+                        {% include 'core/processo/atividades/nav_atividade_mov.html' %}
+                    </fieldset>
+                </div>
+            {% endif %}
+            <div class="tab-pane fade" id="nav-documentos" role="tabpanel" aria-labelledby="nav-documentos-tab">
+                <table id="table_documento" class="table table-bordered table-striped mt-4">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ações</th>
+                            <th scope="col">Tipo do Documento</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Criado Por</th>
+                            <th scope="col">Assinatura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% include 'core/ajax/partial_documento_list_mov.html' %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-processos" role="tabpanel" aria-labelledby="nav-processos-tab">
+                <table id="table_processos" class="table table-bordered table-striped mt-4">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th>Ações</th>
+                            <th>Código</th>
+                            <th>Ano/semestre</th>
+                            <th>Categoria</th>
+                            <th>Interessado</th>
+                            <th>Situação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% include 'core/ajax/partial_processos_anexos_mov.html' %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-movimentacoes" role="tabpanel" aria-labelledby="nav-movimentacoes-tab">
+                <table id="table_movimentacao" class="table table-bordered table-striped mt-4">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ações</th>
+                            <th scope="col">Unidade Destino</th>
+                            <th scope="col">Enviado Em</th>
+                            <th scope="col">Enviado Por</th>
+                            <th scope="col">Recebido Em</th>
+                            <th scope="col">Recebido Por</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% include 'core/ajax/partial_tramite_list_mov.html' %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-notificacoes" role="tabpanel" aria-labelledby="nav-notificacoes-tab">...</div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <fieldset>
+            <legend>Registro de Ações<hr></legend>
+            {% include 'core/processo/includes/timeline_processo.html' %}
+        </fieldset>
+    </div>
+</div>
+
+
+<!--TELA MODAL PARA RECEBIMENTO DE PROCESSO PELO SETOR/UNIDADE OU SERVIDOR -->
+<div class="modal" id="modalRecebimentoProcesso" data-backdrop-limit="1" tabindex="-1" aria-labelledby="modalRecebimentoProcessoLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-light">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmar Recebimento de Processo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form method="post" action="{% url 'core:receber-processo'%}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p>Deseja realmente <b>Receber</b> este processo?</p>
+                    <p></p>
+                </div>
+                <input type="hidden" id="idproc" name="idprocesso" value="">
+                <input type="hidden" id="id_url_rec" name="idurl" value="{{ request.path }}">
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--TELA MODAL PARA CONFIRMAÇÃO DE EXCLUSÃO DE PROCESSO-->
+<div class="modal fade" id="confirmaExcluirDocumento" role="dialog" aria-labelledby="confirmaExcluirDocumentoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Excluir Documento</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form method="post" action="{% url 'core:documento-excluir'%}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p>Deseja realmente <b>Excluir</b> este documento?</p>
+                    <p></p>
+                </div>
+                <input type="hidden" id="iddocumento" name="iddocumento" value="">
+                <input type="hidden" id="id_url" name="idurl" value="{{ request.path }}">
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock conteudo %}
+
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on("click", ".js-summary-process", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-dialog").addClass("modal-lg");
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-excluir-documento", function () {
+            var iddocumento = $(this).data('id');
+            $("#iddocumento").val(iddocumento);
+        });
+
+
+        $(document).on("click", ".js-detail-atividade", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-dialog").addClass("modal-lg");
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-mov-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#table_movimentacao tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-proc-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#table_processos tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-ativ-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#tabela_atividade tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-detail-tramite", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $(document).on("click", "#id_receber_processo", function () {
+            var idprocesso = $(this).data('id');
+            $("#idproc").val(idprocesso);
+        });
+
+
+        $("#genericModal").on("submit", ".js-avaliacao-form", function(){
+            var form = $(this);
+            $.ajax({
+                url: form.attr("action"),
+                data: form.serialize(),
+                type: form.attr("method"),
+                dataType: 'json',
+                success: function(data){
+                    if (data.form_is_valid) {
+                        $("#genericModal").modal("hide");
+                        location.reload();
+                    } else {
+                        $("#genericModal .modal-content").html(data.html_form);
+                    }
+                }
+            });
+            return false;
+        });
+
+        $(document).on("click", ".js-doc-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#table_documento tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-detail-documento", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+
+        $(document).on("click", ".js-ass-form", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#modalAssinar").modal("show");
+                },
+                success: function (data) {
+                    $("#modalAssinar .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+
+        $("#modalAssinar").on("submit", ".js-assinatura-form", function(){
+            var form = $(this);
+            $.ajax({
+                url: form.attr("action"),
+                data: form.serialize(),
+                type: form.attr("method"),
+                dataType: 'json',
+                success: function(data){
+                    if (data.form_is_valid) {
+                        $("#modalAssinar").modal("hide");
+                        $("#genericModal").modal("hide");
+                        {% if request.user == processo.interessado.pessoa.user or request.user == processo.criado_por %}
+                            $(location).attr("href", "{% url 'core:caixa-entrada' %}");
+                        {% else %}
+                            location.reload();
+                        {% endif %}
+                    } else {
+                        $("#modalAssinar .modal-content").html(data.html_form);
+                    }
+                }
+            });
+            return false;
+        });
+
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+            localStorage.setItem('activeTabUrl', $(e.target).attr('data-url'));
+
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        var activeTabUrl = localStorage.getItem('activeTabUrl');
+        if(activeTab){
+            if(activeTabUrl != 'undefined'){
+                $.ajax({
+                    url: activeTabUrl,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (activeTab == '#nav-movimentacoes'){
+                            $("#table_movimentacao tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            // recarregarPagina();
+                        }
+
+                        else if (activeTab == '#nav-documentos'){
+                            $("#table_documento tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            // recarregarPagina();
+                        }
+
+                        else if (activeTab == '#nav-processos'){
+                            $("#table_processos tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            // recarregarPagina()
+                        }
+                        
+
+                        else{
+                            $("#tabela_atividade tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="#nav-atividades"]').tab('show');
+                            $('#nav-tab-atv a[href="' + activeTab + '"]').tab('show');
+                            // recarregarPagina()
+                        }
+                    }
+                });
+            } else {
+                $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+            }
+        } else {
+            $('#nav-tab a[href="#nav-atividades"]').tab('show');
+        }
+
+    });
+</script>
+{% endblock javascript %}

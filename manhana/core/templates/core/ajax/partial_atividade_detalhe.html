@@ -1,0 +1,38 @@
+{% load bootstrap4 %}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Detalhe Atividade</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label>Tipo de Atividade:</label>    
+        {{ registro.atividade.categoria_atividade }}
+    </div>
+    <div class="form-group">
+        <label>Atividade:</label>    
+        {{ registro.atividade }}
+    </div>
+    {% if registro.descricao %}
+        <div class="form-group">
+            <label>Descrição da atividade:</label>    
+            {{ registro.descricao }}
+        </div>
+    {% endif %}
+    {% for info in dados_registro %}
+        <div class="form-group">
+            <label>{{ info.argumento }}:</label>    
+            {{ info.valor_argumento }}
+        </div>
+    {% endfor%}
+    <div class="form-group">
+        <label>Carga Horária Semanal:</label>    
+        {{ registro.ch_semanal }}
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Fechar">
+        <i class="fas fa-times" aria-hidden="true"></i>&nbsp;Fechar</button>
+</div>

@@ -1,0 +1,76 @@
+{% extends 'core/layout/base.html' %}
+{% load bootstrap4 %}
+
+{%block breadcrumb%}
+<li class="breadcrumb-item">Usuário</li>
+<li class="breadcrumb-item">
+    <a href="{% url 'core:user-detalhe' %}">{{ user.get_full_name }}</a>
+</li>
+<li class="breadcrumb-item">Perfil</li>
+<li class="breadcrumb-item">Docente</li>
+<li class="breadcrumb-item active">{{ form.instance }}</li>
+{% endblock %}
+
+
+{% block title_page %}Editar Perfil Docente{% endblock title_page %}
+
+{% block conteudo %}
+<fieldset>
+    <legend>Dados funcionais<hr></legend>
+    <div class="form-group">
+        <label class="negrito">Siape: </label>    
+        {{ form.instance.siape }}
+    </div> 
+    <div class="form-group">
+        <label class="negrito">Categoria funcional: </label>    
+        {{ form.instance.categoria }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Regime de trabalho: </label>    
+        {{ form.instance.regime_trabalho }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Cargo: </label>    
+        {{ form.instance.cargo }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Unidade de lotação: </label>    
+        {{ form.instance.unidade_lotacao }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Unidade de exercício: </label>    
+        {{ form.instance.unidade_exercicio }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Unidade de responsável: </label>    
+        {{ form.instance.unidade_responsavel }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Formação: </label>    
+        {{ form.instance.titulacao }}
+    </div>
+
+    <div class="form-group">
+        <label class="negrito">Situação no SiapeCad: </label>    
+        {{ form.instance.tipo_servidor }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Situação no SIGRH: </label>    
+        {{ form.instance.situacao }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Perfil ativo?: </label>  
+        {{form.instance.is_ativo|yesno:"Sim, Não" }}
+    </div> 
+</fieldset>
+
+<fieldset>
+    <legend>Dados complementares<hr></legend>
+    <form method="POST" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <hr>
+        {% bootstrap_button "Salvar" button_type="submit" button_class="btn-info col" %}
+    </form>
+</fieldset>
+{% endblock conteudo %}

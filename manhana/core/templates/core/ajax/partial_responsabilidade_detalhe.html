@@ -1,0 +1,62 @@
+{% load bootstrap4 %}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Dados funcionais</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label class="negrito">Nome do servidor: </label>    
+        {{ user.get_full_name }}
+    </div> 
+    
+    <div class="form-group">
+        <label class="negrito">SIAPE: </label>    
+        {{ funcao.servidor.siape }}
+    </div> 
+    
+    <div class="form-group">
+        <label class="negrito">Cargo: </label>    
+        {{ funcao.servidor.cargo }}
+    </div>
+    
+    <div class="form-group">
+        <label class="negrito">Categoria: </label>    
+        {{ funcao.servidor.categoria }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Unidade de lotação: </label>    
+        {{ funcao.servidor.unidade_lotacao }}
+    </div>
+    
+    <fieldset>
+        <legend>Responsabilidade<hr></legend>
+        
+        <div class="form-group">
+            <label class="negrito">Nome: </label>    
+            {{ funcao.unidade.nome }}
+        </div>
+        
+        <div class="form-group">
+            <label class="negrito">Sigla: </label>    
+            {{ funcao.unidade.sigla }}
+        </div> 
+    
+        <div class="form-group">
+            <label class="negrito">Nível de Responsabilidade: </label>    
+            {{ funcao.get_nivel_responsabilidade_display }}
+        </div>
+    
+        <div class="form-group">
+            <label class="negrito">Periodo: </label>    
+            De {{ funcao.data_inicio }} até {{ funcao.data_termino|default:""  }}
+        </div> 
+    </fieldset>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Fechar">
+        <i class="fas fa-times" aria-hidden="true"></i>&nbsp;Fechar</button>
+</div>

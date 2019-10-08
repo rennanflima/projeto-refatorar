@@ -1,0 +1,132 @@
+{% load bootstrap4 %}
+
+<div class="modal-header">
+    <h3 class="modal-title" id="id_titulo_resumo_processo">Resumo do {{processo.tipo_processo}}</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    {% bootstrap_messages %}
+    <div class="form-group">
+        <label>Semestre letivo: </label>    
+        {{ processo.ano|stringformat:"i" }} / {{ processo.semestre }}
+    </div>
+    <div class="form-group">
+        <label>Campus: </label>    
+        {{ processo.interessado.unidade_responsavel }}
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-8">
+            <label>Interessado: </label>    
+            {{ processo.interessado.pessoa.user.get_full_name }}
+        </div>
+        <div class="form-group col-sm-4">
+            <label>SIAPE: </label>    
+            {{ processo.interessado.siape }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Cargo: </label>    
+        {{ processo.interessado.cargo }} : {{ processo.interessado.area_contratacao|default:'' }}
+    </div>
+    <div class="form-group">
+        <label>Titulação: </label>    
+        {{ processo.interessado.titulacao }}
+    </div>
+    <div class="form-group">
+        <label>Tipo de vínculo: </label>    
+        {{ processo.interessado.tipo_servidor }}
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-6">
+            <label>Regime de Trabalho: </label>    
+            {{ processo.interessado.regime_trabalho }}
+        </div>
+
+        {% if processo.interessado.grupo %}
+            <div class="form-group col-sm-6">
+                <label>Grupo em função da carga horária: </label>    
+                {{ processo.interessado.grupo }}
+            </div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label>E-mail: </label>    
+        {{ processo.interessado.pessoa.user.email }}
+    </div>
+    <div class="form-group">
+        <label>Currículo <i>lattes</i> (URL): </label>    
+        {{ processo.interessado.lattes }}
+    </div>
+
+    <fieldset>
+        <legend>Somatória da Carga Horária das Atividades<hr/></legend>
+        <table class="table">
+            <tbody>
+                {%  for key, value in processo.subtotal_ch_semanal_tipo_atividade.items %}
+                    {% ifequal key.slug 'atividades-de-ensino'  %}
+                        <tr>
+                            <td>{{ key.label }}</td>
+                            <td>{{ value }}</td>
+                        </tr>
+                    {% endifequal %}
+                {% endfor %}  
+
+                {%  for key, value in processo.subtotal_ch_semanal_tipo_atividade.items %}
+                    {% ifnotequal key.slug 'atividades-de-ensino'  %}
+                        {% if not key.categoria_pai %} 
+                            <tr>
+                                <td>{{ key.label }}</td>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endifnotequal %}
+                {% endfor %}
+                <tr>
+                    <td class="text-right"><b>Carga horária total</b></td>
+                    <td>{{ processo.ch_semanal_total }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+</div>
+<div class="modal-footer">
+    {% if pode_enviar %}
+        <button id="btn-enviar" type="button" class="btn btn-success" data-toggle="modal" title="Enviar" data-target="#modalAssinar" data-url="{% url 'core:ajax-form-assinatura' processo.id %}">
+            <i class="fas fa-share-square" aria-hidden="true"></i> Enviar</button>
+    {% endif %}
+    {%  if not editando %}
+        {% if processo.situacao.slug == 'rascunho' or  processo.situacao.slug == 'alteracoes-necessarias' %}
+            <button type="button" class="btn btn-secondary" aria-label="Editar" onclick="window.location = '{% url 'core:processo-editar' processo.id %}'" title="Editar processo">
+                <i class="fas fa-edit" aria-hidden="true"></i> Editar
+            </button>
+        {% endif %}
+    {% endif %}
+    <button type="button" class="btn btn-danger" data-dismiss="modal" title="Cancelar">
+        <i class="fas fa-times-circle" aria-hidden="true"></i> Cancelar</button>
+</div>
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on("click", "#btn-enviar", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#modalAssinar").modal("show");
+                },
+                success: function (data) {
+                    $("#modalAssinar .modal-content").html(data.html_form);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock javascript %}

@@ -1,0 +1,79 @@
+{% load bootstrap4 %}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Dados funcionais</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label class="negrito">Siape: </label>    
+        {{ perfil.siape }}
+    </div> 
+    <div class="form-group">
+        <label class="negrito">Categoria funcional: </label>    
+        {{ perfil.categoria }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Regime de trabalho: </label>    
+        {{ perfil.regime_trabalho }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Cargo: </label>    
+        {{ perfil.cargo }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Unidade de lotação: </label>    
+        {{ perfil.unidade_lotacao }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Unidade de exercício: </label>    
+        {{ perfil.unidade_exercicio }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Unidade de responsável: </label>    
+        {{ perfil.unidade_responsavel }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Formação: </label>    
+        {{ perfil.titulacao }}
+    </div>
+
+    <div class="form-group">
+        <label class="negrito">Situação no SiapeCad: </label>    
+        {{ perfil.tipo_servidor }}
+    </div>
+    <div class="form-group">
+        <label class="negrito">Situação no SIGRH: </label>    
+        {{ perfil.situacao }}
+    </div>
+    {% if perfil.grupo %}
+        <div class="form-group">
+            <label class="negrito">Grupo em função da carga horária: </label>    
+            {{ perfil.grupo }}
+        </div>
+    {% endif %}
+    <div class="form-group">
+        <label class="negrito">Perfil ativo?: </label>  
+        {{perfil.is_ativo|yesno:"Sim, Não" }}
+    </div> 
+    {% if perfil.lattes or perfil.area_contratacao %}
+        <fieldset>
+            <legend>Dados complementares<hr></legend>
+            <div class="form-group">
+                <label class="negrito">URL <i>Lattes</i>: </label>  
+                {{ perfil.lattes }}
+            </div> 
+            <div class="form-group">
+                <label class="negrito">Área de Contratação: </label>  
+                {{ perfil.area_contratacao }}
+            </div> 
+        </fieldset>
+    {% endif %}
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Fechar">
+        <i class="fas fa-times" aria-hidden="true"></i>&nbsp;Fechar</button>
+</div>

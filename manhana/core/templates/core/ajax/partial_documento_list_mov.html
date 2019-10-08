@@ -1,0 +1,44 @@
+{% for doc in documentos %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td class="text-center">
+            <button type="button" class="btn js-detail-documento" data-url="{% url 'core:ajax-documento-detail' doc.id %}" title="Visualizar documento">
+                <span aria-hidden="true"><i class="far fa-eye"></i></span>
+            </button>
+            {% if doc.criado_por == request.user or not doc.assinaturas.all %}
+                <button type="button" class="btn" aria-label="Editar" title="Editar documento" onclick="window.location = '{% url 'core:documento-editar' doc.processo.id doc.id %}'">
+                    <span aria-hidden="true"><i class="fas fa-edit"></i></span>
+                </button>
+            {% endif %}
+            {% if not doc.assinaturas.all %}
+                <button type="button" class="btn js-ass-form" aria-label="Assinar" data-toggle="modal" data-target="#modalAssinar" title="Assinar documento" data-url="{% url 'core:documento-assinar' doc.id %}">
+                    <span aria-hidden="true"><i class="fas fa-file-signature"></i></span>
+                </button>
+            {% endif %}
+            {% if doc.criado_por == request.user or not doc.assinaturas.all %}
+                <button class="btn js-excluir-documento" data-toggle="modal" data-id="{{ doc.id }}" data-target="#confirmaExcluirDocumento"  title="Excluir {{doc.get_tipo_documento_display}}">
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                </button>
+            {% endif %}
+        </td>
+        <td>{{ doc.get_tipo_documento_display }}</td>
+        <td>{{ doc.titulo }}</td>
+        <td>{{ doc.criado_por.get_full_name }}</td>
+        <td>
+            <ul>
+                {% for ass in doc.assinaturas.all %}
+                    {% if not ass.is_autenticador %}
+                        <li>Assinado em {{ ass.data_assinatura }} por {{ ass.servidor_assinante }} </li>
+                    {% else %}
+                        <li>Assinado e autenticado em {{ ass.data_assinatura }} por {{ ass.servidor_assinante }} </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </td>
+        
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="7">Nenhuma documento encontrado</td>
+    </tr>
+{% endfor %}

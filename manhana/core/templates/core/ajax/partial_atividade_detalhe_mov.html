@@ -1,0 +1,51 @@
+{% load bootstrap4 %}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Detalhe Atividade</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form method="post" class="js-avaliacao-form" action="{% url 'core:avaliar-atividade' registro.processo.id  registro.pk %}">
+    {% csrf_token %}
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Tipo de Atividade:</label>    
+            {{ registro.atividade.categoria_atividade }}
+        </div>
+        <div class="form-group">
+            <label>Atividade:</label>    
+            {{ registro.atividade }}
+        </div>
+        {% if registro.descricao %}
+            <div class="form-group">
+                <label>Descrição da atividade:</label>    
+                {{ registro.descricao }}
+            </div>
+        {% endif %}
+        {% for info in dados_registro %}
+            <div class="form-group">
+                <label>{{ info.argumento }}:</label>    
+                {{ info.valor_argumento }}
+            </div>
+        {% endfor%}
+        <div class="form-group">
+            <label>Carga Horária Semanal:</label>    
+            {{ registro.ch_semanal }}
+        </div>
+        {% if in_unidade_avaliadora %}
+            {% if request.session.avaliador %}
+                {% include 'core/ajax/partial_atividade_avaliacao.html' %}
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="modal-footer">
+        {% if in_unidade_avaliadora %}
+            {% if request.session.avaliador %}
+                <button type="submit" class="btn btn-success" title="Salvar"><i class="fas fa-save" aria-hidden="true"></i> Salvar</button>
+            {% endif %}
+        {% endif %}
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Fechar">
+            <i class="fas fa-times" aria-hidden="true"></i>&nbsp;Fechar</button>
+    </div>
+</form>

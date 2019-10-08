@@ -1,0 +1,289 @@
+{% extends 'core/layout/base.html' %}
+
+{% load bootstrap4 %}
+
+
+
+<!-- Breadcrumbs-->
+{%block breadcrumb%}                   
+    <li class="breadcrumb-item ">
+        <a href="{% url 'core:caixa-entrada' %}">Processo</a>
+    </li>
+    <li class="breadcrumb-item active">Detalhe</li>
+{% endblock %}
+
+{% block title_page %}Detalhamento do {{processo.tipo_processo.descricao}} N.º {{processo.numero_processo}} {% endblock %}
+
+{% block toolbar %}
+<nav class="navbar navbar-light  bg-white border mb-3">
+    <br>
+    <div class="form-inline">
+        {% if request.GET.previous %}
+            <a href="{% url 'core:consulta-movimentar' request.GET.previous %}" class="btn btn-secondary my-2 my-sm-0">
+                <i aria-hidden="true" class="fa fa-reply">&nbsp;</i> Voltar</a>
+        {% else %}
+            <a href="{% url 'core:buscar-avancada-processo' %}" class="btn btn-secondary my-2 my-sm-0">
+                <i aria-hidden="true" class="fa fa-reply">&nbsp;</i> Voltar</a>
+        {% endif %}
+    </div>
+</nav>
+{% endblock %}
+
+{% block conteudo %}
+<div class="row">
+    <div class="col-sm-9">
+        {% include 'core/processo/includes/dados_gerais_processo.html' %}
+
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                {% if processo.registros_atividade.all %}
+                    <a class="nav-item nav-link" href="#nav-atividades" id="nav-atividades-tab" data-toggle="tab" aria-controls="nav-atividades" aria-selected="true">Atividades</a>
+                {% endif %}
+                <a class="nav-item nav-link js-doc-list" href="#nav-documentos" id="nav-documentos-tab" data-toggle="tab" aria-controls="nav-documentos" aria-selected="false" data-url="{% url 'core:ajax-documento-list' processo.id %}" >Documentos</a>
+                <a class="nav-item nav-link js-proc-list" id="nav-processos-tab" data-toggle="tab" href="#nav-processos" role="tab" aria-controls="nav-processos" aria-selected="false" data-url="{% url 'core:ajax-processos-anexos-list' processo.id %}">Processos Apensados, Anexados e Relacionados</a>
+                <a class="nav-item nav-link js-mov-list" id="nav-movimentacoes-tab" data-toggle="tab" href="#nav-movimentacoes" data-url="{% url 'core:ajax-movimentacao-list' processo.id %}" role="tab" aria-controls="nav-movimentacoes" aria-selected="false">Movimentações</a>
+                <a class="nav-item nav-link" id="nav-notificacoes-tab" data-toggle="tab" href="#nav-notificacoes" role="tab" aria-controls="nav-notificacoes" aria-selected="false">Notificações</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            {% if processo.registros_atividade.all %}
+                <div class="tab-pane fade show" id="nav-atividades" role="tabpanel" aria-labelledby="nav-atividades-tab">
+                    <fieldset class="mt-3">
+                        <legend>Atividades<hr></legend>
+                        {% include 'core/processo/atividades/nav_atividade.html' %}
+                    </fieldset>
+                </div>
+            {% endif %}
+            <div class="tab-pane fade show active" id="nav-documentos" role="tabpanel" aria-labelledby="nav-documentos-tab">
+                <table id="table_documento" class="table table-bordered table-striped mt-4">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ações</th>
+                            <th scope="col">Tipo do Documento</th>
+                            <th scope="col">Título</th>
+                            <th scope="col">Criado Por</th>
+                            <th scope="col">Assinatura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% include 'core/ajax/partial_documento_list.html' %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-processos" role="tabpanel" aria-labelledby="nav-processos-tab">
+                <table id="table_processos" class="table table-bordered table-striped mt-4">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th>Ações</th>
+                            <th>Código</th>
+                            <th>Ano/semestre</th>
+                            <th>Categoria</th>
+                            <th>Interessado</th>
+                            <th>Situação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% include 'core/ajax/partial_processos_anexos.html' %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-movimentacoes" role="tabpanel" aria-labelledby="nav-movimentacoes-tab">
+                <table id="table_movimentacao" class="table table-bordered table-striped mt-4">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ações</th>
+                            <th scope="col">Unidade Destino</th>
+                            <th scope="col">Enviado Em</th>
+                            <th scope="col">Enviado Por</th>
+                            <th scope="col">Recebido Em</th>
+                            <th scope="col">Recebido Por</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% include 'core/ajax/partial_tramite_list.html' %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-notificacoes" role="tabpanel" aria-labelledby="nav-notificacoes-tab">...</div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <fieldset>
+            <legend>Registro de Ações<hr></legend>
+            {% include 'core/processo/includes/timeline_processo.html' %}
+        </fieldset>
+    </div>
+</div>
+{% endblock conteudo %}
+
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+
+
+        $(document).on("click", ".js-summary-process", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-dialog").addClass("modal-lg");
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-detail-atividade", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-dialog").addClass("modal-lg");
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-mov-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#table_movimentacao tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-proc-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#table_processos tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-ativ-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#tabela_atividade tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-detail-tramite", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-doc-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#table_documento tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-detail-documento", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+            localStorage.setItem('activeTabUrl', $(e.target).attr('data-url'));
+
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        var activeTabUrl = localStorage.getItem('activeTabUrl');
+        if(activeTab){
+            if(activeTabUrl != 'undefined'){
+                $.ajax({
+                    url: activeTabUrl,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (activeTab == '#nav-movimentacoes'){
+                            $("#table_movimentacao tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            recarregarPagina();
+                        }
+
+                        else if (activeTab == '#nav-documentos'){
+                            $("#table_documento tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            recarregarPagina();
+                        }
+
+                        else if (activeTab == '#nav-processos'){
+                            $("#table_processos tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            recarregarPagina()
+                        }
+                        
+
+                        else{
+                            $("#tabela_atividade tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="#nav-atividades"]').tab('show');
+                            $('#nav-tab-atv a[href="' + activeTab + '"]').tab('show');
+                            recarregarPagina()
+                        }
+                    }
+                });
+            } else {
+                $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+            }
+        } else {
+            $('#nav-tab a[href="#nav-atividades"]').tab('show');
+        }
+        
+    });
+</script>
+{% endblock javascript %}

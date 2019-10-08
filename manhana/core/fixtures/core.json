@@ -1,0 +1,5637 @@
+[
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 1,
+    "fields": {
+        "nome": "REITORIA",
+        "sigla": "RIFAC",
+        "tipo_estrutura": 1,
+        "estrutura_pai": 91,
+        "is_ativo": true,
+        "id_unidade_sig": 736,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 2,
+    "fields": {
+        "nome": "CAMPUS RIO BRANCO",
+        "sigla": "CRB-DIRGE",
+        "tipo_estrutura": 2,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 665,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 3,
+    "fields": {
+        "nome": "CAMPUS AVANCADO BAIXADA DO SOL",
+        "sigla": "CBS-DIRGE",
+        "tipo_estrutura": 2,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 853,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 4,
+    "fields": {
+        "nome": "CAMPUS CRUZEIRO DO SUL",
+        "sigla": "CCS-DIRGE",
+        "tipo_estrutura": 2,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 677,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 5,
+    "fields": {
+        "nome": "CAMPUS SENA MADUREIRA",
+        "sigla": "CSM-DIRGE",
+        "tipo_estrutura": 2,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 688,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 6,
+    "fields": {
+        "nome": "CAMPUS TARAUACA",
+        "sigla": "CTC-DIRGE",
+        "tipo_estrutura": 2,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 779,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 7,
+    "fields": {
+        "nome": "CAMPUS XAPURI",
+        "sigla": "CXA-DIRGE",
+        "tipo_estrutura": 2,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 698,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 8,
+    "fields": {
+        "nome": "INDEFINIDO",
+        "sigla": "",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": null,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 9,
+    "fields": {
+        "nome": "INSTITUTO FEDERAL DO ACRE",
+        "sigla": "IFAC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 605,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 10,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE EXTENS\u00c3O - COEXT",
+        "sigla": "COEXT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 626,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 11,
+    "fields": {
+        "nome": "COORD CENTRO DE IDIOMAS E INTERCAMBIO - COCII",
+        "sigla": "COCII-REIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 627,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 12,
+    "fields": {
+        "nome": "DIRETORIA DE ARTICULACAO COM A SOCIEDADE - DIAS",
+        "sigla": "DIAS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 628,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 13,
+    "fields": {
+        "nome": "COORDENACAO DE ESPORTE E LAZER - COEL",
+        "sigla": "COEL",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 12,
+        "is_ativo": true,
+        "id_unidade_sig": 629,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 14,
+    "fields": {
+        "nome": "COORDENACAO DE ARTE E CULTURA - COCAR",
+        "sigla": "COCAR",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 12,
+        "is_ativo": true,
+        "id_unidade_sig": 630,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 15,
+    "fields": {
+        "nome": "PRO-REITORIA INOV PESQ POS-GRADUACAO - PROINP",
+        "sigla": "PROINP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 631,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 16,
+    "fields": {
+        "nome": "DIRETORIA DE PESQUISA",
+        "sigla": "DIPE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 15,
+        "is_ativo": true,
+        "id_unidade_sig": 632,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 17,
+    "fields": {
+        "nome": "COORD PROGRAMAS DE PESQUISA",
+        "sigla": "COPP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 16,
+        "is_ativo": true,
+        "id_unidade_sig": 633,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 18,
+    "fields": {
+        "nome": "COORDENACAO DE POS-GRADUACAO",
+        "sigla": "COPG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 16,
+        "is_ativo": true,
+        "id_unidade_sig": 634,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 19,
+    "fields": {
+        "nome": "PRO-REITORIA DE ENSINO - PROEN",
+        "sigla": "PROEN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 637,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 20,
+    "fields": {
+        "nome": "PROCURADOR EDUCACIONAL INSTITUCIONAL",
+        "sigla": "PEI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 19,
+        "is_ativo": true,
+        "id_unidade_sig": 638,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 21,
+    "fields": {
+        "nome": "DIRETORIA POLITICAS DE EDUC PROFISSIONAL - DIPED",
+        "sigla": "DIPED",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 19,
+        "is_ativo": true,
+        "id_unidade_sig": 639,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 22,
+    "fields": {
+        "nome": "DIRETORIA DE POLITICAS DE GRADUACAO",
+        "sigla": "DIPGR",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 19,
+        "is_ativo": true,
+        "id_unidade_sig": 643,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 23,
+    "fields": {
+        "nome": "DIRETORIA SISTEMICA DE GESTAO DE PESSOAS - DISGP",
+        "sigla": "DISGP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 646,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 24,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE CADASTRO E MOVIMENTA\u00c7\u00c3O \u0096 COCMV",
+        "sigla": "COCMV",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 648,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 25,
+    "fields": {
+        "nome": "COORDENACAO DE GESTAO DE PESSOAS - COGEP",
+        "sigla": "COGEP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 649,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 26,
+    "fields": {
+        "nome": "DEPARTAMENTO DE DESENVOLVIMENTO DE PESSOAS - DEDPE",
+        "sigla": "DEDPE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 23,
+        "is_ativo": true,
+        "id_unidade_sig": 650,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 27,
+    "fields": {
+        "nome": "PRO-REITORIA DE ADMINISTRACAO - PROAD",
+        "sigla": "PROAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 653,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 28,
+    "fields": {
+        "nome": "DIRETORIA DE CONTABILIDADE E FINANCAS",
+        "sigla": "DIRCF",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 27,
+        "is_ativo": true,
+        "id_unidade_sig": 654,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 29,
+    "fields": {
+        "nome": "COORDENACAO DE EXECUCAO FINANCEIRA",
+        "sigla": "COFIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 28,
+        "is_ativo": true,
+        "id_unidade_sig": 655,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 30,
+    "fields": {
+        "nome": "COORDENACAO DE CONTABILIDADE",
+        "sigla": "CCONT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 28,
+        "is_ativo": true,
+        "id_unidade_sig": 656,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 31,
+    "fields": {
+        "nome": "DIRETORIA DE ADMINISTRACAO - DIRAD",
+        "sigla": "DIRAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 27,
+        "is_ativo": true,
+        "id_unidade_sig": 657,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 32,
+    "fields": {
+        "nome": "NUCLEO DE APOIO A COMPRAS E CONTRATOS - NCOMP",
+        "sigla": "NCOMP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 658,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 33,
+    "fields": {
+        "nome": "COORD DE COMPRAS E CONTRATOS - CCOMP",
+        "sigla": "CCOMP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 31,
+        "is_ativo": true,
+        "id_unidade_sig": 659,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 34,
+    "fields": {
+        "nome": "COORDENACAO DE LICITACAO",
+        "sigla": "COLIC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 31,
+        "is_ativo": true,
+        "id_unidade_sig": 660,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 35,
+    "fields": {
+        "nome": "COORDENACAO DE LOGISTICA",
+        "sigla": "COLOG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 31,
+        "is_ativo": true,
+        "id_unidade_sig": 661,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 36,
+    "fields": {
+        "nome": "DIRETORIA DE OBRAS E INFRAESTRUTURA",
+        "sigla": "DIROI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 27,
+        "is_ativo": true,
+        "id_unidade_sig": 663,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 37,
+    "fields": {
+        "nome": "COORDENACAO DE INFRAESTRUTURA - COINF",
+        "sigla": "COINF",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 36,
+        "is_ativo": true,
+        "id_unidade_sig": 664,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 38,
+    "fields": {
+        "nome": "DIR ADM, MAN E INFRAESTRUTURA - CRB",
+        "sigla": "CRB-DIRAI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 2,
+        "is_ativo": true,
+        "id_unidade_sig": 666,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 39,
+    "fields": {
+        "nome": "DIR ENSINO, PESQUISA E EXTENSAO - CRB",
+        "sigla": "CRB-DIREN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 2,
+        "is_ativo": true,
+        "id_unidade_sig": 667,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 40,
+    "fields": {
+        "nome": "COORDENACAO TECNICO-PEDAGOGICA - CRB",
+        "sigla": "CRB-COPED",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 668,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 41,
+    "fields": {
+        "nome": "COORD CURSOS TEC REC HUMANOS - CRB",
+        "sigla": "CRB-COTRH",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 669,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 42,
+    "fields": {
+        "nome": "COORDENACAO DE REGISTRO ESCOLAR - CRB",
+        "sigla": "CRB-COREG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 670,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 43,
+    "fields": {
+        "nome": "COORD C SUP TECNO EM LOGISTICA - CRB",
+        "sigla": "CRB-COSLO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 671,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 44,
+    "fields": {
+        "nome": "COORD C SUP LIC CIENCIAS BIOLOGIAS - CRB",
+        "sigla": "CRB-COSBI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 672,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 45,
+    "fields": {
+        "nome": "COORD C SUP TECNO PROC ESCOLARES - CRB",
+        "sigla": "CRB-COSPR",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 673,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 46,
+    "fields": {
+        "nome": "COORD CURSOS TEC INFORMATICA - CRB",
+        "sigla": "CRB-COTIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 674,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 47,
+    "fields": {
+        "nome": "COORD CURSOS TEC ADMINISTRACAO - CRB",
+        "sigla": "CRB-COTAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 675,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 48,
+    "fields": {
+        "nome": "COORD CURSOS TEC SEG TRABALHO - CRB",
+        "sigla": "CRB-COTSE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 676,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 49,
+    "fields": {
+        "nome": "DIR ADM, MAN E INFRAESTRUTURA - CCS",
+        "sigla": "CCS-DIRAI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 4,
+        "is_ativo": true,
+        "id_unidade_sig": 678,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 50,
+    "fields": {
+        "nome": "DIR ENSINO, PESQUISA E EXTENSAO - CCS",
+        "sigla": "CCS-DIREN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 4,
+        "is_ativo": true,
+        "id_unidade_sig": 679,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 51,
+    "fields": {
+        "nome": "COORDENACAO TECNICO-PEDAGOGICA - CCS",
+        "sigla": "CCS-COPED",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 680,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 52,
+    "fields": {
+        "nome": "COORDENACAO DE REGISTRO ESCOLAR - CCS",
+        "sigla": "CCS-COREG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 682,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 53,
+    "fields": {
+        "nome": "COORD C SUP TECNO AGROECOLOGIA - CCS",
+        "sigla": "CCS-COSAG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 683,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 54,
+    "fields": {
+        "nome": "COORD C SUP LIC MATEMATICA - CCS",
+        "sigla": "CCS-COSMA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 684,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 55,
+    "fields": {
+        "nome": "COORD C SUP TECNO PROC ESCOLARES - CCS",
+        "sigla": "CCS-COSPR",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 685,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 56,
+    "fields": {
+        "nome": "COORD CURSOS TEC AQUICULTURA - CCS",
+        "sigla": "CCS-COTAQ",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 686,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 57,
+    "fields": {
+        "nome": "COORD CURSOS TEC MEIO AMBIENTE - CCS",
+        "sigla": "CCS-COTMA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 687,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 58,
+    "fields": {
+        "nome": "DIR ADM, MAN E INFRAESTRUTURA - CSM",
+        "sigla": "CSM-DIRAI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 5,
+        "is_ativo": true,
+        "id_unidade_sig": 689,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 59,
+    "fields": {
+        "nome": "DIR ENSINO, PESQUISA E EXTENSAO - CSM",
+        "sigla": "CSM-DIREN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 5,
+        "is_ativo": true,
+        "id_unidade_sig": 690,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 60,
+    "fields": {
+        "nome": "COORDENACAO TECNICO-PEDAGOGICA - CSM",
+        "sigla": "CSM-COPED",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 691,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 61,
+    "fields": {
+        "nome": "COORDENACAO DE BIBLIOTECA - CSM",
+        "sigla": "CSM-COBIB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 692,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 62,
+    "fields": {
+        "nome": "COORDENACAO DE REGISTRO ESCOLAR - CSM",
+        "sigla": "CSM-COREG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 693,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 63,
+    "fields": {
+        "nome": "COORD C SUP LIC FISICA - CSM",
+        "sigla": "CSM-COSFI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 694,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 64,
+    "fields": {
+        "nome": "COORD CURSOS TEC INFORMATICA - CSM",
+        "sigla": "CSM-COTIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 696,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 65,
+    "fields": {
+        "nome": "COORD CURSOS TEC ADMINISTRACAO - CSM",
+        "sigla": "CSM-COTAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 697,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 66,
+    "fields": {
+        "nome": "DIR ADM, MAN E INFRAESTRUTURA - CXA",
+        "sigla": "CXA-DIRAI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 7,
+        "is_ativo": true,
+        "id_unidade_sig": 699,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 67,
+    "fields": {
+        "nome": "DIR ENSINO, PESQUISA E EXTENSAO - CXA",
+        "sigla": "CXA-DIREN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 7,
+        "is_ativo": true,
+        "id_unidade_sig": 700,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 68,
+    "fields": {
+        "nome": "COORDENACAO TECNICO-PEDAGOGICA - CXA",
+        "sigla": "CXA-COPED",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 701,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 69,
+    "fields": {
+        "nome": "COORD CURSOS TEC BIOTECNOLOGIA - CXA",
+        "sigla": "CXA-COTBI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 702,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 70,
+    "fields": {
+        "nome": "COORDENACAO DE REGISTRO ESCOLAR - CXA",
+        "sigla": "CXA-COREG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 703,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 71,
+    "fields": {
+        "nome": "COORD C SUP TECNO GES AMBIENTAL - CXA",
+        "sigla": "CXA-COSGA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 704,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 72,
+    "fields": {
+        "nome": "COORD C SUP LIC QUIMICA - CXA",
+        "sigla": "CXA-COSQU",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 705,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 73,
+    "fields": {
+        "nome": "COORD CURSOS TEC AGROECOLOGIA - CXA",
+        "sigla": "CXA-COTAE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 706,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 74,
+    "fields": {
+        "nome": "COORD CURSOS TEC MEIO AMBIENTE - CXA",
+        "sigla": "CXA-COTMA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 707,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 75,
+    "fields": {
+        "nome": "PROTOCOLO GERAL - RIFAC",
+        "sigla": "RIFAC-PROTO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 709,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 76,
+    "fields": {
+        "nome": "COORD-GERAL DE BIBLIOTECAS - COGEB",
+        "sigla": "COGEB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 19,
+        "is_ativo": true,
+        "id_unidade_sig": 710,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 77,
+    "fields": {
+        "nome": "COORDENACAO DE GESTAO DE PESSOAS - CRB",
+        "sigla": "CRB-COGEP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 38,
+        "is_ativo": true,
+        "id_unidade_sig": 711,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 78,
+    "fields": {
+        "nome": "COORDENACAO DE BIBLIOTECA - CRB",
+        "sigla": "CRB-COBIB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 712,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 79,
+    "fields": {
+        "nome": "COORD C SUP LIC MATEMATICA - CRB",
+        "sigla": "CRB-COSMA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 713,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 80,
+    "fields": {
+        "nome": "BIBLIOTECA SETORIAL - CBS",
+        "sigla": "CBS-BIBLI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 718,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 81,
+    "fields": {
+        "nome": "COORDENACAO DE GESTAO DE PESSOAS - CXA",
+        "sigla": "CXA-COGEP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 66,
+        "is_ativo": true,
+        "id_unidade_sig": 720,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 82,
+    "fields": {
+        "nome": "N\u00daCLEO DE ASSIST\u00caNCIA AO ESTUDANTE - NAES - CXA",
+        "sigla": "CXA-NAES",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 721,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 83,
+    "fields": {
+        "nome": "COORDENACAO DE BIBLIOTECA - CXA",
+        "sigla": "CXA-COBIB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 722,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 84,
+    "fields": {
+        "nome": "COORDENACAO DE GESTAO DE PESSOAS - CSM",
+        "sigla": "CSM-COGEP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 58,
+        "is_ativo": true,
+        "id_unidade_sig": 723,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 85,
+    "fields": {
+        "nome": "N\u00daCLEO DE ASSIST\u00caNCIA AO ESTUDANTE - NAES - CSM",
+        "sigla": "CSM-NAES",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 725,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 86,
+    "fields": {
+        "nome": "COORDENACAO DE GESTAO DE PESSOAS - CCS",
+        "sigla": "CCS-COGEP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 49,
+        "is_ativo": true,
+        "id_unidade_sig": 726,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 87,
+    "fields": {
+        "nome": "COORDENACAO DE BIBLIOTECA - CCS",
+        "sigla": "CCS-COBIB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 727,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 88,
+    "fields": {
+        "nome": "N\u00daCLEO DE ASSIST\u00caNCIA AO ESTUDANTE - NAES - CCS",
+        "sigla": "CCS-NAES",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 728,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 89,
+    "fields": {
+        "nome": "COORD C SUP LIC FISICA - CCS",
+        "sigla": "CCS-COSFI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 729,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 90,
+    "fields": {
+        "nome": "COORDENACAO DE GESTAO DE PESSOAS - CBS",
+        "sigla": "CBS-COGEP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 730,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 91,
+    "fields": {
+        "nome": "CONSELHO SUPERIOR - CONSU",
+        "sigla": "CONSU",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 9,
+        "is_ativo": true,
+        "id_unidade_sig": 731,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 92,
+    "fields": {
+        "nome": "COMISSAO INTERNA CIS-PCCTAE",
+        "sigla": "CIS-PCCTAE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 732,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 93,
+    "fields": {
+        "nome": "COMISSAO PERMANENTE DE PESSOAL DOCENTE - CPPD",
+        "sigla": "CPPD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 733,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 94,
+    "fields": {
+        "nome": "COMISSAO DE ETICA - COETI",
+        "sigla": "SECET",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 734,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 95,
+    "fields": {
+        "nome": "COORDENACAO DE ANALISE DE PROCESSOS - COANP",
+        "sigla": "COANP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 735,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 96,
+    "fields": {
+        "nome": "PRO-REITORIA PLANEJ DESENV INSTITUCIONAL - PRODIN",
+        "sigla": "PRODIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 737,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 97,
+    "fields": {
+        "nome": "DIRETORIA DE PLANEJAMENTO E OR\u00c7AMENTO - DPLOR",
+        "sigla": "DPLOR-REIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 96,
+        "is_ativo": true,
+        "id_unidade_sig": 738,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 98,
+    "fields": {
+        "nome": "COORDENACAO DE PROJETOS INTERNACIONAIS - COPIN",
+        "sigla": "COPIN-REIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 739,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 99,
+    "fields": {
+        "nome": "COORDENACAO DE INTERACAO INSTITUCIONAL - COINS",
+        "sigla": "COINS-REIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 740,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 100,
+    "fields": {
+        "nome": "GABINETE INSTITUCIONAL - GABIN",
+        "sigla": "GABIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 741,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 101,
+    "fields": {
+        "nome": "ASSESSORIA DA REITORIA - ASESP",
+        "sigla": "ASESP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 742,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 102,
+    "fields": {
+        "nome": "SECRETARIA EXECUTIVA - SECEX",
+        "sigla": "SECEX",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 743,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 103,
+    "fields": {
+        "nome": "DIRETORIA SISTEMICA DE COMUNICACAO - DSCOM",
+        "sigla": "DSCOM",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 744,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 104,
+    "fields": {
+        "nome": "COORDENACAO DE CERIMONIAL E EVENTOS - COCEV",
+        "sigla": "COCEV",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 103,
+        "is_ativo": true,
+        "id_unidade_sig": 745,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 105,
+    "fields": {
+        "nome": "AUDITORIA INTERNA - AUDIN",
+        "sigla": "AUDIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 91,
+        "is_ativo": true,
+        "id_unidade_sig": 746,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 106,
+    "fields": {
+        "nome": "COORDENACAO DE CONTROLE INTERNO - COINT",
+        "sigla": "COINT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 105,
+        "is_ativo": true,
+        "id_unidade_sig": 747,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 107,
+    "fields": {
+        "nome": "PROCURADORIA FEDERAL - PFIFE",
+        "sigla": "PFIFE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 748,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 108,
+    "fields": {
+        "nome": "OUVIDORIA - OUVID",
+        "sigla": "OUVID",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 749,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 109,
+    "fields": {
+        "nome": "PRO-REITORIA DE EXTENSAO - PROEX",
+        "sigla": "PROEX",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 750,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 110,
+    "fields": {
+        "nome": "DIRETORIA DE EXTENSAO TECNOLOGICA - DIEXT",
+        "sigla": "DIEXT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 109,
+        "is_ativo": true,
+        "id_unidade_sig": 751,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 111,
+    "fields": {
+        "nome": "DIRETORIA SISTEMICA DE GESTAO TECNOLOGIA DA INFORMACAO - DSGTI",
+        "sigla": "DSGTI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 754,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 112,
+    "fields": {
+        "nome": "COORDENACAO DE GESTAO DE MIDIAS E ARTES - COGMA",
+        "sigla": "COGMA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 103,
+        "is_ativo": true,
+        "id_unidade_sig": 755,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 113,
+    "fields": {
+        "nome": "DIRETORIA EXECUTIVA - DIREX",
+        "sigla": "DIREX",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 100,
+        "is_ativo": true,
+        "id_unidade_sig": 756,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 114,
+    "fields": {
+        "nome": "COORDENACAO DE FLUXOS E PROCESSOS",
+        "sigla": "COFPRO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 27,
+        "is_ativo": true,
+        "id_unidade_sig": 757,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 115,
+    "fields": {
+        "nome": "NUCLEO DE APOIO A LICITACAO",
+        "sigla": "NALIC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 34,
+        "is_ativo": true,
+        "id_unidade_sig": 758,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 116,
+    "fields": {
+        "nome": "COORDENACAO DE ALMOXARIFADO E PATRIMONIO",
+        "sigla": "COPAL",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 31,
+        "is_ativo": true,
+        "id_unidade_sig": 759,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 117,
+    "fields": {
+        "nome": "COORDENA\u00c7AO DE EXTENSAO - CRB",
+        "sigla": "COEXT-CRB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 760,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 118,
+    "fields": {
+        "nome": "NAPNE - CRB",
+        "sigla": "CRB-NAPNE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 761,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 119,
+    "fields": {
+        "nome": "COORDENACAO TECNO INFORM E COMUNICACAO - CCS",
+        "sigla": "CCS-CORTI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 49,
+        "is_ativo": true,
+        "id_unidade_sig": 762,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 120,
+    "fields": {
+        "nome": "COORDENACAO DE SUPORTE E INFRAESTRUTURA - COSIN",
+        "sigla": "COSIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 111,
+        "is_ativo": true,
+        "id_unidade_sig": 763,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 121,
+    "fields": {
+        "nome": "COORDENACAO DE SEGURANCA DA INFORMACAO - COSEG",
+        "sigla": "COSEG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 111,
+        "is_ativo": true,
+        "id_unidade_sig": 764,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 122,
+    "fields": {
+        "nome": "COORDENACAO DE SISTEMAS DE INFORMACAO - COSIS",
+        "sigla": "COSIS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 111,
+        "is_ativo": true,
+        "id_unidade_sig": 765,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 123,
+    "fields": {
+        "nome": "COORDENACAO DE ACOES INCLUSIVAS",
+        "sigla": "COAIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 19,
+        "is_ativo": true,
+        "id_unidade_sig": 766,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 124,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE ATEN\u00c7\u00c3O \u00c0 SA\u00daDE E QUALIDADE DE VIDA - COSVI",
+        "sigla": "COSVI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 26,
+        "is_ativo": true,
+        "id_unidade_sig": 767,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 125,
+    "fields": {
+        "nome": "COORD TECNO INFO E COMUNICA\u00c7\u00c3O - CRB",
+        "sigla": "CRB-CORTI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 38,
+        "is_ativo": true,
+        "id_unidade_sig": 768,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 126,
+    "fields": {
+        "nome": "COORD TECNO INFO E COMUNICACAO - CORTI - CSM",
+        "sigla": "CORTI-CSM",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 58,
+        "is_ativo": true,
+        "id_unidade_sig": 769,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 127,
+    "fields": {
+        "nome": "COORD C SUP BAC ZOOTECNIA - CSM",
+        "sigla": "CSM-COSZO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 770,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 128,
+    "fields": {
+        "nome": "COORD TECNO INFO E COMUNICACAO - CXA",
+        "sigla": "CXA-CORTI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 66,
+        "is_ativo": true,
+        "id_unidade_sig": 771,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 129,
+    "fields": {
+        "nome": "COORD C SUP TECNO AGROINDUSTRIA - CXA",
+        "sigla": "CXA-COSAI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 772,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 130,
+    "fields": {
+        "nome": "COORD C SUP TECNO AGROECOLOGIA - CXA",
+        "sigla": "CXA-COSAE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 773,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 131,
+    "fields": {
+        "nome": "SECRETARIA DA EDITORA - SECED",
+        "sigla": "SECED",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 775,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 132,
+    "fields": {
+        "nome": "COORDENACAO DE GOVERNANCA DE TI - COGTI",
+        "sigla": "COGTI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 111,
+        "is_ativo": true,
+        "id_unidade_sig": 776,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 133,
+    "fields": {
+        "nome": "DIR ADM, MAN E INFRAESTRUTURA - CTA",
+        "sigla": "CTA-DIRAI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 6,
+        "is_ativo": true,
+        "id_unidade_sig": 780,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 134,
+    "fields": {
+        "nome": "DIR ENSINO, PESQUISA E EXTENSAO - CTA",
+        "sigla": "CTA-DIREN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 6,
+        "is_ativo": true,
+        "id_unidade_sig": 781,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 135,
+    "fields": {
+        "nome": "COORDENACAO DE GESTAO DE PESSOAS - CTA",
+        "sigla": "CTA-COGEP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 133,
+        "is_ativo": true,
+        "id_unidade_sig": 782,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 136,
+    "fields": {
+        "nome": "COORDENACAO DE REGISTRO ESCOLAR - CTA",
+        "sigla": "CTA-COREG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 784,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 137,
+    "fields": {
+        "nome": "BIBLIOTECA SETORIAL - CTC",
+        "sigla": "CTC-BIBLI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 785,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 138,
+    "fields": {
+        "nome": "N\u00daCLEO DE ASSIST\u00caNCIA AO ESTUDANTE - NAES - CTA",
+        "sigla": "CTA-NAES",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 786,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 139,
+    "fields": {
+        "nome": "COORD TECNO INFO E COMUNICACAO - CORTI - CTA",
+        "sigla": "CORTI-CTA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 133,
+        "is_ativo": true,
+        "id_unidade_sig": 787,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 140,
+    "fields": {
+        "nome": "COORD COMUNICACAO E EVENTOS - CRB",
+        "sigla": "CRB-COCOE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 38,
+        "is_ativo": true,
+        "id_unidade_sig": 789,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 141,
+    "fields": {
+        "nome": "NUCLEO DE INOVACAO TECNOLOGICA",
+        "sigla": "NIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 15,
+        "is_ativo": true,
+        "id_unidade_sig": 790,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 142,
+    "fields": {
+        "nome": "COORD PROPRIEDADE INTELECTUAL E INOVACAO",
+        "sigla": "COPII",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 141,
+        "is_ativo": true,
+        "id_unidade_sig": 792,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 143,
+    "fields": {
+        "nome": "COORDENACAO DE INCUBADORA DE EMPRESAS",
+        "sigla": "COINC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 141,
+        "is_ativo": true,
+        "id_unidade_sig": 793,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 144,
+    "fields": {
+        "nome": "EDITORA IFAC - EDIFAC",
+        "sigla": "EDIFAC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 794,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 145,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE CAPACITA\u00c7\u00c3O E QUALIFICA\u00c7\u00c3O - COCAP",
+        "sigla": "COCAP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 26,
+        "is_ativo": true,
+        "id_unidade_sig": 795,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 146,
+    "fields": {
+        "nome": "COORDENACAO DE PLANEJAMENTO - COPLA",
+        "sigla": "COPLA-REIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 97,
+        "is_ativo": true,
+        "id_unidade_sig": 796,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 147,
+    "fields": {
+        "nome": "COORD CURSOS TEC MANUT SUP INFOR - CRB",
+        "sigla": "CRB-COTSU",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 797,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 148,
+    "fields": {
+        "nome": "COORD PESQ INOVACAO E EXTENSAO - CBS",
+        "sigla": "CBS-COPIE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 798,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 149,
+    "fields": {
+        "nome": "CENTRO DE REF EM EDUCA\u00c7\u00c3O A DISTANCIA E FORM CONTINUADA",
+        "sigla": "CREAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 19,
+        "is_ativo": true,
+        "id_unidade_sig": 799,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 150,
+    "fields": {
+        "nome": "COORDENACAO TECNO INFORM COMUNICACAO - COTIC",
+        "sigla": "COTIC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 149,
+        "is_ativo": true,
+        "id_unidade_sig": 801,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 151,
+    "fields": {
+        "nome": "COORD DE ADM MANUT INFRAESTRUTURA - COAD",
+        "sigla": "COAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 149,
+        "is_ativo": true,
+        "id_unidade_sig": 802,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 152,
+    "fields": {
+        "nome": "COORDENACAO DE POLO EAD",
+        "sigla": "COPEAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 151,
+        "is_ativo": true,
+        "id_unidade_sig": 804,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 153,
+    "fields": {
+        "nome": "COORD AMBIENTE VIRTUAL DE APRENDIZAGEM - COAVA",
+        "sigla": "COAVA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 149,
+        "is_ativo": true,
+        "id_unidade_sig": 807,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 154,
+    "fields": {
+        "nome": "COORD DE ENSINO - COENS",
+        "sigla": "COEAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 149,
+        "is_ativo": true,
+        "id_unidade_sig": 808,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 155,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O E-TEC IDIOMAS SEM FRONTEIRAS",
+        "sigla": "COETEC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 154,
+        "is_ativo": true,
+        "id_unidade_sig": 810,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 156,
+    "fields": {
+        "nome": "PRO-FUNCIONARIO",
+        "sigla": "PROFUN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 154,
+        "is_ativo": true,
+        "id_unidade_sig": 811,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 157,
+    "fields": {
+        "nome": "COORD CURSOS POS-GRADUACAO - CCS",
+        "sigla": "CCS-COPOG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 812,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 158,
+    "fields": {
+        "nome": "COORDENACAO TECNICO-PEDAGOGICA - CTA",
+        "sigla": "CTA-COPED",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 813,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 159,
+    "fields": {
+        "nome": "COORDENACAO DE BIBLIOTECA - CTA",
+        "sigla": "CTA-COBIB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 814,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 160,
+    "fields": {
+        "nome": "SECRETARIA DE ORGAOS COLEGIADOS - SEOC",
+        "sigla": "SEOC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 113,
+        "is_ativo": true,
+        "id_unidade_sig": 816,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 161,
+    "fields": {
+        "nome": "COORD PESQ, INOVACAO E EXTENSAO - CTA",
+        "sigla": "CTA-COPIE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 818,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 162,
+    "fields": {
+        "nome": "NAPNE - CTA",
+        "sigla": "CTA-NAPNE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 819,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 163,
+    "fields": {
+        "nome": "COORD CURSOS TEC FINANCAS - CTA",
+        "sigla": "CTA-COTFI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 820,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 164,
+    "fields": {
+        "nome": "COORD CURSOS TEC FLORESTAS - CTA",
+        "sigla": "CTA-COTFL",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 821,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 165,
+    "fields": {
+        "nome": "COORD CURSOS TEC AGRICULTURA - CTA",
+        "sigla": "CTA-COTAG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 822,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 166,
+    "fields": {
+        "nome": "COORD C SUP TECNO SIST INTERNET - CRB",
+        "sigla": "CRB-COSSI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 823,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 167,
+    "fields": {
+        "nome": "COORD CURSOS TEC AQUICULTURA - CBS",
+        "sigla": "CBS-COTAQ",
+        "tipo_estrutura": 4,
+        "estrutura_pai": null,
+        "is_ativo": true,
+        "id_unidade_sig": 824,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 168,
+    "fields": {
+        "nome": "COORD CURSOS TEC ADMINISTRACAO - CCS",
+        "sigla": "CCS-COTAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 827,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 169,
+    "fields": {
+        "nome": "COORD CURSOS TEC AGROPECUARIA - CCS",
+        "sigla": "CCS-COTAG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 828,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 170,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE LEGISLA\u00c7\u00c3O E ATOS NORMATIVOS - COLEG",
+        "sigla": "COLEG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 23,
+        "is_ativo": true,
+        "id_unidade_sig": 829,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 171,
+    "fields": {
+        "nome": "COORD CONFORMIDADE DE REGISTRO E GESTAO",
+        "sigla": "COERG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 27,
+        "is_ativo": true,
+        "id_unidade_sig": 831,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 172,
+    "fields": {
+        "nome": "COORDENACAO DE OBRAS",
+        "sigla": "COBRA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 36,
+        "is_ativo": true,
+        "id_unidade_sig": 834,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 173,
+    "fields": {
+        "nome": "SECRETARIA DO GABINETE - SEGAB",
+        "sigla": "SEGAB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 100,
+        "is_ativo": true,
+        "id_unidade_sig": 835,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 174,
+    "fields": {
+        "nome": "COORDENACAO DE GESTAO DE CONTEUDO - COGEC",
+        "sigla": "COGEC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 103,
+        "is_ativo": true,
+        "id_unidade_sig": 836,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 175,
+    "fields": {
+        "nome": "ASSESSORIA DE RELA\u00c7\u00d5ES INTERNACIONAIS - ARINT",
+        "sigla": "ARINT-REIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 838,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 176,
+    "fields": {
+        "nome": "DIRETORIA SISTEMICA DE ASSISTENCIA ESTUDANTIL - DSAES",
+        "sigla": "DSAES",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 839,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 177,
+    "fields": {
+        "nome": "COORD APOIO SOCIOECONOMICO - COAS",
+        "sigla": "COAS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 176,
+        "is_ativo": true,
+        "id_unidade_sig": 840,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 178,
+    "fields": {
+        "nome": "COORD ACOMP PROG ASS ESTUDANTIL - COAPE",
+        "sigla": "COAPE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 176,
+        "is_ativo": true,
+        "id_unidade_sig": 841,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 179,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O ACOMP METAS INSTITUCIONAIS - COMIN",
+        "sigla": "COMIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 97,
+        "is_ativo": true,
+        "id_unidade_sig": 844,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 180,
+    "fields": {
+        "nome": "COORD PESQ INOVACAO E POS GRADUA\u00c7AO - CCS",
+        "sigla": "CCS-COPIP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 847,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 181,
+    "fields": {
+        "nome": "NAPNE - CCS",
+        "sigla": "CCS-NAPNE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 848,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 182,
+    "fields": {
+        "nome": "COORD PESQ, INOVACAO E EXTENSAO - CSM",
+        "sigla": "CSM-COPIE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 849,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 183,
+    "fields": {
+        "nome": "NAPNE - CSM",
+        "sigla": "CSM-NAPNE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 850,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 184,
+    "fields": {
+        "nome": "COORD PESQ, INOVACAO E EXTENSAO - CXA",
+        "sigla": "CXA-COPIE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 851,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 185,
+    "fields": {
+        "nome": "NAPNE - CXA",
+        "sigla": "CXA-NAPNE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 852,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 186,
+    "fields": {
+        "nome": "COORDENACAO DE ADMINISTRACAO - CBS",
+        "sigla": "CBS-COADM",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 3,
+        "is_ativo": true,
+        "id_unidade_sig": 854,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 187,
+    "fields": {
+        "nome": "DIR ENSINO, PESQUISA E EXTENSAO - CBS",
+        "sigla": "CBS-DIREN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 3,
+        "is_ativo": true,
+        "id_unidade_sig": 855,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 188,
+    "fields": {
+        "nome": "COORDENACAO DE REGISTRO ESCOLAR - CBS",
+        "sigla": "CBS-COREG",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 187,
+        "is_ativo": true,
+        "id_unidade_sig": 856,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 189,
+    "fields": {
+        "nome": "COORD CURSOS TEC AGROECOLOGIA - CBS",
+        "sigla": "CBS-COTAE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 187,
+        "is_ativo": true,
+        "id_unidade_sig": 858,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 190,
+    "fields": {
+        "nome": "COLEGIADO DE DIRIGENTES - CODIR",
+        "sigla": "CODIR",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 878,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 191,
+    "fields": {
+        "nome": "COMISS\u00c3O PR\u00d3PRIA DE AVALIA\u00c7\u00c3O - CPA",
+        "sigla": "CPA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 879,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 192,
+    "fields": {
+        "nome": "CONSELHO EDITORIAL - CONSED",
+        "sigla": "CONSED",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 880,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 193,
+    "fields": {
+        "nome": "COMIT\u00ca DE GEST\u00c3O DE PESSOAS",
+        "sigla": "COM/COGEP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 23,
+        "is_ativo": true,
+        "id_unidade_sig": 882,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 194,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE CURSOS",
+        "sigla": "COORDCURSOS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 154,
+        "is_ativo": true,
+        "id_unidade_sig": 883,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 195,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O TUTORIA",
+        "sigla": "COT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 153,
+        "is_ativo": true,
+        "id_unidade_sig": 884,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 196,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O PORTAL DE EAD",
+        "sigla": "PORTEAD",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 150,
+        "is_ativo": true,
+        "id_unidade_sig": 885,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 197,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O MOOC",
+        "sigla": "MOOC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 150,
+        "is_ativo": true,
+        "id_unidade_sig": 886,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 198,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O SISTEC",
+        "sigla": "SISTEC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 150,
+        "is_ativo": true,
+        "id_unidade_sig": 887,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 199,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O SAAS",
+        "sigla": "SAAS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 150,
+        "is_ativo": true,
+        "id_unidade_sig": 888,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 200,
+    "fields": {
+        "nome": "COORD DE PROGRAMAS E PROJETOS DE ENSINO - COPEN",
+        "sigla": "COPEN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 19,
+        "is_ativo": true,
+        "id_unidade_sig": 889,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 201,
+    "fields": {
+        "nome": "COMIT\u00ca DE ENSINO - COMEN",
+        "sigla": "COMEN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 19,
+        "is_ativo": true,
+        "id_unidade_sig": 890,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 202,
+    "fields": {
+        "nome": "COMISS\u00c3O DE PROCESSO SELETIVO DE ESTUDANTES - COPRE",
+        "sigla": "COPRE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 19,
+        "is_ativo": true,
+        "id_unidade_sig": 891,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 203,
+    "fields": {
+        "nome": "PROGRAMA INSTITUCIONAL DE BOLSAS DE INICIA\u00c7\u00c3O \u00c0 DOC\u00caNCIA - PIBID",
+        "sigla": "PIBID",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 22,
+        "is_ativo": true,
+        "id_unidade_sig": 892,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 204,
+    "fields": {
+        "nome": "COMISS\u00c3O DE \u00c9TICA NO USO ANIMAL - CEUA",
+        "sigla": "CEUA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 15,
+        "is_ativo": true,
+        "id_unidade_sig": 893,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 205,
+    "fields": {
+        "nome": "COMIT\u00ca CIENT\u00cdFICO INSTITUCIONAL - COCIN",
+        "sigla": "COCIN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 15,
+        "is_ativo": true,
+        "id_unidade_sig": 894,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 206,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE OR\u00c7AMENTO - COR\u00c7A",
+        "sigla": "COR\u00c7A-REIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 97,
+        "is_ativo": true,
+        "id_unidade_sig": 895,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 207,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE N\u00daCLEO DO CENTRO DE ESTUDOS E IDIOMAS - CONCEI - CTA",
+        "sigla": "CONCEI/CTA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 896,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 208,
+    "fields": {
+        "nome": "N\u00daCLEO DE ESTUDOS AFRO-BRASILEIROS E IND\u00cdGENAS - CTA",
+        "sigla": "NEABI/CTA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 897,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 209,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE N\u00daCLEO DO CENTRO DE ESTUDOS E IDIOMAS - CONCEI - CXA",
+        "sigla": "CONCEI/CXA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 898,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 210,
+    "fields": {
+        "nome": "N\u00daCLEO DE ESTUDOS AFRO-BRASILEIROS E IND\u00cdGENAS - CXA",
+        "sigla": "NEABI/CXA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 67,
+        "is_ativo": true,
+        "id_unidade_sig": 899,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 211,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE N\u00daCLEO DO CENTRO DE ESTUDOS E IDIOMAS - CONCEI - CCS",
+        "sigla": "CONCEI/CCS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 900,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 212,
+    "fields": {
+        "nome": "N\u00daCLEO DE ESTUDOS AFRO-BRASILEIROS E IND\u00cdGENAS - CCS",
+        "sigla": "NEABI/CCS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 901,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 213,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE CURSOS T\u00c9CNICOS EM INFORM\u00c1TICA",
+        "sigla": "CTIN/CCS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 902,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 214,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE N\u00daCLEO DO CENTRO DE ESTUDOS E IDIOMAS - CONCEI - CSM",
+        "sigla": "CONCEI/CSM",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 903,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 215,
+    "fields": {
+        "nome": "N\u00daCLEO DE ESTUDOS AFRO-BRASILEIROS E IND\u00cdGENAS - CSM",
+        "sigla": "NEABI/CSM",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 59,
+        "is_ativo": true,
+        "id_unidade_sig": 904,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 216,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE PESQUISA, INOVA\u00c7\u00c3O E P\u00d3S-GRADUA\u00c7\u00c3O - CRB",
+        "sigla": "COPIP/CRB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 905,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 217,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE N\u00daCLEO DO CENTRO DE ESTUDOS E IDIOMAS - CONCEI - CRB",
+        "sigla": "CONCEI/CRB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 906,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 218,
+    "fields": {
+        "nome": "N\u00daCLEO DE ESTUDOS AFRO-BRASILEIROS E IND\u00cdGENAS - CRB",
+        "sigla": "NEABI/CRB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 907,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 219,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE N\u00daCLEO DO CENTRO DE ESTUDOS E IDIOMAS - CONCEI - CBS",
+        "sigla": "CONCEI/CBS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 187,
+        "is_ativo": true,
+        "id_unidade_sig": 908,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 220,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE EXECU\u00c7\u00c3O OR\u00c7AMENTARIA - COEXO",
+        "sigla": "COEXO-",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 28,
+        "is_ativo": true,
+        "id_unidade_sig": 909,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 221,
+    "fields": {
+        "nome": "N\u00daCLEO DE ASSIST\u00caNCIA AO ESTUDANTE - NAES - CRB",
+        "sigla": "CRB-NAES",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 910,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 222,
+    "fields": {
+        "nome": "COORD CURSO SUP BACHARELADO EM ADM - CRB",
+        "sigla": "CRB-CCSBA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 911,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 223,
+    "fields": {
+        "nome": "COORD PESQ INOVACAO E EXTENSAO - CCS",
+        "sigla": "CCS-COPIE",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 912,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 224,
+    "fields": {
+        "nome": "PROTOCOLO - CBS",
+        "sigla": "CBS-PROTO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 3,
+        "is_ativo": true,
+        "id_unidade_sig": 913,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 225,
+    "fields": {
+        "nome": "PROTOCOLO - CRB",
+        "sigla": "CRB-PROTO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 2,
+        "is_ativo": true,
+        "id_unidade_sig": 914,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 226,
+    "fields": {
+        "nome": "PROTOCOLO - CCS",
+        "sigla": "CCS-PROTO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 4,
+        "is_ativo": true,
+        "id_unidade_sig": 915,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 227,
+    "fields": {
+        "nome": "PROTOCOLO - CSM",
+        "sigla": "CSM-PROTO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 5,
+        "is_ativo": true,
+        "id_unidade_sig": 916,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 228,
+    "fields": {
+        "nome": "PROTOCOLO - CTA",
+        "sigla": "CTA-PROTO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 6,
+        "is_ativo": true,
+        "id_unidade_sig": 917,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 229,
+    "fields": {
+        "nome": "PROTOCOLO - CXA",
+        "sigla": "CXA-PROTO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 7,
+        "is_ativo": true,
+        "id_unidade_sig": 918,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 230,
+    "fields": {
+        "nome": "COORD DE CURS TEC REDE COMPUTADORES -CRB",
+        "sigla": "CORC-CRB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 920,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 231,
+    "fields": {
+        "nome": "COORD DE CURS TEC EM INF.INTERNET - CRB",
+        "sigla": "CORTIN-CRB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 921,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 232,
+    "fields": {
+        "nome": "COORD CURSO TEC EM ZOOTECNIA - CCS",
+        "sigla": "CCS-CTZO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 50,
+        "is_ativo": true,
+        "id_unidade_sig": 922,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 233,
+    "fields": {
+        "nome": "COORD CURSO TEC TRAD E INTER LIBRAS - CRB",
+        "sigla": "CRB-CTTL",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 923,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 234,
+    "fields": {
+        "nome": "COORD CURSO TEC S EM COOPERATIVISMO - CRB",
+        "sigla": "CRB-CTSC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 924,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 235,
+    "fields": {
+        "nome": "COORD DE PROTOCOLO E ARQUIVO - COPAR",
+        "sigla": "COPAR",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 113,
+        "is_ativo": true,
+        "id_unidade_sig": 925,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 236,
+    "fields": {
+        "nome": "COORD DE MATERIAL DIDATICO - CODID",
+        "sigla": "CODID",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 149,
+        "is_ativo": true,
+        "id_unidade_sig": 926,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 237,
+    "fields": {
+        "nome": "COORD DE PROGRAMAS DE FOMENTO - COPROF",
+        "sigla": "COPROF",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 149,
+        "is_ativo": true,
+        "id_unidade_sig": 927,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 238,
+    "fields": {
+        "nome": "SETOR DO REGISTRO ACAD\u00caMICO - SERAC",
+        "sigla": "SERAC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 154,
+        "is_ativo": true,
+        "id_unidade_sig": 928,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 239,
+    "fields": {
+        "nome": "COORD DE MUNDO DO TRABALHO - COMT",
+        "sigla": "COMT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 110,
+        "is_ativo": true,
+        "id_unidade_sig": 929,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 240,
+    "fields": {
+        "nome": "COORD PROG NACIONAL ACES ENS TEC EMPREGO - PRONATEC",
+        "sigla": "PRONATEC",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 109,
+        "is_ativo": true,
+        "id_unidade_sig": 930,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 241,
+    "fields": {
+        "nome": "DIRETORIA SISTEMICA DE PROGRAMAS ESPECIAIS - DSPES",
+        "sigla": "DSPES",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 1,
+        "is_ativo": true,
+        "id_unidade_sig": 931,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 242,
+    "fields": {
+        "nome": "COORD DO CURSO TEC SUB SEQ EM SER JURIDI",
+        "sigla": "CRB-COTSJ",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 932,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 243,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DE PUBLICA\u00c7\u00c3O DE ATOS OFICIAIS - COPAO",
+        "sigla": "COPAO",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 113,
+        "is_ativo": true,
+        "id_unidade_sig": 933,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 244,
+    "fields": {
+        "nome": "COORD CURSOS TEC EDIFICACOES - CRB",
+        "sigla": "CRB - COTED",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 934,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 245,
+    "fields": {
+        "nome": "DIRETORIA DE DESENVOLVIMENTO INSTITUCIONAL - DIDIN",
+        "sigla": "DIDIN-REIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 96,
+        "is_ativo": true,
+        "id_unidade_sig": 935,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 246,
+    "fields": {
+        "nome": "COORD DE DESEMP INSTIT E ESTRATEGICO - CODES",
+        "sigla": "CODES-REIT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 96,
+        "is_ativo": true,
+        "id_unidade_sig": 936,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 247,
+    "fields": {
+        "nome": "PROGRAMA DE P\u00d3S-GRADUA\u00c7\u00c3O EM EDUCA\u00c7\u00c3O PROFISSIONAL E TECNOL\u00d3GICA - PROFEPT",
+        "sigla": "PROFEPT",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 937,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 248,
+    "fields": {
+        "nome": "COORD CURSOS TEC REC PESQUEIROS - CBS",
+        "sigla": "CBS-COTRP",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 187,
+        "is_ativo": true,
+        "id_unidade_sig": 938,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 249,
+    "fields": {
+        "nome": "INCUBADORA DO CAMPUS RIO BRANCO",
+        "sigla": "INCUBAC-CRB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 143,
+        "is_ativo": true,
+        "id_unidade_sig": 939,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 250,
+    "fields": {
+        "nome": "N\u00daCELO DE INCUBA\u00c7\u00c3O DO CAMPUS AVAN\u00c7ADO RIO BRANCO BAIXADA DO SOL",
+        "sigla": "INCUBAC-CBS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 143,
+        "is_ativo": true,
+        "id_unidade_sig": 940,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 251,
+    "fields": {
+        "nome": "N\u00daCELO DE INCUBA\u00c7\u00c3O DO CAMPUS XAPURI",
+        "sigla": "INCUBAC-CXA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 143,
+        "is_ativo": true,
+        "id_unidade_sig": 941,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 252,
+    "fields": {
+        "nome": "N\u00daCELO DE INCUBA\u00c7\u00c3O DO CAMPUS SENA MADUREIRA",
+        "sigla": "INCUBAC-CSM",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 143,
+        "is_ativo": true,
+        "id_unidade_sig": 942,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 253,
+    "fields": {
+        "nome": "N\u00daCELO DE INCUBA\u00c7\u00c3O DO CAMPUS TARAUAC\u00c1",
+        "sigla": "INCUBAC-CTA",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 143,
+        "is_ativo": true,
+        "id_unidade_sig": 943,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 254,
+    "fields": {
+        "nome": "N\u00daCELO DE INCUBA\u00c7\u00c3O DO CAMPUS CRUZEIRO DO SUL",
+        "sigla": "INCUBAC-CCS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 143,
+        "is_ativo": true,
+        "id_unidade_sig": 944,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 255,
+    "fields": {
+        "nome": "DEPART DE CURSOS TECNICOS INTEGRADOS-CRB",
+        "sigla": "CRB-DECTI",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 39,
+        "is_ativo": true,
+        "id_unidade_sig": 945,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 256,
+    "fields": {
+        "nome": "SUBSISTEMA INTEGRADO DE ATEN\u00c7\u00c3O \u00c0 SA\u00daDE DO SERVIDOR DO MINIST\u00c9RIO DA SA\u00daDE - SIASS/MS",
+        "sigla": "SIASS/MS",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 23,
+        "is_ativo": true,
+        "id_unidade_sig": 946,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 257,
+    "fields": {
+        "nome": "DEPARTAMENTO DE CADASTRO E FOLHA DE PAGAMENTO \u0096 DECAF",
+        "sigla": "DECAF",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 23,
+        "is_ativo": true,
+        "id_unidade_sig": 947,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 258,
+    "fields": {
+        "nome": "COORDENA\u00c7\u00c3O DO CURSO SUPERIOR DE TECNOLOGIA EM GEST\u00c3O DO AGRONEG\u00d3CIO - CTA",
+        "sigla": "CTA-COSAN",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 134,
+        "is_ativo": true,
+        "id_unidade_sig": 948,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.estruturaorganizacional",
+    "pk": 259,
+    "fields": {
+        "nome": "COMISS\u00c3O LOCAL - CRB",
+        "sigla": "CLRB",
+        "tipo_estrutura": 4,
+        "estrutura_pai": 2,
+        "is_ativo": true,
+        "id_unidade_sig": null,
+        "sucessora": []
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 1,
+    "fields": {
+        "nome": "Administra\u00e7\u00e3o",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 2,
+    "fields": {
+        "nome": "Aquicultura",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 3,
+    "fields": {
+        "nome": "Agricultura",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 4,
+    "fields": {
+        "nome": "Agroneg\u00f3cio",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 5,
+    "fields": {
+        "nome": "Agronomia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 6,
+    "fields": {
+        "nome": "Alimentos",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 7,
+    "fields": {
+        "nome": "Arquitetura",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 8,
+    "fields": {
+        "nome": "Artes",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 9,
+    "fields": {
+        "nome": "Biologia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 10,
+    "fields": {
+        "nome": "Ci\u00eancias Agr\u00edcolas",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 11,
+    "fields": {
+        "nome": "Ci\u00eancias Sociais/Sociologia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 12,
+    "fields": {
+        "nome": "Constru\u00e7\u00e3o Civil/Edifica\u00e7\u00f5es/Constru\u00e7\u00f5es",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 13,
+    "fields": {
+        "nome": "Contabilidade",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 14,
+    "fields": {
+        "nome": "Direito",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 15,
+    "fields": {
+        "nome": "Ecologia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 16,
+    "fields": {
+        "nome": "Economia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 17,
+    "fields": {
+        "nome": "Educa\u00e7\u00e3o F\u00edsica",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 18,
+    "fields": {
+        "nome": "Eletr\u00f4nica",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 19,
+    "fields": {
+        "nome": "Enfermagem do Trabalho",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 20,
+    "fields": {
+        "nome": "Engenharia Ambiental",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 21,
+    "fields": {
+        "nome": "Engenharia Civil",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 22,
+    "fields": {
+        "nome": "Pesca/Engenharia de Pesca",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 23,
+    "fields": {
+        "nome": "Engenharia de Seguran\u00e7a",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 24,
+    "fields": {
+        "nome": "Florestal/Engenharia Florestal",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 25,
+    "fields": {
+        "nome": "Filosofia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 26,
+    "fields": {
+        "nome": "F\u00edsica",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 27,
+    "fields": {
+        "nome": "Geografia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 28,
+    "fields": {
+        "nome": "Gest\u00e3o Ambiental",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 29,
+    "fields": {
+        "nome": "Hist\u00f3ria",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 30,
+    "fields": {
+        "nome": "Inform\u00e1tica Geral/Banco de Dados/Redes",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 31,
+    "fields": {
+        "nome": "Libras",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 32,
+    "fields": {
+        "nome": "L\u00edngua Estrangeira/Espanhol",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 33,
+    "fields": {
+        "nome": "L\u00edngua Estrangeira/Ingl\u00eas",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 34,
+    "fields": {
+        "nome": "L\u00edngua Portuguesa e Espanhol",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 35,
+    "fields": {
+        "nome": "L\u00edngua Portuguesa e Franc\u00eas",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 36,
+    "fields": {
+        "nome": "L\u00edngua Portuguesa e Ingl\u00eas",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 37,
+    "fields": {
+        "nome": "L\u00edngua Portuguesa /L\u00edngua Portuguesa e Literatura",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 38,
+    "fields": {
+        "nome": "Matem\u00e1tica",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 39,
+    "fields": {
+        "nome": "Meio Ambiente",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 40,
+    "fields": {
+        "nome": "M\u00fasica",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 41,
+    "fields": {
+        "nome": "Pedagogia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 42,
+    "fields": {
+        "nome": "Produ\u00e7\u00e3o",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 43,
+    "fields": {
+        "nome": "Psicologia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 44,
+    "fields": {
+        "nome": "Qu\u00edmica",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 45,
+    "fields": {
+        "nome": "Seguran\u00e7a do Trabalho",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 46,
+    "fields": {
+        "nome": "Turismo Agroecol\u00f3gico",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 47,
+    "fields": {
+        "nome": "Veterin\u00e1ria",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.areacontratacao",
+    "pk": 48,
+    "fields": {
+        "nome": "Zootecnia",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 1,
+    "fields": {
+        "nome": "Atividades complementares de ensino",
+        "label": "Atividades complementares de ensino",
+        "descricao": "",
+        "is_ativo": true,
+        "slug": "atividades-complementares-de-ensino",
+        "categoria_pai": null,
+        "is_importada": false,
+        "is_restricao_ch_semanal": false
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 2,
+    "fields": {
+        "nome": "Atividades de ensino",
+        "label": "Atividades de ensino",
+        "descricao": "",
+        "is_ativo": true,
+        "slug": "atividades-de-ensino",
+        "categoria_pai": null,
+        "is_importada": true,
+        "is_restricao_ch_semanal": true
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 3,
+    "fields": {
+        "nome": "Projetos de ensino",
+        "label": "Projetos de ensino",
+        "descricao": "",
+        "is_ativo": true,
+        "slug": "projetos-de-ensino",
+        "categoria_pai": 1,
+        "is_importada": false,
+        "is_restricao_ch_semanal": false
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 4,
+    "fields": {
+        "nome": "Atividades de pesquisa",
+        "label": "Atividades de pesquisa",
+        "descricao": "",
+        "is_ativo": true,
+        "slug": "atividades-de-pesquisa",
+        "categoria_pai": null,
+        "is_importada": false,
+        "is_restricao_ch_semanal": true
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 5,
+    "fields": {
+        "nome": "Projetos de pesquisa",
+        "label": "Projetos de pesquisa",
+        "descricao": "",
+        "is_ativo": true,
+        "slug": "projetos-de-pesquisa",
+        "categoria_pai": 4,
+        "is_importada": false,
+        "is_restricao_ch_semanal": false
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 6,
+    "fields": {
+        "nome": "Atividades de extens\u00e3o",
+        "label": "Atividades de extens\u00e3o",
+        "descricao": "",
+        "is_ativo": true,
+        "slug": "atividades-de-extensao",
+        "categoria_pai": null,
+        "is_importada": false,
+        "is_restricao_ch_semanal": true
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 7,
+    "fields": {
+        "nome": "Projetos de extens\u00e3o",
+        "label": "Projetos de extens\u00e3o",
+        "descricao": "",
+        "is_ativo": true,
+        "slug": "projetos-de-extensao",
+        "categoria_pai": 6,
+        "is_importada": false,
+        "is_restricao_ch_semanal": false
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 8,
+    "fields": {
+        "nome": "Atividades de gest\u00e3o",
+        "label": "Atividades de gest\u00e3o e/ou representa\u00e7\u00e3o",
+        "descricao": "",
+        "is_ativo": true,
+        "slug": "atividades-de-gestao",
+        "categoria_pai": null,
+        "is_importada": true,
+        "is_restricao_ch_semanal": false
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 9,
+    "fields": {
+        "nome": "Outras atividades",
+        "label": "Outras atividades",
+        "descricao": "capacita\u00e7\u00e3o, Pronatec, Programas Institucionais PIBID, Resid\u00eancia Pedag\u00f3gica, dentre outras",
+        "is_ativo": true,
+        "slug": "outras-atividades",
+        "categoria_pai": null,
+        "is_importada": false,
+        "is_restricao_ch_semanal": false
+    }
+},
+{
+    "model": "core.categoriaatividade",
+    "pk": 10,
+    "fields": {
+        "nome": "Atividades de representa\u00e7\u00e3o",
+        "label": "Atividades de representa\u00e7\u00e3o",
+        "descricao": "",
+        "is_ativo": true,
+        "slug": "atividades-de-representacao",
+        "categoria_pai": 8,
+        "is_importada": false,
+        "is_restricao_ch_semanal": false
+    }
+},
+{
+    "model": "core.chsemanalcategoriaatividade",
+    "pk": 1,
+    "fields": {
+        "ch_minima": "8.00",
+        "ch_maxima": "10.00",
+        "categoria_atividade": [
+            2
+        ],
+        "grupo_docente": [
+            1,
+            5,
+            3
+        ]
+    }
+},
+{
+    "model": "core.chsemanalcategoriaatividade",
+    "pk": 2,
+    "fields": {
+        "ch_minima": "10.00",
+        "ch_maxima": "18.00",
+        "categoria_atividade": [
+            2
+        ],
+        "grupo_docente": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.chsemanalcategoriaatividade",
+    "pk": 3,
+    "fields": {
+        "ch_minima": "10.00",
+        "ch_maxima": "20.00",
+        "categoria_atividade": [
+            2
+        ],
+        "grupo_docente": [
+            4
+        ]
+    }
+},
+{
+    "model": "core.chsemanalcategoriaatividade",
+    "pk": 4,
+    "fields": {
+        "ch_minima": "0.00",
+        "ch_maxima": "4.00",
+        "categoria_atividade": [
+            6,
+            4
+        ],
+        "grupo_docente": [
+            1
+        ]
+    }
+},
+{
+    "model": "core.chsemanalcategoriaatividade",
+    "pk": 5,
+    "fields": {
+        "ch_minima": "0.00",
+        "ch_maxima": "20.00",
+        "categoria_atividade": [
+            6,
+            4
+        ],
+        "grupo_docente": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.chsemanalcategoriaatividade",
+    "pk": 6,
+    "fields": {
+        "ch_minima": "10.00",
+        "ch_maxima": "15.00",
+        "categoria_atividade": [
+            2
+        ],
+        "grupo_docente": [
+            6
+        ]
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 1,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em reuni\u00f5es administrativo-pedag\u00f3gicas",
+        "ch_minima": "1.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o de frequ\u00eancia emitida pela Diretor(a) de Ensino, Pesquisa e Extens\u00e3o (Art. 49)",
+        "categoria_atividade": 1,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": true
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 2,
+    "fields": {
+        "descricao": "Aula",
+        "ch_minima": "8.00",
+        "ch_maxima": "20.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": false,
+        "tipo_comprovante": "",
+        "categoria_atividade": 2,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": true
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 3,
+    "fields": {
+        "descricao": "Prepara\u00e7\u00e3o did\u00e1tica",
+        "ch_minima": "0.00",
+        "ch_maxima": "20.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": false,
+        "tipo_comprovante": "Vinculado ao cumprimento da disciplina",
+        "categoria_atividade": 1,
+        "observacao": "Observar o art. 16. da RESOLU\u00c7\u00c3O CONSU/IFAC N\u00ba 001, DE 09 DE JANEIRO DE 2019",
+        "is_ativo": true,
+        "is_obrigatorio": true
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 4,
+    "fields": {
+        "descricao": "Atendimento ao aluno (obrigat\u00f3rio apenas para cursos t\u00e9cnicos integrados\r\ne EJA)",
+        "ch_minima": "1.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Autodeclara\u00e7\u00e3o do professor validada pelo Coordenador do Curso.",
+        "categoria_atividade": 1,
+        "observacao": "Independe do n\u00ba de turmas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 5,
+    "fields": {
+        "descricao": "Atendimento ao aluno (cursos t\u00e9cnicos subsequentes e de gradua\u00e7\u00e3o)",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Autodeclara\u00e7\u00e3o do professor validada pelo Coordenador do Curso.",
+        "categoria_atividade": 1,
+        "observacao": "Independe do n\u00ba de turmas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 6,
+    "fields": {
+        "descricao": "Reuni\u00f5es de Colegiado de Cursos (obrigat\u00f3rio para cursos de gradua\u00e7\u00e3o)",
+        "ch_minima": "0.50",
+        "ch_maxima": "0.50",
+        "validacao_ch_por": "CURSO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o da Presid\u00eancia do Colegiado.",
+        "categoria_atividade": 1,
+        "observacao": "Por curso",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 7,
+    "fields": {
+        "descricao": "Reuni\u00f5es de Conselho de Classe e reuni\u00f5es de pais (obrigat\u00f3rio para cursos t\u00e9cnicos integrados).",
+        "ch_minima": "0.50",
+        "ch_maxima": "0.50",
+        "validacao_ch_por": "TURMA",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o da Presid\u00eancia do Conselho de Classe.",
+        "categoria_atividade": 1,
+        "observacao": "Por turma",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 8,
+    "fields": {
+        "descricao": "Programa de estudos orientados para alunos em progress\u00e3o parcial",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "DISCIPLINA",
+        "comprovacao": true,
+        "tipo_comprovante": "Di\u00e1rio de classe",
+        "categoria_atividade": 1,
+        "observacao": "Por disciplina",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 9,
+    "fields": {
+        "descricao": "Programa de estudos para o exerc\u00edcio domiciliar para alunos",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "DISCIPLINA",
+        "comprovacao": true,
+        "tipo_comprovante": "Di\u00e1rio de classe",
+        "categoria_atividade": 1,
+        "observacao": "Por disciplina",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 10,
+    "fields": {
+        "descricao": "Orienta\u00e7\u00e3o de aluno de est\u00e1gio supervisionado dos cursos de gradua\u00e7\u00e3o.",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 1,
+        "observacao": "No m\u00e1ximo 04 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 11,
+    "fields": {
+        "descricao": "Orienta\u00e7\u00e3o de aluno de est\u00e1gio obrigat\u00f3rio profissional da Educa\u00e7\u00e3o Profissional T\u00e9cnica de N\u00edvel M\u00e9dio.",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 1,
+        "observacao": "No m\u00e1ximo 08 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 12,
+    "fields": {
+        "descricao": "Orienta\u00e7\u00e3o de Trabalho de Conclus\u00e3o de Curso de cursos de gradua\u00e7\u00e3o e especializa\u00e7\u00e3o lato-sensu",
+        "ch_minima": "0.00",
+        "ch_maxima": "6.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 1,
+        "observacao": "No m\u00e1ximo 03 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 13,
+    "fields": {
+        "descricao": "Coorienta\u00e7\u00e3o de Trabalho de Conclus\u00e3o de Curso de gradua\u00e7\u00e3o e especializa\u00e7\u00e3o lato-sensu",
+        "ch_minima": "0.00",
+        "ch_maxima": "5.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 1,
+        "observacao": "No m\u00e1ximo 05 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 14,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em bancas de trabalho de conclus\u00e3o de curso de gradua\u00e7\u00e3o",
+        "ch_minima": "0.00",
+        "ch_maxima": "4.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 1,
+        "observacao": "No m\u00e1ximo 08 bancas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 15,
+    "fields": {
+        "descricao": "Prepara\u00e7\u00e3o de material did\u00e1tico para cursos a dist\u00e2ncia",
+        "ch_minima": "0.00",
+        "ch_maxima": "20.00",
+        "validacao_ch_por": "DISCIPLINA",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 1,
+        "observacao": "De acordo com a carga hor\u00e1ria da disciplina (por disciplina)",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 16,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de Projetos de Ensino com fomento em edital externo: monitoria, perman\u00eancia e \u00eaxito,\r\nprodu\u00e7\u00e3o de material did\u00e1tico, Olimp\u00edadas de conhecimento dentre outros.",
+        "ch_minima": "0.00",
+        "ch_maxima": "20.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 3,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 17,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em Projetos de Ensino com fomento em edital externo: monitoria, perman\u00eancia e \u00eaxito,\r\nprodu\u00e7\u00e3o de material did\u00e1tico, Olimp\u00edadas de conhecimento dentre outros",
+        "ch_minima": "0.00",
+        "ch_maxima": "10.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 3,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 18,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de Projetos de Ensino com fomento em edital interno: monitoria, perman\u00eancia e \u00eaxito,\r\nprodu\u00e7\u00e3o de material did\u00e1tico, Olimp\u00edadas de conhecimento dentre outros",
+        "ch_minima": "0.00",
+        "ch_maxima": "18.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 3,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 19,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em Projetos de Ensino com fomento em edital interno: monitoria, perman\u00eancia e \u00eaxito,\r\nprodu\u00e7\u00e3o de material did\u00e1tico, Olimp\u00edadas de conhecimento dentre outros.",
+        "ch_minima": "0.00",
+        "ch_maxima": "9.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 3,
+        "observacao": "Por Projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 20,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de Projetos de Ensino sem fomento: monitoria, perman\u00eancia e \u00eaxito, produ\u00e7\u00e3o de\r\nmaterial did\u00e1tico, Olimp\u00edadas de conhecimento, dentre outros.",
+        "ch_minima": "0.00",
+        "ch_maxima": "16.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 3,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 21,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em Projetos de Ensino sem fomento: monitoria, perman\u00eancia e \u00eaxito, produ\u00e7\u00e3o de\r\nmaterial did\u00e1tico, Ol\u00edmpiadas de conhecimento, dentre outros.",
+        "ch_minima": "0.00",
+        "ch_maxima": "8.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 3,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 22,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em Projetos de Ensino: Monitoria, Perman\u00eancia e \u00eaxito, produ\u00e7\u00e3o de material did\u00e1tico, dentre outros.",
+        "ch_minima": "0.00",
+        "ch_maxima": "3.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 3,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 23,
+    "fields": {
+        "descricao": "Orienta\u00e7\u00e3o de projeto integrador",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 3,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 24,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de projeto de pesquisa com fomento de edital externo.",
+        "ch_minima": "0.00",
+        "ch_maxima": "20.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 5,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 25,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em projeto de pesquisa com fomento de edital externo.",
+        "ch_minima": "0.00",
+        "ch_maxima": "10.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 5,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 26,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de projeto de pesquisa com fomento de edital interno.",
+        "ch_minima": "0.00",
+        "ch_maxima": "18.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 5,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 27,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em projeto de pesquisa com fomento de edital interno.",
+        "ch_minima": "0.00",
+        "ch_maxima": "9.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 5,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 28,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de projeto de pesquisa sem fomento.",
+        "ch_minima": "0.00",
+        "ch_maxima": "10.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 5,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 29,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em projeto de pesquisa sem fomento.",
+        "ch_minima": "0.00",
+        "ch_maxima": "5.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 5,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 30,
+    "fields": {
+        "descricao": "L\u00edder de grupo de pesquisa certificado pela Institui\u00e7\u00e3o",
+        "ch_minima": "0.00",
+        "ch_maxima": "5.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Certifica\u00e7\u00e3o do CNPQ",
+        "categoria_atividade": 4,
+        "observacao": "No m\u00e1ximo um grupo",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 31,
+    "fields": {
+        "descricao": "Elabora\u00e7\u00e3o ou organiza\u00e7\u00e3o de livro ou cap\u00edtulo com ISBN",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "ISBN",
+        "categoria_atividade": 4,
+        "observacao": "Por livro/cap\u00edtulo",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 32,
+    "fields": {
+        "descricao": "Elabora\u00e7\u00e3o de Resenha para peri\u00f3dico",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o do peri\u00f3dico ou publica\u00e7\u00e3o",
+        "categoria_atividade": 4,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 33,
+    "fields": {
+        "descricao": "Elabora\u00e7\u00e3o de textos para jornais ou revistas",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o do peri\u00f3dico ou publica\u00e7\u00e3o",
+        "categoria_atividade": 4,
+        "observacao": "Por texto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 34,
+    "fields": {
+        "descricao": "Revis\u00e3o de artigos, trabalhos cient\u00edficos ou projetos de pesquisa/avalia\u00e7\u00e3o ad hoc.",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Certificado ou declara\u00e7\u00e3o",
+        "categoria_atividade": 4,
+        "observacao": "Por projeto ou trabalho",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 35,
+    "fields": {
+        "descricao": "Proferir palestras, confer\u00eancias ou participar em mesa redonda em eventos cient\u00edficos",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Certificado ou declara\u00e7\u00e3o",
+        "categoria_atividade": 4,
+        "observacao": "Por evento",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 36,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em comit\u00ea executivo ou consultivo de peri\u00f3dicos externos",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 4,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 37,
+    "fields": {
+        "descricao": "Tradu\u00e7\u00e3o de obras/textos cient\u00edficos n\u00e3o vinculados a projetos",
+        "ch_minima": "0.00",
+        "ch_maxima": "3.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o ou produto",
+        "categoria_atividade": 4,
+        "observacao": "Por obra/textos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 38,
+    "fields": {
+        "descricao": "Produ\u00e7\u00e3o de per\u00edcias, manuais, consultorias, assessorias, relat\u00f3rios ou pareceres t\u00e9cnicos-cient\u00edficos por convite e n\u00e3o vinculados a projetos",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o ou produto",
+        "categoria_atividade": 4,
+        "observacao": "Por produ\u00e7\u00e3o",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 39,
+    "fields": {
+        "descricao": "Orienta\u00e7\u00e3o de aluno de doutorado",
+        "ch_minima": "0.00",
+        "ch_maxima": "4.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o ou ata de defesa",
+        "categoria_atividade": 4,
+        "observacao": "No m\u00e1ximo 3 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 40,
+    "fields": {
+        "descricao": "Coorienta\u00e7\u00e3o de aluno de doutorado",
+        "ch_minima": "0.00",
+        "ch_maxima": "9.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o ou ata de defesa",
+        "categoria_atividade": 4,
+        "observacao": "No m\u00e1ximo 3 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 41,
+    "fields": {
+        "descricao": "Orienta\u00e7\u00e3o de aluno de mestrado",
+        "ch_minima": "0.00",
+        "ch_maxima": "9.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o ou ata de defesa",
+        "categoria_atividade": 4,
+        "observacao": "No m\u00e1ximo 3 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 42,
+    "fields": {
+        "descricao": "Coorienta\u00e7\u00e3o de aluno de mestrado",
+        "ch_minima": "0.00",
+        "ch_maxima": "6.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o ou ata de defesa",
+        "categoria_atividade": 4,
+        "observacao": "No m\u00e1ximo 3 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 43,
+    "fields": {
+        "descricao": "Orienta\u00e7\u00e3o de aluno de especializa\u00e7\u00e3o",
+        "ch_minima": "0.00",
+        "ch_maxima": "6.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 4,
+        "observacao": "No m\u00e1ximo 3 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 44,
+    "fields": {
+        "descricao": "Coorienta\u00e7\u00e3o de aluno de especializa\u00e7\u00e3o",
+        "ch_minima": "0.00",
+        "ch_maxima": "3.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 4,
+        "observacao": "No m\u00e1ximo 3 alunos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 45,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em bancas de trabalho de conclus\u00e3o de curso de especializa\u00e7\u00e3o lato sensu",
+        "ch_minima": "0.00",
+        "ch_maxima": "10.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 4,
+        "observacao": "No m\u00e1ximo 8 bancas e 02 bancas externas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 46,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em bancas de trabalho de conclus\u00e3o de curso de p\u00f3s-gradua\u00e7\u00e3o stricto sensu",
+        "ch_minima": "0.00",
+        "ch_maxima": "8.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 4,
+        "observacao": "No m\u00e1ximo 6 bancas internas e 02 bancas externas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 47,
+    "fields": {
+        "descricao": "Orienta\u00e7\u00e3o de incubadoras ou Empresas J\u00fanior",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "",
+        "categoria_atividade": 4,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 48,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de projeto de extens\u00e3o, culturais, art\u00edsticos ou desportivos com fomento de edital externo",
+        "ch_minima": "0.00",
+        "ch_maxima": "20.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 7,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 49,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em projeto de extens\u00e3o, culturais, art\u00edsticos ou desportivos com fomento de edital externo",
+        "ch_minima": "0.00",
+        "ch_maxima": "10.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 7,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 50,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de projeto de extens\u00e3o, culturais, art\u00edsticos ou desportivos com fomento de edital interno",
+        "ch_minima": "0.00",
+        "ch_maxima": "18.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 7,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 51,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em projeto de extens\u00e3o, culturais, art\u00edsticos ou desportivos com fomento de edital interno",
+        "ch_minima": "0.00",
+        "ch_maxima": "9.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 7,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 52,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de projeto de extens\u00e3o, culturais, art\u00edsticos ou desportivos sem fomento",
+        "ch_minima": "0.00",
+        "ch_maxima": "10.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 7,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 53,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em projeto de extens\u00e3o, culturais, art\u00edsticos ou desportivos sem fomento",
+        "ch_minima": "0.00",
+        "ch_maxima": "5.00",
+        "validacao_ch_por": "PROJETO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 7,
+        "observacao": "Por projeto",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 54,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em conselhos e comit\u00eas de ag\u00eancias de fomento \u00e0 extens\u00e3o",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 6,
+        "observacao": "Por conselho",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 55,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em comiss\u00e3o julgadora (pr\u00eamios em arte e/ou ci\u00eancia e tecnologia) de \u00f3rg\u00e3os oficiais",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o ou certificado",
+        "categoria_atividade": 6,
+        "observacao": "Por comiss\u00e3o",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 56,
+    "fields": {
+        "descricao": "Revis\u00e3o de artigos, trabalhos cient\u00edficos ou projetos de extens\u00e3o/ avalia\u00e7\u00e3o ad hoc",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 6,
+        "observacao": "Por projeto ou trabalho",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 57,
+    "fields": {
+        "descricao": "Capacita\u00e7\u00e3o",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "",
+        "categoria_atividade": 9,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 58,
+    "fields": {
+        "descricao": "Pronatec",
+        "ch_minima": "0.00",
+        "ch_maxima": "20.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "",
+        "categoria_atividade": 9,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 59,
+    "fields": {
+        "descricao": "Respons\u00e1vel por curso FIC",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "Respons\u00e1vel por curso FIC",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 60,
+    "fields": {
+        "descricao": "Membro Titular do Conselho Superior.",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "Apenas um conselho",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 61,
+    "fields": {
+        "descricao": "Membro Suplente do Conselho Superior",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "Apenas um conselho",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 62,
+    "fields": {
+        "descricao": "Presid\u00eancia de comiss\u00e3o permanente de representa\u00e7\u00e3o eleita (CPA, CPPD e outras)",
+        "ch_minima": "0.00",
+        "ch_maxima": "14.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 63,
+    "fields": {
+        "descricao": "Membro de comiss\u00e3o permanente de representa\u00e7\u00e3o eleita (CPA, CPPD e outras)",
+        "ch_minima": "0.00",
+        "ch_maxima": "8.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "Apenas uma comiss\u00e3o",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 64,
+    "fields": {
+        "descricao": "Processo Administrativo Disciplinar ou Sindic\u00e2ncia",
+        "ch_minima": "0.00",
+        "ch_maxima": "8.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "Por processo/ No m\u00e1ximo 02 processos",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 65,
+    "fields": {
+        "descricao": "Membro da Comiss\u00e3o de \u00c9tica",
+        "ch_minima": "0.00",
+        "ch_maxima": "8.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 66,
+    "fields": {
+        "descricao": "Membro de Conselho Editorial",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 67,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de N\u00facleos sem gratifica\u00e7\u00e3o (NAPNE, NEABI, NUPA)",
+        "ch_minima": "0.00",
+        "ch_maxima": "14.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 68,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em N\u00facleos sem gratifica\u00e7\u00e3o (NAPNE, NEABI, NUPA)",
+        "ch_minima": "0.00",
+        "ch_maxima": "4.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 69,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de Centro de Idiomas",
+        "ch_minima": "0.00",
+        "ch_maxima": "14.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 70,
+    "fields": {
+        "descricao": "Membro de N\u00facleo Docente Estruturante",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 71,
+    "fields": {
+        "descricao": "Respons\u00e1vel por Laborat\u00f3rios, apenas nos casos em que n\u00e3o haja t\u00e9cnicos de laborat\u00f3rios",
+        "ch_minima": "0.00",
+        "ch_maxima": "8.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "No m\u00e1ximo um laborat\u00f3rio",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 72,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de comiss\u00f5es ou conselhos institucionais externos (representa\u00e7\u00e3o)",
+        "ch_minima": "0.00",
+        "ch_maxima": "2.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 73,
+    "fields": {
+        "descricao": "Representa\u00e7\u00e3o em comiss\u00f5es ou conselhos institucionais externos",
+        "ch_minima": "0.00",
+        "ch_maxima": "1.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 74,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o geral de evento cient\u00edfico, art\u00edstico, cultural e desportivo n\u00e3o vinculados a projetos",
+        "ch_minima": "0.00",
+        "ch_maxima": "4.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "Por evento",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 75,
+    "fields": {
+        "descricao": "Participa\u00e7\u00e3o em comiss\u00e3o de evento cient\u00edfico, art\u00edstico, cultural e desportivo n\u00e3o vinculados a projetos",
+        "ch_minima": "0.00",
+        "ch_maxima": "3.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "Por evento",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 76,
+    "fields": {
+        "descricao": "Presid\u00eancia de comiss\u00e3o tempor\u00e1ria",
+        "ch_minima": "0.00",
+        "ch_maxima": "4.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "Apenas uma comiss\u00e3o",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 77,
+    "fields": {
+        "descricao": "Membro de comiss\u00e3o tempor\u00e1ria.",
+        "ch_minima": "0.00",
+        "ch_maxima": "3.00",
+        "validacao_ch_por": "QUANTIDADE",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 10,
+        "observacao": "Por comiss\u00e3o",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 78,
+    "fields": {
+        "descricao": "Reitoria, Pr\u00f3-reitoria, Diretoria Geral de campus",
+        "ch_minima": "0.00",
+        "ch_maxima": "40.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Validado pela Cogep",
+        "categoria_atividade": 8,
+        "observacao": "No m\u00e1ximo 40 horas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 79,
+    "fields": {
+        "descricao": "Diretorias Sist\u00eamicas ou equivalentes (ocupantes de CD-03)",
+        "ch_minima": "0.00",
+        "ch_maxima": "40.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Validado pela Cogep",
+        "categoria_atividade": 8,
+        "observacao": "No m\u00e1ximo 40 horas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 80,
+    "fields": {
+        "descricao": "Diretoria de ensino/pesquisa/extens\u00e3o/administra\u00e7\u00e3o",
+        "ch_minima": "0.00",
+        "ch_maxima": "20.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Validado pela Cogep",
+        "categoria_atividade": 8,
+        "observacao": "No m\u00e1ximo 20 horas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 81,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de setores do ensino, pesquisa, extens\u00e3o e administra\u00e7\u00e3o. (Fun\u00e7\u00f5es gratificadas)",
+        "ch_minima": "0.00",
+        "ch_maxima": "14.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Validado pela Cogep",
+        "categoria_atividade": 8,
+        "observacao": "No m\u00e1ximo 14 horas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 82,
+    "fields": {
+        "descricao": "Coordena\u00e7\u00e3o de curso t\u00e9cnico, gradua\u00e7\u00e3o ou p\u00f3s-gradua\u00e7\u00e3o",
+        "ch_minima": "0.00",
+        "ch_maxima": "20.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Validado pela Cogep",
+        "categoria_atividade": 8,
+        "observacao": "No m\u00e1ximo 20 horas",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 83,
+    "fields": {
+        "descricao": "PIBID - Bolsa",
+        "ch_minima": "0.00",
+        "ch_maxima": "12.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 9,
+        "observacao": "No m\u00e1ximo 12 horas semanais",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 84,
+    "fields": {
+        "descricao": "PIBID - Complementar",
+        "ch_minima": "0.00",
+        "ch_maxima": "40.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 9,
+        "observacao": "No m\u00e1ximo igual a sua carga hor\u00e1ria semanal",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 85,
+    "fields": {
+        "descricao": "Resid\u00eancia Pedag\u00f3gica - Bolsa",
+        "ch_minima": "0.00",
+        "ch_maxima": "12.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 9,
+        "observacao": "No m\u00e1ximo 12 horas semanais",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.atividade",
+    "pk": 86,
+    "fields": {
+        "descricao": "Resid\u00eancia Pedag\u00f3gica - Complementar",
+        "ch_minima": "0.00",
+        "ch_maxima": "40.00",
+        "validacao_ch_por": "RESOLUCAO",
+        "comprovacao": true,
+        "tipo_comprovante": "Declara\u00e7\u00e3o",
+        "categoria_atividade": 9,
+        "observacao": "No m\u00e1ximo igual a sua carga hor\u00e1ria semanal",
+        "is_ativo": true,
+        "is_obrigatorio": false
+    }
+},
+{
+    "model": "core.situacaoprocesso",
+    "pk": 1,
+    "fields": {
+        "nome": "Rascunho",
+        "descricao": "",
+        "slug": "rascunho",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.situacaoprocesso",
+    "pk": 2,
+    "fields": {
+        "nome": "Enviado",
+        "descricao": "",
+        "slug": "enviado",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.situacaoprocesso",
+    "pk": 3,
+    "fields": {
+        "nome": "Altera\u00e7\u00f5es necess\u00e1rias",
+        "descricao": "",
+        "slug": "alteracoes-necessarias",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.situacaoprocesso",
+    "pk": 4,
+    "fields": {
+        "nome": "Recebido",
+        "descricao": "",
+        "slug": "recebido",
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.categoriaprocesso",
+    "pk": 1,
+    "fields": {
+        "nome": "PIT",
+        "descricao": "Plano Individual de Trabalho",
+        "is_ativo": true,
+        "categoria_atividade": [
+            1,
+            2,
+            6,
+            8,
+            4,
+            10,
+            9,
+            3,
+            7,
+            5
+        ],
+        "categoria_pai": null,
+        "situacao_processso": [
+            3,
+            2,
+            1,
+            4
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 1,
+    "fields": {
+        "campo": "Disciplina",
+        "is_requerido": false,
+        "tipo_dado": "TEXTO",
+        "slug": "disciplina",
+        "is_ativo": true,
+        "categoria_atividade": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 2,
+    "fields": {
+        "campo": "Tipo de curso",
+        "is_requerido": false,
+        "tipo_dado": "TEXTO",
+        "slug": "tipo-de-curso",
+        "is_ativo": true,
+        "categoria_atividade": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 4,
+    "fields": {
+        "campo": "Hor\u00e1rio",
+        "is_requerido": false,
+        "tipo_dado": "TEXTO",
+        "slug": "horario",
+        "is_ativo": true,
+        "categoria_atividade": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 5,
+    "fields": {
+        "campo": "Quantidade de aulas",
+        "is_requerido": false,
+        "tipo_dado": "INTEIRO",
+        "slug": "quantidade-de-aulas",
+        "is_ativo": true,
+        "categoria_atividade": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 6,
+    "fields": {
+        "campo": "Campus",
+        "is_requerido": false,
+        "tipo_dado": "TEXTO",
+        "slug": "campus",
+        "is_ativo": true,
+        "categoria_atividade": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 7,
+    "fields": {
+        "campo": "T\u00edtulo",
+        "is_requerido": true,
+        "tipo_dado": "TEXTO",
+        "slug": "titulo",
+        "is_ativo": true,
+        "categoria_atividade": [
+            3,
+            7,
+            5
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 8,
+    "fields": {
+        "campo": "N\u00famero de participantes",
+        "is_requerido": true,
+        "tipo_dado": "INTEIRO",
+        "slug": "numero-de-participantes",
+        "is_ativo": true,
+        "categoria_atividade": [
+            3,
+            7,
+            5
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 9,
+    "fields": {
+        "campo": "Data de In\u00edcio",
+        "is_requerido": true,
+        "tipo_dado": "DATA",
+        "slug": "data-de-inicio",
+        "is_ativo": true,
+        "categoria_atividade": [
+            3,
+            7,
+            5
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 10,
+    "fields": {
+        "campo": "Data de T\u00e9rmino",
+        "is_requerido": false,
+        "tipo_dado": "DATA",
+        "slug": "data-de-termino",
+        "is_ativo": true,
+        "categoria_atividade": [
+            3,
+            7,
+            5
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 11,
+    "fields": {
+        "campo": "Resultados",
+        "is_requerido": false,
+        "tipo_dado": "TEXTO",
+        "slug": "resultados",
+        "is_ativo": true,
+        "categoria_atividade": [
+            3,
+            7,
+            5
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 12,
+    "fields": {
+        "campo": "Quantidade",
+        "is_requerido": false,
+        "tipo_dado": "INTEIRO",
+        "slug": "quantidade",
+        "is_ativo": true,
+        "categoria_atividade": [
+            6,
+            4
+        ]
+    }
+},
+{
+    "model": "core.argumentocategoria",
+    "pk": 13,
+    "fields": {
+        "campo": "Per\u00edodo Letivo",
+        "is_requerido": false,
+        "tipo_dado": "TEXTO",
+        "slug": "periodo-letivo",
+        "is_ativo": true,
+        "categoria_atividade": [
+            2
+        ]
+    }
+},
+{
+    "model": "core.fluxoprocesso",
+    "pk": 1,
+    "fields": {
+        "nome": "Publica\u00e7\u00e3o do PIT",
+        "tipo_processo": 1,
+        "tipo_fluxo": "P",
+        "unidade": 2,
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.unidadefluxoprocesso",
+    "pk": 1,
+    "fields": {
+        "unidade": 259,
+        "fluxo_processo": 1,
+        "ordem": 1,
+        "is_avaliadora": true,
+        "is_ativo": true
+    }
+},
+{
+    "model": "core.unidadefluxoprocesso",
+    "pk": 2,
+    "fields": {
+        "unidade": 2,
+        "fluxo_processo": 1,
+        "ordem": 2,
+        "is_avaliadora": false,
+        "is_ativo": true
+    }
+}
+]

@@ -1,0 +1,38 @@
+{% extends 'authentication/layout/base.html' %}
+{% load bootstrap4 %}
+{% block conteudo %}
+
+<div class="progress">
+    <div class="progress-bar progress-bar-striped bg-info percente-10" role="progressbar" style="width: {{progress}}%;" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
+        {{progress}}% concluído.
+    </div>
+</div>
+<p style="font-size: 20px; margin-top: 10px; margin-bottom: 30px;">{{texto}}</p>
+<div class="card card-custom" style="margin: 0 auto;">
+    <div class="card-header">
+        <h3 class="card-title">Informe</h3>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            {% bootstrap_button "Buscar" button_type="submit" button_class="btn-info" %}
+            <a href="javascript:history.back()" class="btn btn-danger">Cancelar</a>
+        </form>
+    </div>
+</div>
+<script>
+    $().ready(function () {
+        $(".numero").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                $("#errmsg").html("Apenas Números").show().fadeOut("slow");
+                return false;
+            }
+        });
+        // $('input[name=cpf]').mask('000.000.000-00', {reverse: false});
+        $('input[name=dataNasc]').mask('00/00/0000');
+    });
+</script>
+{% endblock conteudo %}

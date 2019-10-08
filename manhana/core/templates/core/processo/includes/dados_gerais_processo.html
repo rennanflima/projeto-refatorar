@@ -1,0 +1,60 @@
+<fieldset>
+    <legend>Dados gerais</legend><hr>
+    <div class="form-row">
+        <div class="form-group col-sm-8">
+            <label class="text-gray-900">Campus: </label>    
+            {{ processo.interessado.unidade_responsavel }}
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="text-gray-900">Semestre letivo: </label>    
+            {{ processo.ano|stringformat:"i" }} / {{ processo.semestre }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-8">
+            <label class="text-gray-900">Interessado: </label>    
+            {{ processo.interessado.pessoa.user.get_full_name }}
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="text-gray-900">SIAPE: </label>    
+            {{ processo.interessado.siape }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="text-gray-900">Cargo: </label>    
+        {{ processo.interessado.cargo }} : {{ processo.interessado.area_contratacao|default:'' }}
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-4">
+            <label class="text-gray-900">Tipo de vínculo: </label>    
+            {{ processo.interessado.tipo_servidor }}
+        </div>
+        
+        <div class="form-group col-sm-4">
+            <label class="text-gray-900">Titulação: </label>    
+            {{ processo.interessado.titulacao }}
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="text-gray-900">Regime de Trabalho: </label>    
+            {{ processo.interessado.regime_trabalho }}
+        </div>
+    </div>
+        
+    <div class="form-group">
+        <label class="text-gray-900">Grupo em função da carga horária: </label>    
+        {{ processo.interessado.grupo }}
+    </div>
+
+    <div class="form-group">
+        <label class="text-gray-900">Currículo <i>lattes</i> (URL): </label>    
+        {{ processo.interessado.lattes }}
+    </div>
+    <div class="form-group">
+        <label class="text-gray-900">E-mail: </label>
+        {{ processo.interessado.pessoa.user.email }}
+    </div>
+    <div class="form-group">
+        <label class="text-gray-900">Carga horária total:</label>
+        {{ processo.ch_semanal_total }}
+    </div>
+</fieldset>

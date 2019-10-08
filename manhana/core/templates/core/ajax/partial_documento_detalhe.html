@@ -1,0 +1,42 @@
+{% load bootstrap4 %}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Detalhe da movimentação</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label>Tipo de Documento:</label>    
+        {{ documento.get_tipo_documento_display }}
+    </div>
+    <div class="form-group">
+        <label>Título:</label>    
+        {{ documento.titulo }}
+    </div>
+    <div class="form-group">
+        <label>Texto:</label>    
+        {{ documento.texto|safe }}
+    </div>
+    <div class="form-group">
+        <label>Arquivo:</label>    
+        {{ documento.arquivo }}
+    </div>
+    <fieldset>
+        <legend>Assinaturas<hr></legend>
+        <ul>
+            {% for ass in documento.assinaturas.all %}
+                {% if not ass.is_autenticador %}
+                    <li>Assinado em {{ ass.data_assinatura }} por {{ ass.servidor_assinante }} </li>
+                {% else %}
+                    <li>Assinado e autenticado em {{ ass.data_assinatura }} por {{ ass.servidor_assinante }} </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </fieldset>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Fechar">
+        <i class="fas fa-times" aria-hidden="true"></i>&nbsp;Fechar</button>
+</div>

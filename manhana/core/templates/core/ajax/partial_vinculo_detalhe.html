@@ -1,0 +1,46 @@
+{% load bootstrap4 %}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Detalhe Vínculo</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label>Servidor:</label>    
+        {{ vinculo.servidor }}
+    </div>
+    <div class="form-group">
+        <label>Siape: </label>    
+        {{ vinculo.servidor.siape }}
+    </div> 
+    <div class="form-group">
+        <label>Categoria funcional: </label>    
+        {{ vinculo.servidor.categoria }}
+    </div>
+    <div class="form-group">
+        <label>Cargo: </label>    
+        {{ vinculo.servidor.cargo }}
+    </div>
+    <div class="form-group">
+        <label>Unidade: </label>    
+        {{ vinculo.unidade }}
+    </div>
+    <div class="form-group">
+        <label>Tipo de Vínculo: </label>    
+        {{ vinculo.get_tipo_vinculo_display }}
+    </div>
+    <div class="form-group">
+        <label>Período: </label>    
+        De {{ vinculo.data_inicio }} até {{ vinculo.data_termino|default:"" }}
+    </div>
+    <div class="form-group">
+        <label>Ativo?: </label>    
+        {{v.is_ativo|yesno:"Sim, Não"}}
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Fechar">
+        <i class="fas fa-times" aria-hidden="true"></i>&nbsp;Fechar</button>
+</div>

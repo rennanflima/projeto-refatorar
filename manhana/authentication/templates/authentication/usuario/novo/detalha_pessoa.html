@@ -1,0 +1,88 @@
+{% extends 'authentication/layout/base.html' %}
+{% load bootstrap4 %}
+{% block conteudo %}
+<div class="progress">
+    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: {{progress}}%"
+        aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
+        {{progress}}% concluído.
+    </div>
+</div>
+<p style="font-size: 20px; margin-top: 10px; margin-bottom: 30px;">Conforme os dados informados na tela anterior
+    encontramos o servidor abaixo. Esses dados são seu?</p>
+
+<div class="card card-custom" style="margin: 0 auto;">
+    <div class="card-header">
+        <h3 class="card-title">Detalhamento do Pessoa</h3>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label>Nome: </label>
+            {{ pessoa.nome }}
+        </div>
+
+        {% if nome_mae %}
+        <div class="form-group">
+            <label>Nome da Mãe: </label>
+            {{ nome_mae }}
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label>CPF: </label>
+            {{ pessoa.cpf_cnpj|stringformat:"i" }}
+        </div>
+        <div class="form-group">
+            <label>Data de Nascimento: </label>
+            {{dtnasc|date:"d/m/Y" }}
+        </div>
+    </div>
+</div>
+<div class="card card-body mt-3 card-custom" style="margin: 0 auto;">
+    <form method="post">
+        {% csrf_token %}
+        <h4>Vínculo de Servidor</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Siape</th>
+                    <th scope="col">Cargo</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Situação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for servidor in servidores %}
+                <tr>
+                    <td class="text-center">
+                        <input class="form-check-input" type="checkbox" name="perfil_servidor"
+                            value="{{ servidor.id|stringformat:'i' }}">
+                    </td>
+                    <th scope="row">{{ servidor.siape|stringformat:"i" }}</th>
+                    <td>{{ servidor.cargo }}</td>
+                    <td>{{ servidor.categoria }}</td>
+                    <td>{{ servidor.situacao }}</td>
+                </tr>
+                {%empty%}
+                <tr class="text-center">
+                    <td colspan="5">Nenhum vinculo de servidor encontrado.</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+        <hr>
+        <p style="font-size: 18px; margin-top: 20px; margin-bottom: 30px;">Para prosseguirmos com o seu cadastro precisamos que você informe seu e-mail institucional no campo abaixo, <i>ou clique em <b>Voltar</b> caso não seja você:</i></p>
+        <div class="input-group mb-3 mt-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">@</span>
+            </div>
+            <input type="text" class="form-control {% if is_valid %}is-invalid {% endif %}" name="email" id="email" {% if email %}value="{{email}}"{% endif %} placeholder="E-mail institucional" aria-label="E-mail" required="true" aria-describedby="basic-addon1">
+            {% if is_valid %}
+                <div class="invalid-feedback">E-mail inválido.</div>
+            {% endif %}     
+        </div>
+        {% bootstrap_button "Buscar" button_type="submit" button_class="btn-info col" %}
+        <a href="{% url 'core:vw_index' %}" class="btn col btn-danger mt-2">Voltar</a>
+    </form>
+</div>
+{% endblock conteudo %}

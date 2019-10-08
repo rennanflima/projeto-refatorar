@@ -1,0 +1,59 @@
+{% load bootstrap4 %}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Detalhe da movimentação</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label>Processo:</label>    
+        {{ tramite.processo }}
+    </div>
+    <div class="form-group">
+        <label>Origem:</label>    
+        {{ tramite.origem }}
+    </div>
+    <div class="form-group">
+        <label>Destino:</label>    
+        {{ tramite.destino }}
+    </div>
+
+    <div class="form-group">
+        <label>Data de envio:</label>    
+        {{ tramite.data_envio }}
+    </div>
+    <div class="form-group">
+        <label>Data de recebimento:</label>    
+        {{ tramite.data_recebimento }}
+    </div>
+    <div class="form-group">
+        <label>Recebido por:</label>    
+        {{ tramite.servidor_recebimento }}
+    </div>
+    {% if tramite.despacho  %}
+        <div class="form-group">
+            <label>Despacho:</label>    
+            {{ tramite.despacho|safe }}
+        </div>
+    {% endif %}
+    {% if tramite.assinaturas.all %}
+        <fieldset>
+            <legend>Assinaturas<hr></legend>
+            <ul>
+                {% for ass in tramite.assinaturas.all %}
+                    {% if not ass.is_autenticador %}
+                        <li>Assinado em {{ ass.data_assinatura }} por {{ ass.servidor_assinante }} </li>
+                    {% else %}
+                        <li>Assinado e autenticado em {{ ass.data_assinatura }} por {{ ass.servidor_assinante }} </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </fieldset>
+    {% endif %}
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Fechar">
+        <i class="fas fa-times" aria-hidden="true"></i>&nbsp;Fechar</button>
+</div>

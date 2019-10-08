@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load bootstrap4 %}
+    <title>Sistema de Regulamentação de Atividades Docentes</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+</head>
+<body id="page-top" style>
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        Login
+                    </div>
+                    <div class="card-body">    
+                        <form method="post" class="form">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                            {% buttons %}
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            {% endbuttons %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

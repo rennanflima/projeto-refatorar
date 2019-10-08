@@ -1,0 +1,277 @@
+{% extends 'core/layout/base.html' %}
+{% load static %}
+
+{%block breadcrumb%}
+<li class="breadcrumb-item active">Caixa de entrada</li>
+{% endblock %}
+
+
+{% block title_page %}Caixa de entrada{% endblock title_page %}
+
+{% block conteudo %}
+<div class="row">
+    <div class="col-sm">
+        <form method="get">
+            <div class="form-group row">
+                <label for="paginate_by" class="ml-3 col-form-label">Resultados por página </label>
+                <select id="paginate_by" name="paginate_by" class="ml-3 mr-3 form-control col-sm-2">
+                    <option {% ifequal request.GET.paginate_by '10'  %}selected{% endifequal %}>10</option>
+                    <option {% ifequal request.GET.paginate_by '25'  %}selected{% endifequal %}>25</option>
+                    <option {% ifequal request.GET.paginate_by '50'  %}selected{% endifequal %}>50</option>
+                    <option {% ifequal request.GET.paginate_by '75'  %}selected{% endifequal %}>75</option>
+                    <option {% ifequal request.GET.paginate_by '100'  %}selected{% endifequal %}>100</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm">
+        <form method="GET">
+            <div class="input-group mb-3">
+                <input type="text" name="nome" class="form-control" placeholder="Pesquisar" aria-label="Pesquisar" aria-describedby="button-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fas fa-search"></i> Buscar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div id="tabela_processo" class="dataTables_wrapper dt-bootstrap4">
+            <table id="table_id" class="table table-bordered table-striped dataTable" role="grid" width="100%">
+                <thead>
+                    <tr role="row">
+                        <th>Ações</th>
+                        <th>Código</th>
+                        <th>Ano/semestre</th>
+                        <th>Categoria</th>
+                        <th>Interessado</th>
+                        <th>Situação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in processo_list %}
+                        <tr role="row">
+                            <td class="text-center">
+                                {% if request.user != p.interessado.pessoa.user %}
+                                    <button type="button" class="btn" onclick="window.location = '{% url 'core:processo-movimentar' p.id %}'" title="Visualizar {{p.tipo_processo}}">
+                                        <span aria-hidden="true"><i class="far fa-eye fa-2x"></i></span>
+                                    </button>
+                                {% endif %}
+                                {% if request.user == p.interessado.pessoa.user %}
+                                    {% if p.situacao.slug == 'rascunho' or  p.situacao.slug == 'alteracoes-necessarias' or p.situacao.slug == 'envio-recusado'%}
+                                        <button type="button" class="btn" aria-label="Editar" onclick="window.location = '{% url 'core:processo-editar' p.id %}'" title="Editar {{p.tipo_processo}}">
+                                            <span aria-hidden="true"><i class="fas fa-edit fa-2x"></i></span>
+                                        </button>
+                                    {% endif %}
+                                    {% if p.situacao.slug == 'rascunho' %}
+                                        <button class="btn" id="id_excluir_processo" data-toggle="modal" data-id="{{ p.id }}" 
+                                            data-target="#confirmaExcluirProcesso"  title="Excluir {{p.tipo_processo}}"><i class="fas fa-trash-alt fa-2x"></i></button>
+                                    {% endif %}
+                                    <button type="button" class="btn js-summary-process" aria-label="Enviar" title="Enviar {{p.tipo_processo}}" data-url="{% url 'core:ajax-summary-process' p.id False %}"
+                                        {% if p.ch_semanal_total != p.interessado.grupo.ch_semanal %} disabled {% endif %}>
+                                        <span aria-hidden="true"><i class="fas fa-share-square fa-2x"></i></span>
+                                    </button>
+                                {% endif %}
+                                {% if request.user != p.interessado.pessoa.user %}
+                                    {%if p.situacao.slug != 'recebido' %}
+                                        {% if p.ultima_movimentacao %}
+                                            {% if not p.ultima_movimentacao.data_recebimento %}
+                                                <button class="btn" id="id_receber_processo" data-toggle="modal" data-id="{{ p.id }}" 
+                                                            data-target="#modalRecebimentoProcesso"  title="Receber {{ p.tipo_processo }}"><i class="fas fa-download fa-2x"></i></button>
+                                                </button>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            <td>{{ p.numero_processo }}</td>
+                            <td>{{ p.ano|stringformat:"i" }}/{{ p.semestre }}</td>
+                            <td>{{ p.tipo_processo }}</td>
+                            <td>{{ p.exibir_interessado }}</td>
+                            <td>{{ p.situacao }}
+                                {% if request.session.avaliador %}
+                                    {% if p.ultima_movimentacao.tipo_despacho == 'PARECER' %}
+                                        : Aguardando despacho
+                                    {% elif p.ultima_movimentacao.tipo_despacho == 'SOLICITACAO' %}
+                                        : Aguardando parecer
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if is_paginated %}
+                <hr>
+                <span class="float-left">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.</span>
+
+                <nav aria-label="Páginação do genero" class="float-right">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <!-- If it ain't a search result display, don't append the search query
+                            to the URL. -->
+                            {% if not search %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'core:caixa-entrada' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Página anterior</a>
+                                </li>
+                            {% else %}
+                                <!-- Append the searched query to the URL, so that on a search results page,
+                                the pagination don't revert to listing all the listview items. -->
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'core:caixa-entrada' %}?{{search}}&page={{ page_obj.previous_page_number }}" tabindex="-1">Página anterior</a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Página anterior</a>
+                            </li>
+                        {% endif %}
+                        {% for object in page_obj.paginator.page_range %}
+                            <li class="page-item"><a class="page-link" href="{% url 'core:caixa-entrada' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                        {% endfor %} 
+                        {% if page_obj.has_next %}
+                            {% if not search %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'core:caixa-entrada' %}?page={{ page_obj.next_page_number }}">Próxima página</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{% url 'core:caixa-entrada' %}?{{search}}&page={{ page_obj.next_page_number }}">Próxima página</a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#">Próxima página</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<!--TELA MODAL PARA CONFIRMAÇÃO DE EXCLUSÃO DE PROCESSO-->
+<div class="modal fade" id="confirmaExcluirProcesso" role="dialog" aria-labelledby="confirmaExcluirProcessoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Excluir Registro</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form method="post" action="{% url 'core:processo-deletar'%}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p>Deseja realmente <b>Excluir</b> este registro e suas dependências?</p>
+                    <p></p>
+                </div>
+                <input type="hidden" id="idprocesso" name="idprocesso" value="">
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" id="confirm">Excluir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--TELA MODAL PARA RECEBIMENTO DE PROCESSO PELO SETOR/UNIDADE OU SERVIDOR -->
+<div class="modal" id="modalRecebimentoProcesso" data-backdrop-limit="1" tabindex="-1" aria-labelledby="modalRecebimentoProcessoLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-light">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmar Recebimento de Processo</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form method="post" action="{% url 'core:receber-processo'%}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <p>Deseja realmente <b>Receber</b> este processo?</p>
+                    <p></p>
+                </div>
+                <input type="hidden" id="idproc" name="idprocesso" value="">
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="confirm">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock conteudo %}
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+        $('#paginate_by').on('change', function() {
+            this.form.submit();
+        });
+
+        $(document).on("click", "#id_excluir_processo", function () {
+            var idprocesso = $(this).data('id');
+            $("#idprocesso").val(idprocesso);
+        });
+
+        $(document).on("click", ".js-summary-process", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-dialog").addClass("modal-lg");
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $(document).on('show.bs.modal', '.modal', function () {
+            var zIndex = 1040 + (10 * $('.modal:visible').length);
+            $(this).css('z-index', zIndex);
+            setTimeout(function() {
+                $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+            }, 0);
+        });
+
+        $("#modalAssinar").on("submit", ".js-assinatura-form", function(){
+            var form = $(this);
+            $.ajax({
+                url: form.attr("action"),
+                data: form.serialize(),
+                type: form.attr("method"),
+                dataType: 'json',
+                success: function(data){
+                    if (data.form_is_valid) {
+                        $("#modalAssinar").modal("hide");
+                        $("#genericModal").modal("hide");
+                        location.reload();
+                        // $(location).attr("href", "{% url 'core:caixa-entrada' %}");
+                    } else {
+                        $("#modalAssinar .modal-content").html(data.html_form);
+                    }
+                }
+            });
+            return false;
+        });
+
+        $(document).on("click", "#id_receber_processo", function () {
+            var idprocesso = $(this).data('id');
+            $("#idproc").val(idprocesso);
+        });
+    });
+</script>
+
+{% endblock javascript %}
+
+
+
+

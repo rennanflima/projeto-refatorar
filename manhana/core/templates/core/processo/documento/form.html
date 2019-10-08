@@ -1,0 +1,98 @@
+{% extends 'core/layout/base.html' %}
+
+{% load bootstrap4 %}
+
+<!-- Breadcrumbs-->
+{%block breadcrumb%}
+<li class="breadcrumb-item ">
+    <a href="{% url 'core:caixa-entrada' %}">Processo</a>
+</li>
+<li class="breadcrumb-item">
+    <a href="{% url 'core:processo-movimentar' processo.id %}">{{ processo }}</a>
+</li>
+<li class="breadcrumb-item active">{{ tipo_documento }}</li>
+{% endblock %}
+
+{% block title_page %}{{ tipo_documento }} do {{processo.tipo_processo.descricao}} N.º {{processo.numero_processo}} {% endblock %}
+
+{% block conteudo %} 
+<form method="POST" class="form">
+    {% bootstrap_form_errors form layout='inline' %}
+
+    {% csrf_token %}
+    {{ form.media }}
+    {% bootstrap_form form %}
+    <hr>
+    <a href="{% url 'core:processo-movimentar' processo.id %}" class="btn btn-danger ml-2 float-right"><i class="fas fa-times-circle" aria-hidden="true"></i> Cancelar</a>
+    <button id="btn-encaminhar" type="button" class="btn btn-primary ml-2 float-right js-assinatura" data-toggle="modal" title="Encaminhar {{ processo.tipo_processo }}" onclick="window.location = '{% url 'core:processo-encaminhar' processo.id %}'">
+            <i class="fas fa-share-square" aria-hidden="true"></i> Encaminhar {{ processo.tipo_processo }}</button>
+    {% if form.instance.pk%}
+        <button class="btn btn-info ml-2 float-right" type="button"><i class="fas fa-file-signature" aria-hidden="true"></i> Assinar</button>
+    {% endif %}
+    <button class="btn btn-success ml-2 float-right" type="submit" name="_save"><i class="fas fa-save" aria-hidden="true"></i> Salvar</button>
+</form>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on("click", "#btn-encaminhar", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#modalAssinar").modal("show");
+                },
+                success: function (data) {
+                    $("#modalAssinar .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $("#modalAssinar").on("submit", ".js-assinatura-form", function(){
+            var form = $(this);
+            $.ajax({
+                url: form.attr("action"),
+                data: form.serialize(),
+                type: form.attr("method"),
+                dataType: 'json',
+                success: function(data){
+                    if (data.form_is_valid) {
+                        $("#modalAssinar").modal("hide");
+                        $("#genericModal").modal("hide");
+                        location.reload();
+                        // $(location).attr("href", "{% url 'core:caixa-entrada' %}");
+                    } else {
+                        $("#modalAssinar .modal-content").html(data.html_form);
+                    }
+                }
+            });
+            return false;
+        });
+
+        {% if not form.instance.pk %}
+            $(document).on("change", "#id_tipo_documento", function(){
+                var select = $(this);
+                if (select.val() == "PARECER"){
+                    $.ajax({
+                        url: "{% url 'core:ajax-texto-parecer-novo' processo.id %}",
+                        type: 'get',
+                        dataType: 'json',
+                        success: function(data){
+                            CKEDITOR.instances.id_texto.insertHtml(data.texto);
+                        }
+                    });
+                    
+                }
+            });
+        {% endif %}
+
+    });
+</script>
+
+{% endblock javascript %}

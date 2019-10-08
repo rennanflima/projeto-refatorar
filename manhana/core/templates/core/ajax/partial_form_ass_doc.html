@@ -1,0 +1,18 @@
+{% load bootstrap4 %}
+
+<div class="modal-header">
+        <h4 class="modal-title">Assinatura</h4>
+</div>
+<form method="post" class="js-assinatura-form" action="{% url 'core:documento-assinar' documento.id %}">
+    {% csrf_token %}
+    <div class="modal-body">
+        {% bootstrap_form form %}
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success" id="enviar">
+            <i class="fas fa-file-signature" aria-hidden="true"></i> Assinar</button>
+        <button type="button" class="btn btn-danger" id="close_modalAssinar" data-dismiss="modal">
+            <i class="fas fa-times-circle" aria-hidden="true"></i> Cancelar</button>
+    </div>
+</form>

@@ -1,0 +1,29 @@
+{% for doc in documentos %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td class="text-center">
+            <button type="button" class="btn js-detail-documento" data-url="{% url 'core:ajax-documento-detail' doc.id %}" title="Visualizar documento">
+                <span aria-hidden="true"><i class="far fa-eye"></i></span>
+            </button>
+        </td>
+        <td>{{ doc.get_tipo_documento_display }}</td>
+        <td>{{ doc.titulo }}</td>
+        <td>{{ doc.criado_por.get_full_name }}</td>
+        <td>
+            <ul>
+                {% for ass in doc.assinaturas.all %}
+                    {% if not ass.is_autenticador %}
+                        <li>Assinado em {{ ass.data_assinatura }} por {{ ass.servidor_assinante }} </li>
+                    {% else %}
+                        <li>Assinado e autenticado em {{ ass.data_assinatura }} por {{ ass.servidor_assinante }} </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </td>
+        
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="7">Nenhuma documento encontrado</td>
+    </tr>
+{% endfor %}

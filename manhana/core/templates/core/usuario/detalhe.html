@@ -1,0 +1,141 @@
+{% extends 'core/layout/base.html' %}
+
+{%block breadcrumb%}
+<li class="breadcrumb-item">Usuário</li>
+<li class="breadcrumb-item active">Detalhe</li>
+{% endblock %}
+
+{% block title_page %}Detalhar Usuario{% endblock title_page %}
+
+{% block conteudo %}
+
+<div class="form-group">
+    <label class="negrito">Nome: </label>    
+    {{ usuario.get_full_name }}
+</div> 
+{% if usuario.pessoa.cpf %}
+    <div class="form-group">
+        <label class="negrito">CPF: </label>    
+        {{ usuario.pessoa.cpf }}
+    </div>
+{% endif %}
+{% if usuario.pessoa.data_nascimento %}
+    <div class="form-group">
+        <label class="negrito">Data de Nascimento: </label>    
+        {{ usuario.pessoa.data_nascimento }}
+    </div>
+{% endif %}
+{% if usuario.pessoa.data_nascimento %}
+    <div class="form-group">
+        <label class="negrito">Idade: </label>    
+        {{ usuario.pessoa.idade }}
+    </div>
+{% endif %}
+{% if usuario.pessoa.nome_mae %}
+    <div class="form-group">
+        <label>Nome da Mãe: </label>    
+        {{ usuario.pessoa.nome_mae }}
+    </div>
+{% endif %}
+
+<div class="form-group">
+    <label>Nome da Pai: </label>    
+    {% if usuario.pessoa.nome_pai %}
+        {{ usuario.pessoa.nome_pai }}
+    {% endif %}
+</div>
+
+
+{% if usuario.pessoa.sexo %}
+    <div class="form-group">
+        <label class="negrito">Sexo: </label>    
+        {{ usuario.pessoa.get_sexo_display }}
+    </div>
+{% endif %}
+    
+{% if usuario.pessoa.registro_geral %}
+    <div class="form-group">
+        <label>RG: </label>    
+        {{usuario.pessoa.registro_geral}}  {{usuario.pessoa.rg_orgao_expedidor}} / {{usuario.pessoa.get_rg_uf_display}}
+    </div> 
+{% endif %}
+<div class="form-group">
+    <label>Grupo Sanguíneo: </label>    
+    {% if usuario.pessoa.grupo_sanguineo %}
+        {{ usuario.pessoa.get_grupo_sanguineo_display }} 
+    {%endif%}
+</div>
+<div class="form-group">
+    <label class="negrito">E-mail: </label>    
+    {{ usuario.email }}
+</div>
+
+<fieldset>
+    <legend>Vínculos<hr></legend>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Siape</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Situação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in servidores %}
+                <tr>
+                    <td class="text-center">
+                        <button type="button" class="btn js-detail-servidor" data-url="{% url 'core:ajax-servidor-detail' s.id %}"
+                            data-toggle="tooltip" data-placement="right" title="Visualizar atividade">
+                            <span aria-hidden="true"><i class="far fa-eye"></i></span>
+                        </button>
+                        
+                        {% ifequal s.categoria 'Docente' %} 
+                            <button type="button" class="btn" aria-label="Editar" onclick="window.location = '{% url 'core:docente-editar' s.id %}'">
+                                <span aria-hidden="true"><i class="fas fa-edit"></i></span>
+                            </button>
+                        {% endifequal %}
+
+                        <button type="button"  class="btn" aria-label="Responsabilidades"  onclick="window.location = '{% url 'core:lista-responsabilidades' s.categoria|slugify s.id %}'" title="Responsabilidades">
+                            <span aria-hidden="true"><i class="fa fa-user-tie"></i></span>
+                        </button>
+                    </td>
+                    <th scope="row">{{ s.siape }}</th>
+                    <td>{{ s.cargo }}</td>
+                    <td>{{ s.categoria }}</td>
+                    <td>{{ s.situacao }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Nenhum vínculo encontrado.</td>
+                </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</fieldset>
+{% endblock conteudo %}
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".js-detail-servidor", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-dialog").addClass("modal-lg");
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock javascript %}

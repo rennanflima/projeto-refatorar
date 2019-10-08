@@ -1,0 +1,23 @@
+{% extends 'core/layout/base.html' %}
+
+{%block breadcrumb%}
+<li class="breadcrumb-item">Usuário</li>
+<li class="breadcrumb-item active">Detalhe</li>
+{% endblock %}
+
+{% block title_page %}Detalhar Organograma{% endblock title_page %}
+
+{% block conteudo %}
+    <ul>
+        {% for u in unidades %}
+            {% include 'core/unidades/tree_unidade.html' %}
+        {% endfor %}
+    </ul>
+    <hr/>
+    <form method="POST" action="{% url 'core:importar-organograma' %}">
+        {% csrf_token %}
+        <p>Você deseja importar o Organograma do SIG?</p>
+        <input type="submit" class="btn btn-danger" value="Sim, tenho certeza">
+        <a href="{% url 'core:vw_index' %}" class="btn btn-secondary" class="button cancel-link">Não, me leve de volta</a>
+    </form>
+{% endblock conteudo %}

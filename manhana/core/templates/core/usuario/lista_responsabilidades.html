@@ -1,0 +1,132 @@
+{% extends 'core/layout/base.html' %}
+
+{%block breadcrumb%}
+<li class="breadcrumb-item">Usuário</li>
+<li class="breadcrumb-item">
+    <a href="{% url 'core:user-detalhe' %}">{{ user.get_full_name }}</a>
+</li>
+<li class="breadcrumb-item">Perfil</li>
+<li class="breadcrumb-item">{{ servidor.categoria }}</li>
+<li class="breadcrumb-item">{{ servidor }}</li>
+<li class="breadcrumb-item active">Responsabilidades</li>
+
+{% endblock %}
+
+{% block title_page %}Responsabilidades do Servidor {% endblock title_page %}
+
+{% block toolbar %}
+<nav class="navbar navbar-light  bg-white border mb-3">
+    <br>
+    <form class="form-inline">
+        <a href="{% url 'core:user-detalhe' %}" class="btn btn-secondary my-2 my-sm-0">
+                <i aria-hidden="true" class="fa fa-reply">&nbsp;</i> Voltar</a>
+    </form>
+</nav>
+{% endblock %}
+
+{% block conteudo %}
+<button type="button" class="btn btn-info mb-3" aria-label="Importar responsabilidades"  onclick="window.location = '{% url 'core:importar-responsabilidades' servidor.categoria|slugify servidor.id %}'" title="Importar responsabilidades">
+    <span aria-hidden="true"><i class="fa fa-cloud-download-alt"></i> </span> Importar responsabilidades
+</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Unidade</th>
+            <th scope="col">Nível de responsabilidade</th>
+            <th scope="col">Data de início</th>
+            <th scope="col">Data de termíno</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in responsabilidades_list  %}
+            <tr>
+                <td class="text-center">
+                    <button type="button" class="btn js-detail-responsabilidade" data-url="{% url 'core:ajax-responsabilidade-detail' r.id %}"
+                        data-toggle="tooltip" data-placement="right" title="Visualizar responsabilidade">
+                        <span aria-hidden="true"><i class="far fa-eye"></i></span>
+                    </button>
+                </td>
+                <td>{{ r.unidade.nome }} ({{ r.unidade.sigla }})</td>
+                <td>{{ r.get_nivel_responsabilidade_display }}</td>
+                <td>{{ r.data_inicio }}</td>
+                <td>{{ r.data_termino|default:"" }}</td>
+            </tr>    
+        {% empty %}
+            <tr>
+                <td colspan="5">Nenhuma responsabilidade encontrada.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if is_paginated %}
+    <hr>
+    <span class="float-left">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.</span>
+
+    <nav aria-label="Páginação do genero" class="float-right">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <!-- If it ain't a search result display, don't append the search query
+                to the URL. -->
+                {% if not search %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'core:lista-responsabilidades' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Página anterior</a>
+                    </li>
+                {% else %}
+                    <!-- Append the searched query to the URL, so that on a search results page,
+                    the pagination don't revert to listing all the listview items. -->
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'core:lista-responsabilidades' %}?{{search}}&page={{ page_obj.previous_page_number }}" tabindex="-1">Página anterior</a>
+                    </li>
+                {% endif %}
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Página anterior</a>
+                </li>
+            {% endif %}
+            {% for object in page_obj.paginator.page_range %}
+                <li class="page-item"><a class="page-link" href="{% url 'core:lista-responsabilidades' %}?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+            {% endfor %} 
+            {% if page_obj.has_next %}
+                {% if not search %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'core:lista-responsabilidades' %}?page={{ page_obj.next_page_number }}">Próxima página</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'core:lista-responsabilidades' %}?{{search}}&page={{ page_obj.next_page_number }}">Próxima página</a>
+                    </li>
+                {% endif %}
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Próxima página</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock conteudo %}
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".js-detail-responsabilidade", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-dialog").addClass("modal-lg");
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock javascript %}

@@ -1,0 +1,43 @@
+{% load bootstrap4 %}
+
+<hr>
+
+<div class="form-group">
+    <div class="custom-control custom-switch">
+        {{ form.is_valida }} 
+        <label class="custom-control-label" for="id_is_valida"><b>{{ form.is_valida.label_tag }}</b></label>
+        <small id="AtividadeHelpBlock" class="form-text text-muted">
+            Marque esta opção para validar este item.
+        </small>
+    </div>
+</div>
+                
+<div class="form-group" id="justificativa_id">
+        
+    {% bootstrap_field form.justificativa %}
+</div>
+
+<script>
+$(document).ready(function(){
+    // $("#id_is_valida").prop("checked", false);
+    // document.getElementById("id_justificativa").required = true;
+
+    if ($("#id_is_valida").prop("checked") == true){ 
+        $("#justificativa_id").hide(); 
+        document.getElementById("id_justificativa").required = false;
+    }else{ 
+        document.getElementById("id_justificativa").required = true;
+        $("#justificativa_id").show(); 
+    } 
+
+    $("#id_is_valida").click(function(evento){ 
+        if ($("#id_is_valida").prop("checked") == true){ 
+            $("#justificativa_id").hide(); 
+            document.getElementById("id_justificativa").required = false;
+        }else{ 
+            document.getElementById("id_justificativa").required = true;
+            $("#justificativa_id").show(); 
+        } 
+    }); 
+});
+</script>

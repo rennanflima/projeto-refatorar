@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load bootstrap4 %}
+    <title>Nome do Sistema</title>
+    <link href="{% static 'sbadmin2/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'sbadmin2/css/sb-admin-2.min.css' %}" rel="stylesheet">  
+    <style>
+
+select[readonly] {
+  background: #eee; /*Simular campo inativo - Sugestão @GabrielRodrigues*/
+  pointer-events: none;
+  touch-action: none;
+}
+.tooltip-inner {
+    background-color: #16A673;
+}
+.tooltip.bs-tooltip-right .arrow:before {
+    border-right-color: #16A673 !important;
+}
+.tooltip.bs-tooltip-left .arrow:before {
+    border-right-color: #16A673 !important;
+}
+.tooltip.bs-tooltip-bottom .arrow:before {
+    border-right-color: #16A673 !important;
+}
+.tooltip.bs-tooltip-top .arrow:before {
+    border-right-color: #16A673 !important;
+}
+
+.form-group > label {font-weight: bold;}
+/* Tables */
+table {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    overflow: auto;
+    width: 100%;
+}
+.results {
+    clear: both;
+    overflow: auto;
+}
+table table {
+    margin: 0 2%;
+    width: 96%;
+}
+table table.info {
+    margin: 0;
+}
+table.info {
+    border: 0 none;
+    display: table;
+    margin: 0 0 20px;
+}
+table.info td {
+    background: transparent;
+    border: 0 none;
+    box-shadow: 0 0 0;
+    padding: 7px;
+}
+table.info td:first-child {
+    width: 10%;
+}
+table.info.large td:first-child {
+    width: 25%;
+}
+table.info td:first-child .obs {
+    font-weight: 300;
+    text-align: right;
+}
+table.info td:nth-child(odd) {
+    color: #444;
+    font-weight: 900;
+    text-align: right;
+}
+table.info tr:nth-child(even) td {
+    background: #f6f6f6;
+}
+table.info .status {
+    display: inline-block;
+}
+table table.info-horizontal {
+    margin: 0;
+}
+table.info-horizontal {
+    border: 0 none;
+    display: table;
+    margin: 0 0 20px;
+}
+table.info-horizontal td {
+    background: transparent;
+    border: 0 none;
+    box-shadow: 0 0 0;
+    padding: 7px;
+    text-align:center; 
+}
+table.info-horizontal tr:first-child {
+    font-weight: 900;
+}
+table.info-horizontal .status {
+    display: inline-block;
+}
+table:not(.calendario-dias, .timeline-horizontal) tbody tr:hover td,
+table:not(.calendario-dias, .timeline-horizontal) tbody tr:hover th {
+    background: #f1f1f1 !important;
+}
+tbody td {
+    background: #f9f9f9;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-top: 1px solid #eee;
+    box-shadow: 1px 1px 0 #fff inset;
+    padding: 8px;
+}
+tbody td > h4:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+tbody td > ol,
+tbody td > ul {
+    padding: 0 0 0 15px;
+}
+tbody td > ol li,
+tbody td > ul li {
+    line-height: 1.1em;
+    margin: 0 0 10px;
+}
+tbody td > ol li {
+    list-style: decimal;
+}
+tbody td > ul li {
+    list-style: square;
+}
+tbody th {
+    background: #f9f9f9;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-top: 1px solid #eee;
+    box-shadow: 1px 1px 0 #fff inset;
+    padding: 8px;
+    text-align: left;
+}
+tbody tr:nth-child(even) td, tbody tr:nth-child(even) th{
+    background: #F6F6F6;
+}
+tbody tr:nth-child(odd) td, tbody tr:nth-child(odd) th{
+    background: #FFFFFF;
+}
+/* Corrige as linhas zebreadas do lanÃ§amento das notas */
+tbody table.info tbody tr td, tbody table.info-horizontal tbody tr td{
+    background: none !important;
+}
+tfoot tr {
+    color: #000;
+}
+tfoot td {
+    background: #fafafa;
+    border: 1px solid #ddd;
+    font-size: 110%;
+    font-weight: 600;
+    padding: 8px;
+    text-align: right;
+    white-space: nowrap;
+}
+thead th {
+    background: #fafafa;
+    background: -moz-linear-gradient(top, #fafafa 0%, #f3f3f3 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #f3f3f3));
+    background: -webkit-linear-gradient(top, #fafafa 0%, #f3f3f3 100%);
+    background: -o-linear-gradient(top, #fafafa 0%, #f3f3f3 100%);
+    background: -ms-linear-gradient(top, #fafafa 0%, #f3f3f3 100%);
+    background: linear-gradient(to bottom, #fafafa 0%, #f3f3f3 100%);
+    border: 1px solid #ddd;
+    color: #555;
+    font-weight: 900;
+    padding: 8px;
+    text-align: left;
+}
+thead th.sorted {
+    background: #fafafa;
+    background: -moz-linear-gradient(top, #f0f0f0 0%, #eaeaea 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, #f0f0f0), color-stop(100%, #eaeaea));
+    background: -webkit-linear-gradient(top, #f0f0f0 0%, #eaeaea 100%);
+    background: -o-linear-gradient(top, #f0f0f0 0%, #eaeaea 100%);
+    background: -ms-linear-gradient(top, #f0f0f0 0%, #eaeaea 100%);
+    background: linear-gradient(to bottom, #f0f0f0 0%, #eaeaea 100%);
+}
+thead th > span {
+    color: #666;
+    display: inline-block;
+    font-size: 85%;
+    font-weight: 300;
+    height: 16px;
+    line-height: 16px;
+    margin: 0 0 0 5px;
+}
+thead th .clear {
+    margin: 0;
+}
+.text[data-hint] {
+    border-bottom: 1px dotted #999;
+    cursor: help;
+}
+tr.highlight td,
+tr.highlight:hover td,
+tr.selected td,
+tr.selected:hover td {
+    background: rgba(241, 196, 15, 0.4);
+}
+table tr.error td {
+    background-color: rgba(231, 76, 60, 0.4);
+}
+.sortable .text {
+    float: left;
+}
+.sortoptions {
+    float: right;
+}
+.sortoptions a {
+    background-image: url("/djtools/img/glyphicons-halflings.png");
+    background-position: 14px 14px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 14px;
+    opacity: 0.5;
+    text-indent: -9000px;
+    vertical-align: text-top;
+}
+.sortoptions a,
+.sortoptions span {
+    float: left;
+    height: 14px;
+    opacity: 0.5;
+    padding: 0 !important;
+    width: 14px;
+}
+.sortoptions a:hover {
+    opacity: 1;
+}
+.sortoptions a.ascending {
+    background-position: -288px -120px;
+}
+.sortoptions a.descending {
+    background-position: -313px -119px;
+}
+.sortoptions a.sortremove {
+    background-position: -312px 0;
+}
+.sortoptions span.sortpriority {
+    text-align: center;
+}
+.tabela-congelada tr > th:first-of-type,
+.tabela-congelada tr > td:first-of-type {
+    background: #fff;
+    margin: 0;
+}
+.tabela-congelada tr td {
+    height: 30px;
+}
+.tabela-congelada tr th {
+    background: #f6f6f6 !important;
+    height: 35px;
+}
+.tabela-congelada tr:hover td{
+    background: #D9EDF7;
+}
+
+ul.timeline {
+    list-style-type: none;
+    position: relative;
+}
+ul.timeline:before {
+    content: ' ';
+    background: #d4d9df;
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
+ul.timeline > li {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+ul.timeline > li:before {
+    content: ' ';
+    background: white;
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #22c0e8;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}
+   
+
+.django-ckeditor-widget{
+    width: 100%;
+}
+
+.error_ckeditor{
+    width: 100%;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #e74a3b;
+    display: block;
+}
+
+.error_ckeditor > ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+    </style>
+</head>
+<body id="page-top" style>
+    <div id="wrapper">
+        {% include 'core/layout/menu_lateral.html' %}
+        
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                {% include 'core/layout/topo.html' %}
+            
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'core:vw_index'%}">Início</a>
+                        </li>
+                        {%block breadcrumb%}
+                        {% endblock %}
+                    </ol>
+                    
+                    {% block progress_bar %}{%endblock%}
+                
+                    <h2>{% block title_page %}Painel gerencial{% endblock %}</h2>
+                    <hr>
+                    {% bootstrap_messages %}
+
+                    {% block toolbar %}{% endblock %}
+
+                    <div class="card">
+                        <div class="card-body table-responsive">
+                            {% block conteudo %}
+                            {% endblock conteudo %}
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+        
+            <footer class="sticky-footer bg-white mt-4">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto"><span>Empresa - Copyright © 2019</span></div>
+                </div>
+            </footer>
+        </div>    
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Modal Genérico -->
+    <div class="modal fade" id="genericModal" tabindex="-1" role="dialog" aria-labelledby="genericModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                    
+            </div>
+        </div>
+    </div>
+
+    <!--TELA MODAL PARA ASSINATURA DIGITAL -->
+    <div class="modal" id="modalAssinar" data-backdrop-limit="1" tabindex="-1" aria-labelledby="modalAssinarLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content bg-light">
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top" style="display: inline;"><i class="fas fa-angle-up"></i></a>
+    <script src="{% static 'sbadmin2/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'sbadmin2/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'sbadmin2/js/sb-admin-2.min.js' %}"></script>
+
+    <script src="{% static 'js/jquery.mask.min.js' %}"></script>
+
+    <!-- <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script> -->
+    <!-- <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script> -->
+
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+            $('.toast').toast('show');
+        });
+
+        function recarregarPagina (){
+            if(!localStorage.getItem('firstLoad')){
+                localStorage.setItem('firstLoad', true);
+                window.location.reload();
+            } else {
+                localStorage.removeItem('firstLoad');
+            }        
+        }
+    </script>
+
+    <script type="application/javascript">
+        $('.js-date').mask('00/00/0000');
+        $('.js-date_time').mask('00/00/0000 00:00:00');
+        $('.js-time').mask('00:00:00');
+        $('.js-cep').mask('00000-000');
+        $('.js-cpf').mask('000.000.000-00', {reverse: true});
+        $('.js-cnpj').mask('00.000.000/0000-00', {reverse: true});
+        $('.js-money2').mask("#.##0,00", {reverse: true});
+    </script>
+
+    {% block javascript %}
+            
+    {% endblock javascript %}
+        
+</body>
+</html>

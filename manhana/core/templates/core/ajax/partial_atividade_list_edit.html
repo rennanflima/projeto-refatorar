@@ -1,0 +1,37 @@
+{% for r in registros %}
+    <tr role="row">
+        <td class="text-center">
+            <button type="button" class="btn js-detail-atividade" data-url="{% url 'core:ajax-atividade-detail' r.id %}"
+                data-toggle="tooltip" data-placement="right" title="Visualizar atividade">
+                <span aria-hidden="true"><i class="far fa-eye"></i></span>
+            </button>
+            {% if r.is_editavel%}
+                {% if 'projetos' in r.atividade.categoria_atividade.slug %}
+                    <button type="button" class="btn" aria-label="Editar" onclick="window.location = '{% url 'core:projeto-editar' r.pk %}'" data-toggle="tooltip" data-placement="right" title="Editar atividade">
+                        <span aria-hidden="true"><i class="fas fa-edit"></i></span>
+                    </button>
+                {% else %}
+                    <button type="button" class="btn" aria-label="Editar" onclick="window.location = '{% url 'core:atividade-editar' r.pk %}'" data-toggle="tooltip" data-placement="right" title="Editar atividade">
+                        <span aria-hidden="true"><i class="fas fa-edit"></i></span>
+                    </button>
+                {% endif %}
+            {% endif %}
+            {% if not r.is_obrigatorio%}
+                <button class="btn" id="id_excluir_registro_atividade" data-toggle="modal" data-id="{{ r.id }}" 
+                    data-target="#confirmaExcluirAtividade"><i class="fas fa-trash-alt" title="Excluir atividade"></i></button>
+            {% endif %}
+        </td>
+        <td class="text-center">{{ r.atividade.categoria_atividade }}</td>
+        <td>{{ r.atividade.descricao }} 
+            {% if r.argumentos %} : {{ r.argumentos }}
+            {% endif %}
+        </td>
+        <td class="text-center">{{ r.ch_semanal }}</td>
+    </tr>
+    {% empty %}
+    <tr role="row">
+        <td class="text-center" colspan="5">
+            <h5>Nenhuma atividade inserida</h5>
+        </td>
+    </tr>
+{% endfor %}

@@ -1,0 +1,27 @@
+{% for r in registros %}
+    <tr role="row">
+        <td class="text-center">
+            <button type="button" class="btn js-detail-atividade" data-url="{% url 'core:ajax-atividade-detail-mov' r.id %}" title="Visualizar atividade">
+                <span aria-hidden="true"><i class="far fa-eye"></i></span>
+            </button>
+        </td>
+        {% if in_unidade_avaliadora %}
+            <td class="text-center">
+                {{ r.get_situacao_display }}
+            </td>
+        {% endif %}
+        <td class="text-center">{{ r.atividade.categoria_atividade }}</td>
+        <td>{{ r.atividade.descricao }} 
+            {% if r.argumentos %} : {{ r.argumentos }}
+            {% endif %}
+        </td>
+        <td class="text-center">{{ r.ch_semanal }}</td>
+
+    </tr>
+{% empty %}
+    <tr role="row">
+        <td class="text-center" {% if in_unidade_avaliadora %} colspan="5" {% else %} colspan="4" {% endif %}>
+            <h5>Nenhuma atividade inserida</h5>
+        </td>
+    </tr>
+{% endfor %}

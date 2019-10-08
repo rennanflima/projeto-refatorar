@@ -1,0 +1,20 @@
+{% extends 'authentication/layout/base.html' %}
+{% load bootstrap4 %}
+
+{% block conteudo %}
+<div class="container">
+    <p>Selecione com que vinculo vc quer entrar:</p>
+
+    <ul class="list-group">
+        {% for docente in perfis_docente %}
+            <li class="list-group-item">{{ docente }}</li>    
+        {% endfor %}
+        {% for discente in perfis_discente %}
+            <li class="list-group-item">{{ discente }}</li>    
+        {% endfor %}
+        {% for tae in perfis_tae %}
+            <li class="list-group-item">{{ tae }}</li>    
+        {% endfor %}
+    </ul>
+</div>
+{% endblock conteudo %}

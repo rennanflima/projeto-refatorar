@@ -1,0 +1,335 @@
+{% extends 'core/layout/base.html' %}
+
+{% load bootstrap4 %}
+
+
+
+<!-- Breadcrumbs-->
+{%block breadcrumb%}                   
+    <li class="breadcrumb-item ">
+        <a href="{% url 'core:caixa-entrada' %}">Processo</a>
+    </li>
+    <li class="breadcrumb-item active">Detalhe</li>
+{% endblock %}
+
+{% block title_page %}Detalhamento da {{ processo }} {% endblock %}
+
+{% block toolbar %}
+<nav class="navbar navbar-light  bg-white border mb-3">
+    <br>
+    <div class="form-inline">
+
+        <button type="button" class="btn btn-primary mr-sm-2" aria-label="Visualizar processo principal" title="Visualizar processo principal" 
+            onclick="window.location = '{% url 'core:processo-detalhe' processo.processo_pai.id %}?previous={{ processo.id }}'">
+            <span aria-hidden="true"><i class="far fa-eye"></i> Visualizar processo principal</span>
+        </button>
+        
+        <button type="button" class="btn btn-info  mr-sm-2" onclick="window.location = '{% url 'core:documento-novo' processo.id %}'" title="Inserir Documento">
+            <i class="fas fa-plus" aria-hidden="true"></i> Inserir Documento
+        </button>
+        {% if is_chefia %}
+            <button type="button" class="btn btn-primary  mr-sm-2" title="Encaminhar {{ processo.tipo_processo }}" onclick="window.location = '{% url 'core:processo-encaminhar' processo.id %}'">
+                <i class="fas fa-share-square" aria-hidden="true"></i> Encaminhar {{ processo.tipo_processo }}
+            </button>
+        {% endif %}
+        <a href="{% url 'core:caixa-entrada' %}" class="btn btn-secondary my-2 my-sm-0">
+            <i aria-hidden="true" class="fa fa-reply">&nbsp;</i> Voltar</a>
+
+    </div>
+</nav>
+{% endblock %}
+
+{% block conteudo %}
+<div class="row">
+    <div class="col-sm-9">
+    <fieldset>
+        <legend>Dados gerais</legend><hr>
+        <div class="form-group">
+            <label class="text-gray-900">Processo Principal: </label>    
+            {{ processo.processo_pai }}
+        </div>
+        <div class="form-row">
+            <div class="form-group col-sm-8">
+                <label class="text-gray-900">Campus: </label>    
+                {{ processo.processo_pai.interessado.unidade_responsavel }}
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="text-gray-900">Semestre letivo: </label>    
+                {{ processo.ano|stringformat:"i" }} / {{ processo.semestre }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-sm-8">
+                <label class="text-gray-900">Interessado: </label>    
+                {{ processo.processo_pai.interessado.pessoa.user.get_full_name }}
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="text-gray-900">SIAPE: </label>    
+                {{ processo.processo_pai.interessado.siape }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="text-gray-900">Cargo: </label>    
+            {{ processo.processo_pai.interessado.cargo }} : {{ processo.processo_pai.interessado.area_contratacao|default:'' }}
+        </div>
+        <div class="form-row">
+            <div class="form-group col-sm-4">
+                <label class="text-gray-900">Tipo de vínculo: </label>    
+                {{ processo.processo_pai.interessado.tipo_servidor }}
+            </div>
+            
+            <div class="form-group col-sm-4">
+                <label class="text-gray-900">Titulação: </label>    
+                {{ processo.processo_pai.interessado.titulacao }}
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="text-gray-900">Regime de Trabalho: </label>    
+                {{ processo.processo_pai.interessado.regime_trabalho }}
+            </div>
+        </div>
+            
+        <div class="form-group">
+            <label class="text-gray-900">Grupo em função da carga horária: </label>    
+            {{ processo.processo_pai.interessado.grupo }}
+        </div>
+
+        <div class="form-group">
+            <label class="text-gray-900">Carga horária total:</label>
+            {{ processo.processo_pai.ch_semanal_total }}
+        </div>
+    </fieldset>
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link js-doc-list" href="#nav-documentos" id="nav-documentos-tab" data-toggle="tab" aria-controls="nav-documentos" aria-selected="false" data-url="{% url 'core:ajax-documento-list-mov' processo.id %}" >Documentos</a>
+            <a class="nav-item nav-link js-proc-list" id="nav-processos-tab" data-toggle="tab" href="#nav-processos" role="tab" aria-controls="nav-processos" aria-selected="false" data-url="{% url 'core:ajax-processos-anexos-list' processo.id %}">Processos Apensados, Anexados e Relacionados</a>
+            <a class="nav-item nav-link js-mov-list" id="nav-movimentacoes-tab" data-toggle="tab" href="#nav-movimentacoes" data-url="{% url 'core:ajax-movimentacao-list' processo.id %}" role="tab" aria-controls="nav-movimentacoes" aria-selected="false">Movimentações</a>
+            <a class="nav-item nav-link" id="nav-notificacoes-tab" data-toggle="tab" href="#nav-notificacoes" role="tab" aria-controls="nav-notificacoes" aria-selected="false">Notificações</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade" id="nav-documentos" role="tabpanel" aria-labelledby="nav-documentos-tab">
+            <table id="table_documento" class="table table-bordered table-striped mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Ações</th>
+                        <th scope="col">Tipo do Documento</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Criado Por</th>
+                        <th scope="col">Assinatura</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% include 'core/ajax/partial_documento_list_mov.html' %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-processos" role="tabpanel" aria-labelledby="nav-processos-tab">
+            <table id="table_processos" class="table table-bordered table-striped mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th>Ações</th>
+                        <th>Código</th>
+                        <th>Ano/semestre</th>
+                        <th>Categoria</th>
+                        <th>Interessado</th>
+                        <th>Situação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% include 'core/ajax/partial_processos_anexos.html' %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-movimentacoes" role="tabpanel" aria-labelledby="nav-movimentacoes-tab">
+            <table id="table_movimentacao" class="table table-bordered table-striped mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Ações</th>
+                        <th scope="col">Unidade Destino</th>
+                        <th scope="col">Enviado Em</th>
+                        <th scope="col">Enviado Por</th>
+                        <th scope="col">Recebido Em</th>
+                        <th scope="col">Recebido Por</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% include 'core/ajax/partial_tramite_list_mov.html' %}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-notificacoes" role="tabpanel" aria-labelledby="nav-notificacoes-tab">...</div>
+    </div>
+
+    </div>
+    <div class="col-sm-3">
+        <fieldset>
+            <legend>Registro de Ações<hr></legend>
+            {% include 'core/processo/includes/timeline_processo.html' %}
+        </fieldset>
+    </div>
+</div>
+{% endblock conteudo %}
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+
+        $(document).on("click", ".js-excluir-documento", function () {
+            var iddocumento = $(this).data('id');
+            $("#iddocumento").val(iddocumento);
+        });
+
+        $(document).on("click", ".js-mov-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#table_movimentacao tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-proc-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#table_processos tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-detail-tramite", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $(document).on("click", "#id_receber_processo", function () {
+            var idprocesso = $(this).data('id');
+            $("#idproc").val(idprocesso);
+        });
+
+        $(document).on("click", ".js-doc-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#table_documento tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-detail-documento", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+
+        $(document).on("click", ".js-ass-form", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#modalAssinar").modal("show");
+                },
+                success: function (data) {
+                    $("#modalAssinar .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+
+        $("#modalAssinar").on("submit", ".js-assinatura-form", function(){
+            var form = $(this);
+            $.ajax({
+                url: form.attr("action"),
+                data: form.serialize(),
+                type: form.attr("method"),
+                dataType: 'json',
+                success: function(data){
+                    if (data.form_is_valid) {
+                        $("#modalAssinar").modal("hide");
+                        $("#genericModal").modal("hide");
+                        location.reload();
+                    } else {
+                        $("#modalAssinar .modal-content").html(data.html_form);
+                    }
+                }
+            });
+            return false;
+        });
+
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+            localStorage.setItem('activeTabUrl', $(e.target).attr('data-url'));
+
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        var activeTabUrl = localStorage.getItem('activeTabUrl');
+        if(activeTab){
+            if(activeTabUrl != 'undefined'){
+                $.ajax({
+                    url: activeTabUrl,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (activeTab == '#nav-movimentacoes'){
+                            $("#table_movimentacao tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            recarregarPagina();
+                        }
+
+                        else if (activeTab == '#nav-documentos'){
+                            $("#table_documento tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            recarregarPagina();
+                        }
+
+                        else if (activeTab == '#nav-processos'){
+                            $("#table_processos tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            recarregarPagina();
+                        }
+                    }
+                });
+            } else {
+                $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+            }
+        }
+        
+    });
+</script>
+{% endblock javascript %}

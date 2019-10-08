@@ -1,0 +1,139 @@
+{% extends 'core/layout/base.html' %}
+{% load static %}
+
+{%block breadcrumb%}
+    <li class="breadcrumb-item"><a href="{% url 'core:lista-unidades-vinculo' %}">Vínculo</a></li>
+    <li class="breadcrumb-item">{{ unidade }}</li>
+    <li class="breadcrumb-item">Servidores</li>
+    <li class="breadcrumb-item active">Adicionar</li>
+{% endblock %}
+
+
+{% block title_page %}Lista de Unidades{% endblock title_page %}
+
+{% block conteudo %}
+<div class="form-group">
+    <label class="text-gray-900">Unidade:</label>    
+    {{ unidade.nome }}
+</div>
+<div class="form-group">
+    <label class="text-gray-900">Sigla:</label>    
+    {{ unidade.sigla }}
+</div>
+
+<div class="form-group">
+    <label class="text-gray-900">Unidade Responsável:</label>    
+    {{ unidade.estrutura_pai|default:"" }}
+</div>
+<fieldset>
+    <legend>Servidores Vinculados<hr></legend>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-success mb-3" id="id_seleciona_atividade" onclick="window.location = '{% url 'core:adicionar-servidores-vinculados' unidade.id %}'" title="Adicionar vínculo"><i class="fas fa-plus-circle"></i> Adicionar vínculo</button>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <th scope="col">#</th>
+            <th scope="col">Servidor</th>
+            <th scope="col">Tipo de Vínculo</th>
+            <th scope="col">Período</th>
+            <th scope="col">Ativo?</th>
+        </thead>
+        <tbody>
+            {% for v in vinculos %}
+                <tr>
+                    <td class="text-center">
+                        <button type="button" class="btn js-detail-vinculo" data-url="{% url 'core:ajax-vinculo-detail' v.id %}" title="Visualizar vínculo">
+                            <span aria-hidden="true"><i class="far fa-eye"></i></span>
+                        </button>
+                        {% if v.is_ativo%}
+                            <button type="button" class="btn" aria-label="Editar" onclick="window.location = '{% url 'core:vinculo-editar' v.id %}'" title="Editar vínculo">
+                                <span aria-hidden="true"><i class="fas fa-edit"></i></span>
+                            </button>
+                            <button class="btn" id="id_inativar" data-toggle="modal" data-id="{{ v.id }}" data-target="#confirmaInativarVinculo"  title="Inativar vínculo">
+                                <i class="fas fa-ban" aria-hidden="true"></i>
+                            </button>
+                        {% endif %}
+                    </td>
+                    <td>{{ v.servidor }}</td>
+                    <td>{{ v.get_tipo_vinculo_display }}</td>
+                    <td>{{ v.data_inicio }} - {{ v.data_termino|default:"" }}</td>
+                    <td>{{ v.is_ativo|yesno:"Sim, Não" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">Nenhum servidor vinculado a esta unidade foi encontrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</fieldset>
+
+<!--TELA MODAL PARA CONFIRMAÇÃO DE INATIVAÇÃO DO VÍNCULO-->
+<div class="modal fade" id="confirmaInativarVinculo" role="dialog" aria-labelledby="confirmaInativarVinculoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Inativar Registro</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form method="post" action="{% url 'core:vinculo-inativar' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="id_data_termino">Data termíno</label>
+                        <input type="text" name="data_termino" class="form-control js-date" placeholder="Data termíno" title="Ex: 15/11/2002" required="" id="id_data_termino" maxlength="10">
+                        <small class="form-text text-muted">Ex: 15/11/2002</small>
+                    </div>
+                    <p>Deseja realmente <b>Inativar</b> este registro?</p>
+                    <p></p>
+                </div>
+                <input type="hidden" id="idvinculo" name="idvinculo" value="">
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" id="confirm">Inativar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock conteudo %}
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+        $(document).on("click", "#id_inativar", function () {
+            var idvinculo = $(this).data('id');
+            $("#idvinculo").val(idvinculo);
+
+            var currentTime = new Date()
+			var month = currentTime.getMonth() + 1;
+			var day = currentTime.getDate();
+			var year = currentTime.getFullYear();
+			
+			var date = day + "/" + month + "/" + year;
+            $("#id_data_termino").val(date);
+        });
+
+        $(document).on("click", ".js-detail-vinculo", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock javascript %}

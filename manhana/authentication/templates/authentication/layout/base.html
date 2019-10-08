@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="pt-br">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plataforma de Autenticação</title>
+    {% load static %}
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    <!-- <link rel="shortcut icon" type="image/png" href="{% static 'static/img/favicon.ico' %}" /> -->
+
+
+    <!-- <link href="{% static 'static/js/jquery-ui/jquery-ui.min.css' %}" rel="stylesheet"> -->
+    <!-- <script src="{% static 'static/js/jquery-ui/jquery-ui.min.js' %}"></script> -->
+    <!-- <script src="{% static 'static/js/jquery-ui/jquery.ui.datepicker-pt-BR.js' %}"></script> -->
+    <!-- <script src="{% static 'static/js/jQuery-Timepicker-Addon-master/src/jquery-ui-timepicker-addon.js' %}"></script> -->
+    <!-- <link href="{% static 'static/js/jQuery-Timepicker-Addon-master/src/jquery-ui-timepicker-addon.css' %}"> -->
+    <script src="{% static 'static/js/jquery.mask.min.js' %}"></script>
+    <link href="{% static 'static/fontawesome/css/all.css' %}" rel="stylesheet">
+    <style>
+        label {
+            font-weight: bolder;
+        }
+
+        /* .percente-10{
+            font-size: 10%;
+        } */
+        @media (min-width: 1024px) {
+            .card-custom {
+                width: 50%;
+            }
+
+            .percente-10 {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-default" role="navigation"
+        style="margin-bottom: 0; border-color: #255625; background-color: #255625; height: 80px;">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'static/img/logo.png' %}" width="200" height="50" alt="IFAC" />
+            </a>
+        </div>
+    </nav>
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col">
+                <h1>{{titulo}}</h1>
+                {% bootstrap_messages %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                {% block conteudo %}
+                {% endblock %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <hr class="mt-5">
+                <footer>Empresa - Copyright © 2019</footer>
+            </div>
+        </div>
+        <!-- Modal Genérico -->
+        <div class="modal fade" id="genericModal" tabindex="-1" role="dialog" aria-labelledby="genericModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block javascript %}
+    {% endblock %}
+</body>
+
+</html>

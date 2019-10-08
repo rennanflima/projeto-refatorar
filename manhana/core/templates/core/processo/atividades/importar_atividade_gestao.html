@@ -1,0 +1,88 @@
+{% extends 'core/layout/base.html' %}
+{% load bootstrap4 %}
+
+{% block title_page %}Importar Atividades de Gestão{% endblock %}
+
+<!-- Breadcrumbs-->
+{%block breadcrumb%}                   
+    <li class="breadcrumb-item ">
+        <a href="{% url 'core:caixa-entrada' %}">Processo</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{% url 'core:processo-editar' processo.pk %}">{{processo.numero_processo}}</a>
+    </li>
+    <li class="breadcrumb-item">{{ tipo_atividade }}</li>
+    
+    {% if form.instance.pk %}
+    <li class="breadcrumb-item active">Alterar</li>    
+    {% else %}
+    <li class="breadcrumb-item active">Novo</li>
+    {% endif %}
+        
+    
+{% endblock %}
+
+{% block conteudo %}
+<fieldset>
+    <legend>Criterios de Busca<hr></legend>
+    <div class="form-group">
+        <b>Servidor: </b>
+        {{ processo.interessado.pessoa.user.get_full_name }}
+    </div> 
+    <div class="form-group">
+        <b>Unidade de responsabilidade: </b>
+        {{ responsavel.unidade.sigla }} - {{ responsavel.unidade.nome }}
+    </div> 
+    <div class="form-group">
+        <b>Nível da responsabilidade: </b>
+        {{ responsavel.get_nivel_responsabilidade_display }}
+    </div> 
+</fieldset>
+<fieldset>
+<form method="POST" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <div id="id_div_observacao" class="alert alert-warning" style="display: none" >
+        <strong>Observação: <span id="id_observacao"></span></strong></div>
+    {% if info_form %}
+        {% bootstrap_form info_form %}
+    {%endif%}
+    <hr>
+    <a href="{% url 'core:processo-editar' processo.pk %}" class="btn btn-danger ml-2 float-right"><i class="fas fa-times-circle" aria-hidden="true"></i> Cancelar</a>
+    <button class="btn btn-success ml-2 float-right" type="submit"><i class="fas fa-save" aria-hidden="true"></i> Salvar</button>
+</form>
+</fieldset>
+{% endblock conteudo %}
+
+{% block javascript %}
+<script>
+$(document).ready(function() {
+    {% if not form.instance.pk %}
+    $('#id_atividade').on('change', function () {
+        if ($('#id_atividade').val() == '') {
+            var option = '<option selected value="">------</option>';
+            $('#id_div_observacao').hide();
+        } else {
+            $.getJSON("../../../../../processo/atividade/busca-observacao/"+ $(this).val() + "/", function (dados){
+                $.each(dados, function(i, obj) {
+                    if (dados.length > 0){
+                        $('#id_div_observacao').show();
+                        $('#id_observacao').text(obj.observacao);
+                    }else{
+                        $('#id_div_observacao').html().hide();
+                    }
+                })
+            })
+        }
+    });
+    {% else %}
+    $.getJSON("{% url 'core:busca-observacao' form.instance.atividade.pk %}", function (dados){
+        $.each(dados, function(i, obj) {
+            $('#id_div_observacao').show();
+            $('#id_observacao').text(obj.observacao);
+        })
+    });
+    {% endif %}
+})
+</script>
+{% endblock javascript %}

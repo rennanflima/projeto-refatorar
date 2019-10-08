@@ -1,0 +1,331 @@
+{% extends 'core/layout/base.html' %}
+
+{% load bootstrap4 %}
+
+
+
+<!-- Breadcrumbs-->
+{%block breadcrumb%}
+<li class="breadcrumb-item ">
+    <a href="{% url 'core:caixa-entrada' %}">Processo</a>
+</li>
+<li class="breadcrumb-item active">Atividades</li>
+{% endblock %}
+
+{% block title_page %}{{processo.tipo_processo.descricao}} N.º {{processo.numero_processo}} {% endblock %}
+
+{% block toolbar %}
+<nav class="navbar navbar-light  bg-white border mb-3">
+    <br>
+    <form class="form-inline">
+
+        <button type="button" class="btn btn-primary mr-sm-2 js-summary-process" aria-label="Enviar" title="Enviar {{processo.tipo_processo}}" data-url="{% url 'core:ajax-summary-process' processo.id True %}"
+            {% if processo.ch_semanal_total != processo.interessado.grupo.ch_semanal %} disabled {% endif %}>
+            <i class="fas fa-share-square" aria-hidden="true"></i> Enviar {{ processo.tipo_processo }}
+        </button>
+
+        <a href="{% url 'core:caixa-entrada' %}" class="btn btn-secondary my-2 my-sm-0">
+                <i aria-hidden="true" class="fa fa-reply">&nbsp;</i> Voltar</a>
+    </form>
+</nav>
+{% endblock %}
+
+
+{% block conteudo %}
+<!-- <nav class="navbar navbar-light  bg-light border mb-4">
+    <br>
+    <form class="form-inline">
+
+        <button type="button" class="btn btn-primary mr-sm-2 js-summary-process" aria-label="Enviar" title="Enviar {{processo.tipo_processo}}" data-url="{% url 'core:ajax-summary-process' processo.id True %}"
+            {% if processo.ch_semanal_total != processo.interessado.grupo.ch_semanal %} disabled {% endif %}>
+            <i class="fas fa-share-square" aria-hidden="true"></i> Enviar {{ processo.tipo_processo }}
+        </button>
+
+        <a href="{% url 'core:caixa-entrada' %}" class="btn btn-secondary my-2 my-sm-0">
+                <i aria-hidden="true" class="fa fa-reply">&nbsp;</i> Voltar</a>
+    </form>
+</nav> -->
+
+
+{% include 'core/processo/includes/dados_gerais_processo.html' %}
+
+
+<fieldset>
+    <legend>Atividades<hr></legend>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-success mb-3 mr-3" id="id_seleciona_atividade" data-toggle="modal" data-id="{{ processo.id }}" 
+                data-target="#selecionaTipoAtividade"  title="Adicionar atividade"><i class="fas fa-plus-circle"></i> Adicionar atividade</button>
+            
+    
+        <!-- <div class="col">
+            <button class="btn btn-danger" onclick=""><i class="fas fa-trash-alt"></i> Remover</button></div> -->
+
+                
+        <!-- <div class="col input-group">
+            <input type="text" name="atividade" class="form-control" placeholder="Pesquisar" aria-describedby="button-addon4">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon4"><i class="fas fa-search"></i> Buscar</button>
+            </div> -->
+        </div>
+    </div>
+
+    {% include 'core/processo/atividades/nav_atividade.html' %}
+</fieldset>
+
+<!--TELA MODAL PARA CONFIRMAÇÃO DE EXCLUSÃO DE PROCESSO-->
+<div class="modal fade" id="confirmaExcluirAtividade" role="dialog" aria-labelledby="confirmaExcluirAtividadeLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Excluir Registro de Atividade</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form method="post" action="{% url 'core:atividade-excluir' %}">{% csrf_token %}
+                <div class="modal-body">
+                    <p>Deseja realmente <b>Excluir</b> este registro de atividade?</p>
+                    <p></p>
+                </div>
+                <input type="hidden" id="idprocesso" name="idprocesso" value="{{ processo.pk }}">
+                <input type="hidden" id="idregistroatividade" name="idregistroatividade" value="">
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" title="Cancelar"><i class="fas fa-times-circle" aria-hidden="true"></i> Cancelar</button>
+                    <button type="submit" class="btn btn-danger" id="confirm" title="Excluir">Excluir</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--TELA MODAL PARA SELEÇÃO DE ATIVIDADES DE DOCENTE-->
+<div class="modal bd-example-modal-lg" id="selecionaTipoAtividade" tabindex="-1" role="dialog" aria-labelledby="selecionaTipoAtividadeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Selecione o Tipo de Atividade</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header bg-success"><h5 class="text-white">Importar</h5></div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for tipo_atividade in categorias_atividades  %}
+                                {% if tipo_atividade.is_importada %}
+                                    <div class="col-6 mb-3">
+                                        <a href="{% url 'core:verificar_tipo_atividade_importar' processo.pk tipo_atividade.slug %}" class="btn btn-success">
+                                            <i class="fa fa-cloud-download-alt" aria-hidden="true"></i> {{ tipo_atividade.nome }}
+                                        </a> 
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-header bg-info"><h5 class="text-white">Cadastrar</h5></div>
+                    <div class="card-body">
+                        {% for tipo_atividade in categorias_atividades  %}
+                            {% if not tipo_atividade.is_importada %}
+                                {% ifequal tipo_atividade.slug 'atividades-complementares-de-ensino'  %}    
+                                    <div class="row mb-3">    
+                                        <div class="col-6">
+                                            <a href="{% url 'core:verificar_tipo_atividade_novo' processo.pk tipo_atividade.slug %}" class="btn btn-primary">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ tipo_atividade.nome }}</a>
+                                        </div>
+                                        {% for tp_children in tipo_atividade.categoria_atividade_pai.all %}
+                                            <div class="col-6">
+                                                <a href="{% url 'core:verificar_tipo_atividade_novo' processo.pk tp_children.slug %}" class="btn btn-primary">
+                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ tp_children.nome }}</a>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endifequal %}
+                                {% ifequal tipo_atividade.slug 'atividades-de-pesquisa'  %}
+                                    <div class="row mb-3">    
+                                        <div class="col-6">
+                                            <a href="{% url 'core:verificar_tipo_atividade_novo' processo.pk tipo_atividade.slug %}" class="btn btn-info">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ tipo_atividade.nome }}</a>
+                                        </div>
+                                        {% for tp_children in tipo_atividade.categoria_atividade_pai.all %}
+                                            <div class="col-6">
+                                                <a href="{% url 'core:verificar_tipo_atividade_novo' processo.pk tp_children.slug %}" class="btn btn-info">
+                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ tp_children.nome }}</a>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endifequal %}
+                                {% ifequal tipo_atividade.slug 'atividades-de-extensao'  %}
+                                    <div class="row mb-3">    
+                                        <div class="col-6">
+                                            <a href="{% url 'core:verificar_tipo_atividade_novo' processo.pk tipo_atividade.slug %}" class="btn btn-warning">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ tipo_atividade.nome }}</a>
+                                        </div>
+                                        {% for tp_children in tipo_atividade.categoria_atividade_pai.all %}
+                                            <div class="col-6">
+                                                <a href="{% url 'core:verificar_tipo_atividade_novo' processo.pk tp_children.slug %}" class="btn btn-warning">
+                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ tp_children.nome }}</a>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endifequal %}
+                            
+                                {% ifequal tipo_atividade.slug 'atividades-de-representacao'  %}
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <a href="{% url 'core:verificar_tipo_atividade_novo' processo.pk tipo_atividade.slug %}" class="btn btn-danger">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ tipo_atividade.nome }}</a>
+                                        </div>
+                                    </div>
+                                {% endifequal %}
+                                {% ifequal tipo_atividade.slug 'outras-atividades'  %}
+                                    <div class="row mt-3">
+                                        <div class="col">
+                                            <a href="{% url 'core:verificar_tipo_atividade_novo' processo.pk tipo_atividade.slug %}" class="btn btn-secondary">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ tipo_atividade.nome }}</a>
+                                        </div>
+                                    </div>
+                                {% endifequal %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times-circle" aria-hidden="true"></i> Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock conteudo %}
+
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+        $('#paginate_by').on('change', function() {
+            this.form.submit();
+        });
+
+        $(document).on("click", "#id_excluir_registro_atividade", function () {
+            var idregistroatividade = $(this).data('id');
+            $("#idregistroatividade").val(idregistroatividade);
+        });
+
+        $(document).on("click", ".js-detail-atividade", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-ativ-list", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#tabela_atividade tbody").html(data.html_item_list);
+                }
+            });
+        });
+
+        $(document).on("click", ".js-summary-process", function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#genericModal").modal("show");
+                },
+                success: function (data) {
+                    $("#genericModal .modal-dialog").addClass("modal-lg");
+                    $("#genericModal .modal-content").html(data.html_form);
+                }
+            });
+        });
+
+        $("#modalAssinar").on("submit", ".js-assinatura-form", function(){
+            var form = $(this);
+            $.ajax({
+                url: form.attr("action"),
+                data: form.serialize(),
+                type: form.attr("method"),
+                dataType: 'json',
+                success: function(data){
+                    if (data.form_is_valid) {
+                        $("#modalAssinar").modal("hide");
+                        $("#genericModal").modal("hide");
+                        $(location).attr("href", "{% url 'core:caixa-entrada' %}");
+                    } else {
+                        $("#modalAssinar .modal-content").html(data.html_form);
+                    }
+                }
+            });
+            return false;
+        });
+
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+            localStorage.setItem('activeTabUrl', $(e.target).attr('data-url'));
+
+        });
+        var activeTab = localStorage.getItem('activeTab');
+        var activeTabUrl = localStorage.getItem('activeTabUrl');
+        if(activeTab){
+            if(activeTabUrl != 'undefined'){
+                $.ajax({
+                    url: activeTabUrl,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (activeTab == '#nav-movimentacoes'){
+                            $("#table_movimentacao tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            // recarregarPagina();
+                        }
+
+                        else if (activeTab == '#nav-documentos'){
+                            $("#table_documento tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            // recarregarPagina();
+                        }
+
+                        else if (activeTab == '#nav-processos'){
+                            $("#table_processos tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+                            // recarregarPagina()
+                        }
+                        
+
+                        else{
+                            $("#tabela_atividade tbody").html(data.html_item_list);
+                            $('#nav-tab a[href="#nav-atividades"]').tab('show');
+                            $('#nav-tab-atv a[href="' + activeTab + '"]').tab('show');
+                            // recarregarPagina()
+                        }
+                    }
+                });
+            } else {
+                $('#nav-tab a[href="' + activeTab + '"]').tab('show');
+            }
+        } else {
+            $('#nav-tab a[href="#nav-atividades"]').tab('show');
+        }
+    });
+</script>
+
+{% endblock javascript %}
