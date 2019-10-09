@@ -52,6 +52,8 @@ Popular banco de dados com informações iniciais
 ```
 $ python manage.py loaddata authentication
 $ python manage.py loaddata core
+$ python manage.py loaddata servidor
+$ python manage.py loaddata responsavel
 ```
 
 Execute o servidor localmente:

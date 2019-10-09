@@ -1,0 +1,187 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$kAmMEdmlMxLY$8jOOf/o6T3GOjkMJkxfzuUG8ykI6Aah/qZ2oTOqloak=",
+        "last_login": "2019-10-08T15:38:31.781Z",
+        "is_superuser": true,
+        "username": "tae.teste",
+        "first_name": "Usu\u00e1rio Teste",
+        "last_name": "tae",
+        "email": "tae@teste.com.br",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-08-28T16:04:59.617Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$kAmMEdmlMxLY$8jOOf/o6T3GOjkMJkxfzuUG8ykI6Aah/qZ2oTOqloak=",
+        "last_login": "2019-10-08T16:05:06.278Z",
+        "is_superuser": false,
+        "username": "docente.teste",
+        "first_name": "Usu\u00e1rio Teste",
+        "last_name": "Docente",
+        "email": "docente@teste.com.br",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-08-28T16:16:12.717Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$kAmMEdmlMxLY$8jOOf/o6T3GOjkMJkxfzuUG8ykI6Aah/qZ2oTOqloak=",
+        "last_login": "2019-10-08T15:54:42.771Z",
+        "is_superuser": false,
+        "username": "docente2.teste",
+        "first_name": "Usu\u00e1rio Teste",
+        "last_name": "Docente 2",
+        "email": "docente2@teste.com.br",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-10-08T15:54:42.695Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},    
+{
+    "model": "authentication.pessoa",
+    "pk": 1,
+    "fields": {
+        "cpf": "04860684044",
+        "data_nascimento": "1991-10-04",
+        "nome_mae": "M\u00e3e do Usu\u00e1rio Teste TAE",
+        "nome_pai": null,
+        "sexo": "M",
+        "registro_geral": "492209522",
+        "rg_orgao_expedidor": "SEPC",
+        "rg_data_expedicao": "2009-12-04",
+        "rg_uf": 26,
+        "grupo_sanguineo": 7,
+        "id_pessoa_sig": 65911
+    }
+},
+{
+    "model": "authentication.pessoa",
+    "pk": 2,
+    "fields": {
+        "cpf": "65216261249",
+        "data_nascimento": "1981-04-09",
+        "nome_mae": "M\u00e3e do Usu\u00e1rio Teste Docente",
+        "nome_pai": null,
+        "sexo": "F",
+        "registro_geral": "0332177",
+        "rg_orgao_expedidor": "SSP",
+        "rg_data_expedicao": "1997-11-20",
+        "rg_uf": 26,
+        "grupo_sanguineo": null,
+        "id_pessoa_sig": 65796
+    }
+},
+{
+    "model": "authentication.pessoa",
+    "pk": 3,
+    "fields": {
+        "cpf": "69571619272",
+        "data_nascimento": "1982-10-11",
+        "nome_mae": "M\u00e3e do Usu\u00e1rio Teste Docente 2",
+        "nome_pai": null,
+        "sexo": "M",
+        "registro_geral": "369777",
+        "rg_orgao_expedidor": "SSP",
+        "rg_data_expedicao": "1999-08-10",
+        "rg_uf": 26,
+        "grupo_sanguineo": null,
+        "id_pessoa_sig": 65218
+    }
+},
+{
+    "model": "authentication.servidorprofile",
+    "pk": 1,
+    "fields": {
+        "pessoa": 1,
+        "siape": "22382745",
+        "id_servidor_sig": 11299,
+        "unidade_lotacao": 111,
+        "unidade_exercicio": 111,
+        "unidade_responsavel": 1,
+        "cargo": "Analista de Tec da Informacao",
+        "tipo_servidor": "Ativo Permanente",
+        "categoria": "T\u00e9cnico Administrativo",
+        "regime_trabalho": "40 horas semanais",
+        "situacao": "Ativo",
+        "titulacao": "Especializa\u00e7\u00e3o",
+        "is_ativo": true
+    }
+},
+{
+    "model": "authentication.servidorprofile",
+    "pk": 2,
+    "fields": {
+        "pessoa": 2,
+        "siape": "2218896",
+        "id_servidor_sig": 10711,
+        "unidade_lotacao": 39,
+        "unidade_exercicio": 39,
+        "unidade_responsavel": 2,
+        "cargo": "Professor Ens Basico Tecn Tecnologico",
+        "tipo_servidor": "Ativo Permanente",
+        "categoria": "Docente",
+        "regime_trabalho": "Dedica\u00e7\u00e3o exclusiva",
+        "situacao": "Ativo",
+        "titulacao": "Mestrado",
+        "is_ativo": true
+    }
+},
+{
+    "model": "authentication.servidorprofile",
+    "pk": 3,
+    "fields": {
+        "pessoa": 3,
+        "siape": "1790785",
+        "id_servidor_sig": 10741,
+        "unidade_lotacao": 39,
+        "unidade_exercicio": 39,
+        "unidade_responsavel": 2,
+        "cargo": "Professor Ens Basico Tecn Tecnologico",
+        "tipo_servidor": "Ativo Permanente",
+        "categoria": "Docente",
+        "regime_trabalho": "Dedica\u00e7\u00e3o exclusiva",
+        "situacao": "Ativo",
+        "titulacao": "Doutorado",
+        "is_ativo": true
+    }
+},
+{
+    "model": "authentication.taeprofile",
+    "pk": 1,
+    "fields": {}
+},
+{
+    "model": "authentication.docenteprofile",
+    "pk": 2,
+    "fields": {
+        "lattes": "http://lattes.cnpq.br/2076449581151181",
+        "grupo": 2,
+        "area_contratacao": 43
+    }
+},
+{
+    "model": "authentication.docenteprofile",
+    "pk": 3,
+    "fields": {
+        "lattes": null,
+        "grupo": 2,
+        "area_contratacao": null
+    }
+}
+]    

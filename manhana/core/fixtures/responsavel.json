@@ -1,0 +1,51 @@
+[
+{
+    "model": "core.responsavelunidade",
+    "pk": 1,
+    "fields": {
+        "servidor": 1,
+        "unidade": 122,
+        "nivel_responsabilidade": "V",
+        "data_inicio": "2018-05-25",
+        "data_termino": "2018-08-31",
+        "id_responsabilidade_sig": 2601
+    }
+},
+{
+    "model": "core.responsavelunidade",
+    "pk": 2,
+    "fields": {
+        "servidor": 2,
+        "unidade": 21,
+        "nivel_responsabilidade": "C",
+        "data_inicio": "2017-02-01",
+        "data_termino": null,
+        "id_responsabilidade_sig": 1903
+    }
+},
+{
+    "model": "core.responsavelunidade",
+    "pk": 3,
+    "fields": {
+        "servidor": 3,
+        "unidade": 39,
+        "nivel_responsabilidade": "C",
+        "data_inicio": "2019-03-06",
+        "data_termino": null,
+        "id_responsabilidade_sig": 2779
+    }
+},
+{
+    "model": "core.vinculoservidorunidade",
+    "pk": 1,
+    "fields": {
+        "unidade": 259,
+        "servidor": 1,
+        "portaria": "2",
+        "tipo_vinculo": "M",
+        "data_inicio": "2019-08-14",
+        "data_termino": null,
+        "is_ativo": true
+    }
+}
+]
