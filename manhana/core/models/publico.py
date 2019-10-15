@@ -1,9 +1,9 @@
 #MODELS QUE SÃO DE USO PÚBLICO
 
+from django.conf import settings
+from django.contrib.auth.models import User
 #IMPORTES
 from django.db import models
-from django.contrib.auth.models import User
-from django.conf import settings
 
 
 #MODEL ABSTRATO DE MANUTENÇÃO DE DATAS E HORAS DE CRIAÇÃO E ULTIMA ATUALIZACAO

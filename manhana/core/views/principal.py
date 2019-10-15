@@ -1,41 +1,52 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from django.contrib import messages
-from django.views import generic
-from datetime import datetime, date
-from django.views.generic.base import RedirectView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse, reverse_lazy
-from validate_email import validate_email
-from pprint import pprint
-from django.db import transaction
-from django.contrib.auth.models import User
-from manhana.authentication.models import *
-from manhana.core.forms.principal import *
-from manhana.authentication.models import TaeProfile, DocenteProfile, ServidorProfile
-from manhana.core.services import ImportarUnidadesSIG, IntegraResponsavelUnidadesSIG
-from manhana.core.models.parametro import EstruturaOrganizacional, ResponsavelUnidade, VinculoServidorUnidade
-from django.utils.text import slugify
-from django.db.models import Q
-from django.template.loader import render_to_string
+import json
 import logging
-import requests, json
+from datetime import date, datetime
+from pprint import pprint
 
+import requests
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
+from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
+from django.db import transaction
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.urls import reverse, reverse_lazy
+from django.utils.text import slugify
+from django.views import generic
+from django.views.generic.base import RedirectView
+from validate_email import validate_email
+
+from manhana.authentication.models import *
+from manhana.authentication.models import (DocenteProfile, ServidorProfile,
+                                            TaeProfile)
+from manhana.core.forms.principal import *
+from manhana.core.models.parametro import (EstruturaOrganizacional,
+                                            ResponsavelUnidade,
+                                            VinculoServidorUnidade)
+from manhana.core.services import (ImportarUnidadesSIG,
+                                    IntegraResponsavelUnidadesSIG)
 
 # Create a custom logger
 logger = logging.getLogger(__name__)
+
+
+class HomeView(generic.TemplateView):
+    template_name = 'index.html'
+
 
 class IndexView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'core/principal/index.html'
 
     def get(self, request, *args, **kwargs):
         if 'perfil' not in request.session:
-           return redirect('auth:verifica_user')
+            return redirect('auth:verifica_user')
 
         return render(request, self.template_name, self.get_context_data())
-        
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
@@ -60,6 +71,7 @@ class UserDetalheView(LoginRequiredMixin, generic.TemplateView):
         context['servidores'] = perfis_servidor
         return context
 
+
 class DocenteEditarView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateView):
     model = DocenteProfile
     form_class = DocenteForm
@@ -69,10 +81,12 @@ class DocenteEditarView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateV
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super(DocenteEditarView, self).get_form_kwargs(*args, **kwargs)
+
+        # filtra por grupos na hierarquia
         if self.object.grupo.grupo_pai:
-            kwargs['grupo'] = GrupoDocente.objects.filter((Q(grupo_pai=self.object.grupo.grupo_pai) | Q(pk=self.object.grupo.grupo_pai.pk)) & Q(is_ativo=True)) 
+            kwargs['grupo'] = GrupoDocente.objects.filtra_hierarquia(self.object.grupo.grupo_pai)
         else:
-            kwargs['grupo'] = GrupoDocente.objects.filter((Q(grupo_pai=self.object.grupo) | Q(pk=self.object.grupo.pk)) & Q(is_ativo=True)) 
+            kwargs['grupo'] = GrupoDocente.objects.filtra_hierarquia(self.object.grupo)
         return kwargs
 
 
@@ -80,7 +94,7 @@ class DocenteEditarView(LoginRequiredMixin, SuccessMessageMixin, generic.UpdateV
 def detalha_servidor(request, pk):
     data = dict()
     perfil = get_object_or_404(ServidorProfile, pk=pk)
-    context = {'perfil': perfil,}
+    context = {'perfil': perfil, }
     data['html_form'] = render_to_string('core/ajax/partial_servidor_detalhe.html', context, request=request,)
     return JsonResponse(data)
 
@@ -136,9 +150,9 @@ def importar_unidades(request):
         alt = 0
         try:
             for u in unidades:
-                
+
                 estrutura = EstruturaOrganizacional.objects.filter(id_unidade_sig=u['id'], is_ativo=True).first()
-                
+
                 if estrutura:
                     estrutura.nome = u['nome']
                     estrutura.sigla = u['sigla']
@@ -154,14 +168,14 @@ def importar_unidades(request):
                 else:
                     est = EstruturaOrganizacional.objects.filter(nome__istartswith=u['nome'], is_ativo=True).first()
                     novo = False
-                    
+
                     if not est:
                         est = EstruturaOrganizacional()
                         add = add + 1
                         novo = True
                     else:
                         alt = alt + 1
-                    
+
                     est.nome = u['nome']
                     est.sigla = u['sigla']
 
@@ -174,13 +188,13 @@ def importar_unidades(request):
                     else:
                         if not novo:   
                             est.tipo_estrutura = EstruturaOrganizacional.RAIZ
-                    
+
                     est.id_unidade_sig = u['id']
                     est.save()
         except Exception as ex:
             messages.error(request, 'Não é possível atualizar o organograma: %s' % str(ex))
             logger.exception('Ocorreu uma exceção - Não é possível atualizar o organograma: %s' % str(ex))
-        
+
         logger.info(f"A importação do organograma do SIG foi realizada com sucesso, foram adicionadas {add} estruturas e atualizadas {alt}.")
         messages.success(request, f"Organograma atualizado com sucesso, foram adicionadas {add} estruturas e atualizadas {alt}.")
     return redirect('core:vw_index')
@@ -250,8 +264,7 @@ def importar_responsabilidades(request, slug, pk):
         except Exception as ex:
             messages.error(request, f'Não é possível importar suas responsabilidades do SIG: {ex}') 
             logger.exception(f'Ocorreu uma exceção - Não é possível importar suas responsabilidades do SIG: {ex}')
-        
-        
+
     return render(request, 'core/usuario/importar_responsabilidades.html', context=context)
 
 
@@ -274,14 +287,15 @@ class ListaResponsabilidadesServidorView(LoginRequiredMixin, generic.ListView):
 
         return context
 
+
 @login_required
 def detalha_responsabilidade(request, pk):
     data = dict()
     funcao = get_object_or_404(ResponsavelUnidade, pk=pk)
-    context = {'funcao': funcao,}
+    context = {'funcao': funcao, }
     data['html_form'] = render_to_string('core/ajax/partial_responsabilidade_detalhe.html', context, request=request,)
     return JsonResponse(data)
-    
+
 
 class ListaEstruturaOrganizacionalView(LoginRequiredMixin, generic.ListView):
     model = EstruturaOrganizacional
@@ -293,7 +307,7 @@ class ListaEstruturaOrganizacionalView(LoginRequiredMixin, generic.ListView):
         nome = self.request.GET.get('nome', None)
 
         if nome:
-            return self.model.objects.filter((Q(nome__icontains=nome) | Q(sigla=nome)) | (Q(estrutura_pai__nome__icontains=nome) | Q(estrutura_pai__sigla=nome)))
+            return self.model.objects.encontra_por_nome(nome)
         else:
             return self.model.objects.all()
 
@@ -302,6 +316,7 @@ class ListaEstruturaOrganizacionalView(LoginRequiredMixin, generic.ListView):
         Paginate by specified value in querystring, or use default class property value.
         """
         return self.request.GET.get('paginate_by', self.paginate_by)
+
 
 @login_required
 def lista_servidores_vinculados(request, pk):
@@ -357,6 +372,7 @@ class EditarVinculoServidorView(LoginRequiredMixin, SuccessMessageMixin, generic
     def get_success_url(self):
         return reverse('core:lista-servidores-vinculados', kwargs={'pk' :self.vinculo.unidade.pk})
 
+
 @login_required
 def detalha_vinculo(request, pk):
     data = dict()
@@ -383,5 +399,5 @@ def inativar_vínculo(request):
         except Exception as ex:
             messages.error(request, f'Não é possível inativar o vínculo: {ex}')
             logger.exception(f'Ocorreu uma exceção: Não é possível inativar o vínculo: {ex}')
-        
+
     return redirect('core:lista-servidores-vinculados', pk=vinculo.unidade.pk)

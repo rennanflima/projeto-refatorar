@@ -1,24 +1,30 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.urls import reverse
-from manhana.core.models.publico import *
-from manhana.core.models.parametro import *
-from manhana.authentication.models import DocenteProfile
-from django.dispatch import receiver
-from django.db.models.signals import pre_delete
-from django.db.models import ProtectedError
-from django.db import IntegrityError
-from django.core.exceptions import ValidationError
-from django.db.models import Q
-from django.utils.formats import localize
-from ckeditor.fields import RichTextField
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-from django.contrib.contenttypes.models import ContentType
 import datetime
+
+from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import (GenericForeignKey,
+                                                GenericRelation)
+from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import IntegrityError, models
+from django.db.models import ProtectedError, Q
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+from django.urls import reverse
+from django.utils.formats import localize
+
+from manhana.authentication.models import DocenteProfile
+from manhana.core.managers import (InformacaoArgumentoQuerySet,
+                                    ProcessoQuerySet,
+                                    RegistroAtividadeQuerySet, TramiteQuerySet)
+from manhana.core.models.parametro import *
+from manhana.core.models.publico import *
+
 
 def current_year():
     return datetime.date.today().year
+
 
 class Processo(Auditavel):
     numero_processo = models.CharField('Número do processo', max_length=60, blank=True, null=True)
@@ -31,6 +37,8 @@ class Processo(Auditavel):
     interessado = models.ForeignKey(DocenteProfile, on_delete=models.PROTECT, related_name='processos', blank=True, null=True)
     unidade_interessada = models.ForeignKey(EstruturaOrganizacional, on_delete=models.PROTECT, related_name='processos_unidade_interessada', blank=True, null=True)
     situacao = models.ForeignKey(SituacaoProcesso, on_delete=models.PROTECT, related_name='processos', default=1)
+
+    objects = ProcessoQuerySet.as_manager()
 
     class Meta:
         ordering = ['ano', 'semestre']
@@ -60,12 +68,11 @@ class Processo(Auditavel):
                 self.numero_processo = numero_processo
 
         super(Processo, self).save(*args, **kwargs)
-        
+
     def exibir_interessado(self):
         if self.interessado:
             return self.interessado.pessoa.user.get_full_name() 
         return self.unidade_interessada
-
 
     def subtotal_ch_semanal_tipo_atividade(self):
         valores = dict()
@@ -90,20 +97,20 @@ class Processo(Auditavel):
                     total_atv_avaliadas = total_atv_avaliadas + 1
 
             if not registros_list.exists():
-                valores[ta] = None 
+                valores[ta] = None
             elif total_atv_avaliadas < registros_list.count():
                 valores[ta] = False
             else:
                 valores[ta] = True
-        
+
         return valores
 
     def ch_semanal_total(self):
-        total = 0 
-        for k,v in self.subtotal_ch_semanal_tipo_atividade().items():
+        total = 0
+        for k, v in self.subtotal_ch_semanal_tipo_atividade().items():
             total = total + v
         return total
-        
+
     def qtd_disciplinas(self):
         atividade_ensino = Atividade.objects.get(descricao='Aula')
         argumento_ensino = ArgumentoCategoria.objects.get(categoria_atividade=atividade_ensino.categoria_atividade, campo='Disciplina')
@@ -113,9 +120,9 @@ class Processo(Auditavel):
         for info in informacoes_argumentos_ensino:
             texto = info.valor_texto.split("(")[0].strip()
 
-            if not texto in disc:
+            if texto not in disc:
                 disc.append(texto)
-        
+
         return len(disc)
 
     def qtd_cursos(self):
@@ -127,9 +134,9 @@ class Processo(Auditavel):
         for info in informacoes_argumentos_ensino:
             texto = info.valor_texto.split(":")[0].strip()
 
-            if not texto in disc:
+            if texto not in disc:
                 disc.append(texto)
-        
+
         return len(disc)
 
     def qtd_cursos_por_tipo(self, tipo):
@@ -146,9 +153,9 @@ class Processo(Auditavel):
                 if info.registro_atividade == ifo.registro_atividade:
                     texto = info.valor_texto.split(":")[0].strip()
                     if tipo == ifo.valor_texto:
-                        if not texto in disc:
+                        if texto not in disc:
                             disc.append(texto)
-        
+
         return len(disc)
 
     def qtd_turma_por_tipo_curso(self, tipo):
@@ -166,9 +173,9 @@ class Processo(Auditavel):
                 if info.registro_atividade == ifo.registro_atividade:
                     texto = info.valor_texto.split(":")[1].strip()
                     if tipo == ifo.valor_texto or tipo in ifo.valor_texto:
-                        if not texto in disc:
+                        if texto not in disc:
                             disc.append(texto)
-        
+
         return len(disc)
 
     def timeline(self):
@@ -179,7 +186,7 @@ class Processo(Auditavel):
         criacao['descricao'] = 'Criação do processo.'
         timeline.append(criacao)
         tramites = Tramite.objects.filter(processo=self)
-        
+
         for t in tramites: 
             registro = {}
             registro['data'] = t.data_envio
@@ -190,10 +197,25 @@ class Processo(Auditavel):
             timeline.append(registro)
         return timeline
 
-    def ultima_movimentacao(self):
-        return self.processo_tramitado.last()
+    def get_interessado(self):
+        if self.interessado:
+            return self.interessado
+        return self.unidade_interessada
 
-        
+    def alertas(self):
+        msgs = []
+        for k, v in self.subtotal_ch_semanal_tipo_atividade().items():
+            if k.is_restricao_ch_semanal:
+                limitacao = k.carga_horaria_semanal_categoria_atividade.filter(grupo_docente=self.interessado.grupo).first()
+                if limitacao.ch_minima > 0 and v < limitacao.ch_minima:
+                    msgs.append(f"A carga horária mínima semanal das suas {k.label} para o {self.interessado.grupo} está abaixo da regulamentada, que é de {limitacao.ch_minima} horas.")
+
+        if self.ch_semanal_total() != self.interessado.grupo.ch_semanal:
+            msgs.append(f"A carga horária semanal do seu {self.tipo_processo} está diferente da regulamentada para o seu grupo, que é de {self.interessado.grupo.ch_semanal} horas.")
+
+        return msgs
+
+
 @receiver(pre_delete, sender=Processo)
 def validar_deleta_processo(sender, instance, **kwargs):
     if not instance.situacao.slug == 'rascunho':
@@ -215,12 +237,14 @@ class RegistroAtividade(models.Model):
         atividade será tratada como editável.')
     is_obrigatorio = models.BooleanField('Atividade obrigatória?', default=False, help_text='Indica que a \
         atividade será tratada como obrigatória para o processo.')
-    # Avaliação 
+    # Avaliação
     situacao = models.CharField('Situação atividade', max_length=30, choices=TIPO_STATUS_REGISTRO, default=AGUARDANDO_VALIDACAO)
     justificativa = models.TextField('Justificativa', blank=True, help_text='Caso a atividade seja inválida justifique')
     avaliador = models.ForeignKey('authentication.ServidorProfile', on_delete=models.PROTECT, related_name='registro_atividades', blank=True, null=True)
     data_avaliacao = models.DateTimeField('Data da avaliacao', blank=True, null=True)
-    
+
+    objects = RegistroAtividadeQuerySet.as_manager()
+
     class Meta:
         verbose_name = 'Registro da Atividade'
         verbose_name_plural = 'Registros das atividades'
@@ -245,6 +269,8 @@ class InformacaoArgumento(models.Model):
     valor_boolean = models.NullBooleanField('Valor da informação Verdadeiro ou Falso')
     valor_arquivo = models.FileField('Valor da informação Arquivo', upload_to = 'arquivos/', blank=True, null=True)
     registro_atividade = models.ForeignKey(RegistroAtividade, on_delete=models.CASCADE, related_name='informacoes_argumentos')
+
+    objects = InformacaoArgumentoQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Informação do Argumento'
@@ -283,9 +309,10 @@ class InformacaoArgumento(models.Model):
         elif self.argumento.tipo_dado == 'DATA_HORA':
             return self.valor_data_hora
 
+
 class Assinatura(models.Model):
     data_assinatura = models.DateTimeField(auto_now_add=True)
-    servidor_assinante = models.ForeignKey('authentication.ServidorProfile', on_delete=models.PROTECT, related_name='servidor_assinante_fk')
+    servidor_assinante = models.ForeignKey('authentication.ServidorProfile', on_delete=models.PROTECT, related_name='assinaturas')
     is_autenticador = models.BooleanField('Autenticador?', default=False)
 
     # Below the mandatory fields for generic relation
@@ -302,6 +329,7 @@ class Assinatura(models.Model):
     def __str__(self):
         return f'{self.servidor_assinante} (Autenticador?: {self.is_autenticador}) - {self.data_assinatura}'
 
+
 class DocumentoProcesso(Auditavel):
     SOLICITACAO = 'SOLICITACAO'
     PARECER = 'PARECER'
@@ -310,9 +338,9 @@ class DocumentoProcesso(Auditavel):
     titulo = models.CharField('Título', max_length=255, blank=True)
     tipo_documento = models.CharField('Tipo do documento', max_length=20, choices=TIPO_DOCUMENTO, default=PARECER)
     texto = RichTextField(('Texto'), null=True, blank=True)
-    arquivo = models.FileField('Arquivo', upload_to = 'documentos/', blank=True, null=True)
+    arquivo = models.FileField('Arquivo', upload_to='documentos/', blank=True, null=True)
 
-    assinaturas = GenericRelation(Assinatura)
+    assinaturas = GenericRelation(Assinatura, related_name='documentos_processo')
 
     class Meta:
         verbose_name = 'Documento do processo'
@@ -328,19 +356,21 @@ class DocumentoProcesso(Auditavel):
 
 
 class Tramite(models.Model):
-    #origem do processo
-    processo = models.ForeignKey(Processo, related_name='processo_tramitado', on_delete=models.PROTECT)
-    servidor_origem = models.ForeignKey('authentication.ServidorProfile', on_delete=models.PROTECT, related_name='servidor_origem_fk')
-    unidade_origem = models.ForeignKey(EstruturaOrganizacional, on_delete=models.PROTECT, related_name='unidade_origem_fk')
+    # origem do processo
+    processo = models.ForeignKey(Processo, related_name='tramites', on_delete=models.PROTECT)
+    servidor_origem = models.ForeignKey('authentication.ServidorProfile', on_delete=models.PROTECT, related_name='tramites_origem')
+    unidade_origem = models.ForeignKey(EstruturaOrganizacional, on_delete=models.PROTECT, related_name='tramites_origem')
     data_criacao = models.DateTimeField(auto_now_add=True)
     data_envio = models.DateTimeField('Data de envio do processo', blank=True, null=True)
-    #destino do processo
-    servidor_destino = models.ForeignKey('authentication.ServidorProfile', on_delete=models.PROTECT, related_name='servidor_destino_fk', blank=True, null=True)
-    unidade_destino = models.ForeignKey(EstruturaOrganizacional, on_delete=models.PROTECT, related_name='unidade_destino_fk', blank=True, null=True)
+    # destino do processo
+    servidor_destino = models.ForeignKey('authentication.ServidorProfile', on_delete=models.PROTECT, related_name='tramites_destino', blank=True, null=True)
+    unidade_destino = models.ForeignKey(EstruturaOrganizacional, on_delete=models.PROTECT, related_name='tramites_destino', blank=True, null=True)
     data_recebimento = models.DateTimeField('Data do recebimento do processo', blank=True, null=True)
-    servidor_recebimento = models.ForeignKey('authentication.ServidorProfile', on_delete=models.PROTECT, related_name='servidor_recebimento_fk', blank=True, null=True)
+    servidor_recebimento = models.ForeignKey('authentication.ServidorProfile', on_delete=models.PROTECT, related_name='tramites_recebimento', blank=True, null=True)
 
     assinaturas = GenericRelation(Assinatura)
+
+    objects = TramiteQuerySet.as_manager()
 
     class Meta:
         ordering = ['processo', 'data_criacao', 'data_envio']
@@ -354,7 +384,7 @@ class Tramite(models.Model):
     def origem(self):
         if self.unidade_origem:
             return f"{self.servidor_origem.pessoa.user.get_full_name()} ({self.servidor_origem.siape}) - {self.unidade_origem}"
-        
+
         return f"{self.servidor_origem.pessoa.user.get_full_name()} ({self.servidor_origem.siape})"
 
     def destino(self):
@@ -362,8 +392,5 @@ class Tramite(models.Model):
             if self.unidade_destino:
                 return f"{self.servidor_destino.pessoa.user.get_full_name()} ({self.servidor_origem.siape}) - {self.unidade_destino}"
             return f"{self.servidor_destino.pessoa.user.get_full_name()} ({self.servidor_origem.siape})"
-        
+
         return f"{self.unidade_destino}"
-    
-
-

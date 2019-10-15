@@ -1,5 +1,6 @@
-from django.urls import path, re_path, include
-from manhana.core.views import processo
+from django.urls import include, path, re_path
+
+from manhana.core.views import consulta, processo
 
 urlpatterns = [
     path('processo/', processo.CaixaEntradaView.as_view(), name="caixa-entrada"),
@@ -51,8 +52,8 @@ urlpatterns = [
 
 
     # Consulta
-    path('processo/<int:pk>/realizar/consulta/novo/', processo.realizar_consulta_novo, name="consulta-novo"),
-    path('processo/consulta/<int:pk>/movimentar/', processo.consulta_detalhe, name="consulta-movimentar"),
+    path('processo/<int:pk>/realizar/consulta/novo/', consulta.realizar_consulta_novo, name="consulta-novo"),
+    path('processo/consulta/<int:pk>/movimentar/', consulta.consulta_detalhe, name="consulta-movimentar"),
 
 
     path('ajax/processo/<int:pk>/resumo/<editando>/', processo.resumo_processo, name='ajax-summary-process'),

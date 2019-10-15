@@ -1,39 +1,41 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from django.contrib import messages
-from django.views import generic
+import json
+import logging
 from datetime import datetime as dt
+from pprint import pprint
+
+import requests
+from django import forms
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
+from django.db import IntegrityError, transaction
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.urls import reverse, reverse_lazy
+from django.views import generic
 from django.views.generic.base import RedirectView
 from django.views.generic.edit import UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse, reverse_lazy
 from validate_email import validate_email
-from pprint import pprint
-from django.db import transaction
-from django.contrib.auth.models import User
-from django.db import IntegrityError
-from django.db.models import Q
-from manhana.core.models.processo import *
-from manhana.core.forms.processo import *
-from manhana.core.forms.principal import ConfirmPasswordForm
-from manhana.core.models.parametro import *
+
 from manhana.authentication.models import *
-from manhana.core.services import *
-from django.template.loader import render_to_string
 from manhana.core.filters import ProcessoFilter
-from django.core.paginator import Paginator
-from django.core.exceptions import PermissionDenied
-from django.contrib.contenttypes.models import ContentType
-from django import forms
-import logging
-import requests, json
-
-
+from manhana.core.forms.principal import ConfirmPasswordForm
+from manhana.core.forms.processo import *
+from manhana.core.models.parametro import *
+from manhana.core.models.processo import *
+from manhana.core.services import *
 
 # Create a custom logger
 logger = logging.getLogger(__name__)
+
 
 # Create your views here.
 class AuditableMixin(object):
@@ -52,10 +54,16 @@ class ProcessoNovoView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateVi
 
     def form_valid(self, form):
         try:
-            if self.request.session['tipo_perfil']:
-                if self.request.session['tipo_perfil'] == 'Docente':
+            if not self.request.session['tipo_perfil']:
+                logger.warning('O usuário %s não está com o perfil registrado na sessão', self.request.user)
+                return redirect('auth:selecao_perfil')
+            else:
+                if self.request.session['tipo_perfil'] != 'Docente':
+                    messages.error(self.request, 'Só usuários com vínculo de Docente podem criar um novo registro.')
+                    logger.error("O usuário '%s' do tipo %s tem tentou criar um processo mas não conseguiu, pois só usuários com vínculo de Docente podem criar um novo registro." % (self.request.user, self.request.session['tipo_perfil']))
+                else:
                     perfil = DocenteProfile.objects.get(pk=self.request.session['perfil'])
-                    
+
                     self.object = form.save(commit=False)
                     self.object.interessado = perfil
                     self.object.criado_por = self.request.user
@@ -63,23 +71,17 @@ class ProcessoNovoView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateVi
                     self.object.save()
                     logger.info("O usuário '%s' criou o processo '%s'" % (self.request.user, str(self.object)))
                     return redirect('core:processo-editar', pk=self.object.pk)
-                else:
-                    messages.error(self.request, 'Só usuários com vínculo de Docente podem criar um novo registro.')
-                    logger.error("O usuário '%s' do tipo %s tem tentou criar um processo mas não conseguiu, pois só usuários com vínculo de Docente podem criar um novo registro." % (self.request.user, self.request.session['tipo_perfil']))
-            else:
-                logger.warning('O usuário %s não está com o perfil registrado na sessão', self.request.user)
-                return redirect('auth:selecao_perfil')
-        
+
         except IntegrityError as e:
+            # personaliza mensagem da restrição unique_together
             if 'UNIQUE constraint' in str(e):
                 messages.error(self.request, 'Não é possível criar um novo registro: Só pode ser criado um %s para %d/%d' % (self.object.tipo_processo, self.object.ano, self.object.semestre))            
                 logger.exception('Ocorreu uma exceção: Não é possível criar um novo registro: Só pode ser criado um %s para %d/%d' % (self.object.tipo_processo, self.object.ano, self.object.semestre))
         except Exception as ex:
             messages.error(self.request, 'Não é possível criar um novo registro: %s' % str(ex))
             logger.exception('Ocorreu uma exceção: Não é possível criar um novo registro: %s' % str(ex))
-        
-        return render(self.request, self.template_name, self.get_context_data())
-            
+
+        return render(self.request, self.template_name, self.get_context_data())    
 
     def get_context_data(self, **kwargs):
         context = super(ProcessoNovoView, self).get_context_data(**kwargs)
@@ -99,31 +101,30 @@ class ProcessoDetalheView(LoginRequiredMixin, generic.DetailView):
 
     @property
     def processo_id(self):
-       return int(self.kwargs['pk'])
+        return int(self.kwargs['pk'])
 
     @property
     def servidor(self):
-        return ServidorProfile.objects.get(pk=self.request.session['perfil'])
+        return get_object_or_404(ServidorProfile, pk=self.request.session['perfil'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.processo = get_object_or_404(Processo, pk=self.processo_id)
         context['processo'] = self.processo
+        # carrega por padrão os dados da categoria Atividades de Ensino
         try:
             tipo_atividade = CategoriaAtividade.objects.get(slug='atividades-de-ensino')
-            self.registro = RegistroAtividade.objects.filter(processo=self.processo, atividade__categoria_atividade=tipo_atividade)
+            self.registro = self.processo.registros_atividade.encontra_por_categoria(tipo_atividade).prefetch_related('informacoes_argumentos')
             context['registros'] = self.registro
-        except:
+        except CategoriaAtividade.DoesNotExist as e:
             context['registros'] = None
-        self.informacao = InformacaoArgumento.objects.filter(registro_atividade__in=self.registro)
-        context['informacao'] = self.informacao
-       
-        context['slug'] = 'atividades-de-ensino'
+
         context['categorias_atividades'] = self.processo.tipo_processo.categoria_atividade.all()
-        # context['editando'] = False
+        context['editando'] = False
         if self.servidor == self.processo.interessado:
             context['is_interessado'] = True
         return context
+
 
 class EditarProcessoView(LoginRequiredMixin, generic.View):
     template_name = 'core/processo/adicionar_atividades.html'
@@ -134,15 +135,17 @@ class EditarProcessoView(LoginRequiredMixin, generic.View):
 
     @property
     def processo_id(self):
-       return int(self.kwargs['pk'])
+        return int(self.kwargs['pk'])
 
     def get(self, request, *args, **kwargs):
         self.carregar_context(request)
         logger.info("O usuário '%s' acessou o processo '%s' para editar as atividades." % (request.user, str(self.processo)))
-        
+
+        # Verifica se o usuário logado é o interessado do processo
         user = request.user
         if user == self.processo.interessado.pessoa.user or user == self.processo.criado_por:
-            if self.processo.situacao.slug != 'rascunho' and self.processo.situacao.slug != 'alteracoes-necessarias' and self.processo.situacao.slug != 'envio-recusado':
+            # Verifica se processo não está com a situação: rascunho, alterações necessárias, envio recusado
+            if self.processo.situacao.slug not in ('rascunho', 'alteracoes-necessarias', 'envio-recusado'):
                 messages.error(request, 'Somente processo com situação RASCUNHO, ALTERAÇÕES NECESSÁRIAS ou ENVIO RECUSADO pode ser editado!')
                 logger.warning(f"O usuário '{user}' tentou editar o processo '{self.processo}' que tem situação '{self.processo.situacao.nome}'.")
                 return redirect('core:caixa-entrada')
@@ -151,23 +154,16 @@ class EditarProcessoView(LoginRequiredMixin, generic.View):
             logger.warning(f"O usuário '{user}' tentou editar o {self.processo} que foi criado por '{self.processo.criado_por}' e tem como interessado o '{self.processo.interessado}'.")
             return redirect('core:caixa-entrada')
 
-        # Alerta de Categorias de Atividade com carga horárias semanal abaixo da mínima
-        if self.processo.registros_atividade.all().exists():
-            for k, v in self.processo.subtotal_ch_semanal_tipo_atividade().items():
-                if k.is_restricao_ch_semanal:
-                    limitacao =  CHSemanalCategoriaAtividade.objects.filter(grupo_docente=self.processo.interessado.grupo, categoria_atividade=k).first()
-                    if limitacao.ch_minima > 0 and v < limitacao.ch_minima:
-                        messages.warning(request, f"A carga horária mínima semanal das suas {k.label} para o {self.processo.interessado.grupo} está abaixo da regulamentada, que é de {limitacao.ch_minima} horas.")
+        # Imprime alertas do processo
+        for msg in self.processo.alertas():
+            messages.add_message(request, messages.WARNING, msg)
 
-            if self.processo.ch_semanal_total() != self.processo.interessado.grupo.ch_semanal:
-                messages.warning(request, f"A carga horária semanal do seu {self.processo.tipo_processo} está diferente da regulamentada para o seu grupo, que é de {self.processo.interessado.grupo.ch_semanal} horas.")
-
-        if self.processo.situacao.slug != 'rascunho':
-            if self.processo.ultima_movimentacao().exists():
-                tramite = self.processo.ultima_movimentacao()
-                tramite.data_recebimento = dt.now()
-                tramite.servidor_recebimento = ServidorProfile.objects.get(pessoa__user=request.user)
-                tramite.save()
+        # Dá o recebimento no processo
+        if self.processo.tramites.ultima_movimentacao():
+            tramite = self.processo.tramites.ultima_movimentacao()
+            tramite.data_recebimento = dt.now()
+            tramite.servidor_recebimento = ServidorProfile.objects.get(pessoa__user=request.user)
+            tramite.save()
 
         return render(request, self.template_name, self.context)
 
@@ -177,20 +173,16 @@ class EditarProcessoView(LoginRequiredMixin, generic.View):
     def carregar_context(self, request):
         self.processo = get_object_or_404(Processo, pk=self.processo_id)
         self.context['processo'] = self.processo
+        # Carrega por padrão os dados da categoria Atividades de Ensino
         try:
             tipo_atividade = CategoriaAtividade.objects.get(slug='atividades-de-ensino')
-            self.registro = RegistroAtividade.objects.filter(processo=self.processo, atividade__categoria_atividade=tipo_atividade)
+            self.registro = self.processo.registros_atividade.encontra_por_categoria(tipo_atividade).prefetch_related('informacoes_argumentos')
             self.context['registros'] = self.registro
-        except:
+        except CategoriaAtividade.DoesNotExist as e:
             self.context['registros'] = None
-        self.informacao = InformacaoArgumento.objects.filter(registro_atividade__in=self.registro)
-        self.context['informacao'] = self.informacao
-       
-        self.context['slug'] = 'atividades-de-ensino'
 
         self.context['categorias_atividades'] = self.processo.tipo_processo.categoria_atividade.all()
         self.context['editando'] = True
-        #self.context['categorias_atividades'] = self.processo.tipo_processo.categoria_atividade.filter(categoria_pai__isnull=True)
 
 
 class CaixaEntradaView(LoginRequiredMixin, generic.ListView):
@@ -201,77 +193,88 @@ class CaixaEntradaView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         nome = self.request.GET.get('nome', '')
-        servidor = ServidorProfile.objects.get(pk=self.request.session['perfil'])
+        servidor = get_object_or_404(ServidorProfile, pk=self.request.session['perfil'])
 
-        vinculos = VinculoServidorUnidade.objects.filter(servidor=servidor, is_ativo=True)
-        
+        vinculos = servidor.vinculos_unidade.ativo()
+
         lista_processos = []
+        # Monta lista de ID's dos processos relacionados a unidade a qual o servidor está vinculado
         for v in vinculos:
-            proc_l = Processo.objects.filter(unidade_interessada=v.unidade, situacao__slug='rascunho')
+            # Monta lista de ID's dos processos que tem como unidade interessada a unidade a qual o servidor está vinculado
+            proc_l = Processo.objects.rascunho().filter(unidade_interessada=v.unidade)
             for p in proc_l:
                 if p not in lista_processos:
                     lista_processos.append(p.id)
-
+            # Monta lista de ID's dos processos que foram enviados para unidade a qual o servidor está vinculado
             tramites = Tramite.objects.filter(unidade_destino=v.unidade)
             for t in tramites:
-                if t.processo.ultima_movimentacao().unidade_destino == v.unidade:
+                if t.processo.tramites.ultima_movimentacao().unidade_destino == v.unidade:
                     if t.processo not in lista_processos:
                         lista_processos.append(t.processo.id)
 
-
-        funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=servidor) & Q(data_termino__isnull=True) & (Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
-
+        funcoes_gratificadas = servidor.responsaveis_unidade.responde_por()
+        # Monta lista de ID's dos processos relacionados a unidade a qual o servidor responde como chefe ou vice
         for fg in funcoes_gratificadas:
-            procfg_l = Processo.objects.filter(unidade_interessada=fg.unidade, situacao__slug='rascunho')
+            procfg_l = Processo.objects.rascunho().filter(unidade_interessada=fg.unidade)
+            # Monta lista de ID's dos processos que tem como unidade interessada a unidade a qual o servidor responde como chefe ou vice
             for p in procfg_l:
                 if p not in lista_processos:
                     lista_processos.append(p.id)
 
             tramites = Tramite.objects.filter(unidade_destino=fg.unidade)
+            # Monta lista de ID's dos processos que foram enviados para unidade a qual o servidor responde como chefe ou vice
             for t in tramites:
-                if t.processo.ultima_movimentacao().unidade_destino == fg.unidade:
+                if t.processo.tramites.ultima_movimentacao().unidade_destino == fg.unidade:
                     if t.processo not in lista_processos:
                         lista_processos.append(t.processo.id)
 
         tramites = Tramite.objects.filter(servidor_destino=servidor)
+        # Monta lista de ID's dos processos que foram enviados para o servidor
         for t in tramites:
-            if t.processo.ultima_movimentacao().servidor_destino == servidor:
+            if t.processo.tramites.ultima_movimentacao().servidor_destino == servidor:
                 if t.processo not in lista_processos:
                     lista_processos.append(t.processo.id)
 
+        # Busca os processo com a lista de ID's montada acima
         all_processos = self.model.objects.filter(id__in=lista_processos)
+        # faz filtro nos processos que o usuário é o interessado
+        processo_pessoal = self.model.objects.editavel().encontra_por_tipo_ou_assunto(tipo=nome, assunto=nome).filter(Q(interessado__pessoa=self.request.user.pessoa))
 
+        # verifica se a string de busca possui uma /
         if '/' in nome:
             s = nome.split('/')
             if s[0].isdigit() and s[1].isdigit():
                 ano = int(s[0])
                 semestre = int(s[1])
-                processo_pessoal = self.model.objects.filter(Q(interessado__pessoa=self.request.user.pessoa) & (Q(tipo_processo__nome__icontains = nome) | Q(assunto__icontains=nome) | (Q(ano=ano) & Q(semestre=semestre))) & (Q(situacao__slug='rascunho') | Q(situacao__slug='alteracoes-necessarias')))
-                return processo_pessoal | all_processos.filter(Q(tipo_processo__nome__icontains = nome) | Q(assunto__icontains=nome) | (Q(ano=ano) & Q(semestre=semestre)))
+                processo_pessoal = processo_pessoal.encontra_por_ano(ano=ano).encontra_por_semestre(semestre=semestre)
+                # junta os filtros com OU
+                return processo_pessoal | all_processos.encontra_por_tipo_ou_assunto(tipo=nome, assunto=nome) | all_processos.encontra_por_ano(ano=ano).encontra_por_semestre(semestre=semestre)
             else:
                 if s[0].isdigit():
                     ano = int(s[0])
-                    processo_pessoal = self.model.objects.filter(Q(interessado__pessoa=self.request.user.pessoa) & (Q(tipo_processo__nome__icontains = nome) | Q(assunto__icontains=nome) | Q(ano=ano) | Q(semestre=ano)) & (Q(situacao__slug='rascunho') | Q(situacao__slug='alteracoes-necessarias')))
-                    return processo_pessoal | all_processos.filter(Q(tipo_processo__nome__icontains = nome) | Q(assunto__icontains=nome) | Q(ano=ano) | Q(semestre=ano))
+                    processo_pessoal = processo_pessoal.encontra_por_ano_ou_semestre(ano=ano, semestre=ano)
+                    # junta os filtros com OU
+                    return processo_pessoal | all_processos.encontra_por_tipo_ou_assunto(tipo=nome, assunto=nome) | all_processos.encontra_por_ano_ou_semestre(ano=ano, semestre=ano)
                 if s[1].isdigit():
                     semestre = int(s[1])
-                    processo_pessoal = self.model.objects.filter(Q(interessado__pessoa=self.request.user.pessoa) & (Q(tipo_processo__nome__icontains = nome) | Q(assunto__icontains=nome) | Q(ano=semestre) | Q(semestre=semestre)) & (Q(situacao__slug='rascunho') | Q(situacao__slug='alteracoes-necessarias')))
-                    return processo_pessoal | all_processos.filter(Q(tipo_processo__nome__icontains = nome) | Q(assunto__icontains=nome) | Q(ano=semestre) | Q(semestre=semestre)) 
+                    processo_pessoal = processo_pessoal.encontra_por_ano_ou_semestre(ano=semestre, semestre=semestre)
+                    # junta os filtros com OU
+                    return processo_pessoal | all_processos.encontra_por_tipo_ou_assunto(tipo=nome, assunto=nome) | all_processos.encontra_por_ano_ou_semestre(ano=semestre, semestre=semestre)
 
+        # verifica se a string de busca só contem números
         if nome.isdigit():
-            processo_pessoal = self.model.objects.filter(Q(interessado__pessoa=self.request.user.pessoa) & (Q(ano=int(nome)) | Q(semestre=int(nome))) & (Q(situacao__slug='rascunho') | Q(situacao__slug='alteracoes-necessarias')))
-            return processo_pessoal | all_processos.filter(Q(ano=int(nome)) | Q(semestre=int(nome)))
-        
-        
-        processo_pessoal = self.model.objects.filter(Q(interessado__pessoa=self.request.user.pessoa) & (Q(tipo_processo__nome__icontains = nome) | Q(assunto__icontains=nome)) & (Q(situacao__slug='rascunho') | Q(situacao__slug='alteracoes-necessarias')))
-        
-        return processo_pessoal | all_processos.filter(Q(tipo_processo__nome__icontains = nome) | Q(assunto__icontains=nome))
+            processo_pessoal = processo_pessoal.encontra_por_ano_ou_semestre(ano=int(nome), semestre=int(nome))
+            # junta os filtros com OU
+            return processo_pessoal | all_processos.encontra_por_ano_ou_semestre(ano=int(nome), semestre=int(nome))
+
+        return processo_pessoal | all_processos.encontra_por_tipo_ou_assunto(tipo=nome, assunto=nome)
 
     def get_paginate_by(self, queryset):
         """
         Paginate by specified value in querystring, or use default class property value.
         """
         return self.request.GET.get('paginate_by', self.paginate_by)
+
 
 @login_required
 def excluir_processo(request):
@@ -281,7 +284,9 @@ def excluir_processo(request):
         user = request.user 
         logger.info(f'O usuário {user} solicitou o exclusão do processo {processo}.')
         try:
+            # verifica se o usuario é o interessado ou o criador
             if user == processo.interessado.pessoa.user or user == processo.criado_por:
+                # só pode excluir o processo se estiver com situação igual a RASCUNHO
                 if processo.situacao.slug == 'rascunho':
                     processo.delete()
                     logger.info("O usuário '%s' excluiu o processo '%s'" % (request.user, processo))
@@ -295,12 +300,12 @@ def excluir_processo(request):
         except Exception as ex:
             messages.error(request, 'Não é possível excluir o registro: %s' % str(ex))
             logger.exception('Ocorreu uma exceção: Não é possível excluir o registro: %s' % str(ex))
-        
+
     return redirect('core:caixa-entrada')
 
 
 class VerificarCategoriaAtividadeImportacaoView(LoginRequiredMixin, RedirectView):
-    
+
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):
@@ -313,7 +318,7 @@ class VerificarCategoriaAtividadeImportacaoView(LoginRequiredMixin, RedirectView
 
 
 class VerificarCategoriaAtividadeNovoView(LoginRequiredMixin, RedirectView):
-    
+
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):
@@ -331,8 +336,9 @@ def importar_atividade_ensino(request, pk):
     processo = get_object_or_404(Processo, pk=pk)
     logger.info(f"O usuário '{request.user}' solicitou a importação das suas turmas ABERTAS do SIGAA para ser inserida nas atividades de ensino do PIT do processo {processo}.")
     try:
+        # Importa as turmas da API do SIGAA
         resultado = importSig.importar_disciplina(processo.interessado, processo.ano)
-        print(resultado)
+        # Chama a função para limpar a lista das disciplinas importadas
         disciplinas = limpar_disciplinas_importadas(resultado, processo.semestre)
         logger.info("Para o usuario '%s' foram encontradas %d turmas ABERTAS no SIGAA com os seguintes parametros de buscas: %s (docente), %d (ano) e %d (semestre)." % (request.user, resultado['meta']['total_count'], processo.interessado, processo.ano, processo.semestre))
         messages.success(request, 'Disciplinas encontradas com sucesso.')
@@ -342,6 +348,7 @@ def importar_atividade_ensino(request, pk):
         logger.exception('Ocorreu uma exceção: Não é possível encontrar os registros: %s' % str(ex))
 
     return render(request, 'core/processo/atividades/importar_atividades_ensino.html', {'processo': processo, 'disciplinas': resultado['objects'],})
+
 
 def limpar_disciplinas_importadas(resultado, semestre):
     disciplina = []
@@ -354,20 +361,24 @@ def limpar_disciplinas_importadas(resultado, semestre):
     return disciplina
 
 
-
 @login_required
 @transaction.atomic
 def importar_atividade_gestao(request, pk):
     processo = get_object_or_404(Processo, pk=pk)
     logger.info(f"O usuário '{request.user}' solicitou a importação de atividade de gestão ATIVAS para ser inserida nas atividades de gestão do PIT do processo {processo}.")
-    if ResponsavelUnidade.objects.filter(servidor__pessoa__user=request.user, nivel_responsabilidade='C', data_termino__isnull=True).exists():
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
+    # verifica se o usuário é chefe de algum setor
+    if servidor.responsaveis_unidade.chefe().exists():
         try:
-            responsavel = ResponsavelUnidade.objects.get(servidor__pessoa__user=request.user, nivel_responsabilidade='C', data_termino__isnull=True)
+            responsavel = servidor.responsaveis_unidade.chefe().first()
             logger.info(f"Para o usuario '{request.user}' foi encontrada a seguinte unidade na qual ele é responsável: {responsavel.unidade.nome}" )
             messages.success(request, 'Unidade responsável por vossa gestão localizada com sucesso.')
+            # busca a categoria Gestão
             tipo_atividade = get_object_or_404(CategoriaAtividade, slug='atividades-de-gestao')
+            # inicia o form com os dados
             form = RegistroAtividadeForm(initial={'processo': processo,'descricao': responsavel.get_nivel_responsabilidade_display() + ': ' + responsavel.unidade.sigla + ' - ' + responsavel.unidade.nome})
-            form.fields['atividade'].queryset = Atividade.objects.filter(categoria_atividade=tipo_atividade, is_ativo=True)
+            # filtra a listagem do select pela atividades da categoria Gestão
+            form.fields['atividade'].queryset = Atividade.objects.encontra_por_categoria(tipo_atividade)
         except Exception as ex:
             messages.error(request, 'Não é possível encontrar os registros: %s' % str(ex))
             logger.exception('Ocorreu uma exceção: Não é possível encontrar os registros: %s' % str(ex))
@@ -375,13 +386,14 @@ def importar_atividade_gestao(request, pk):
         messages.warning(request, 'Não foi localizada nenhuma atividade de gestão em que você esteja inserido!')
         logger.info(f"Não foi localizada nenhuma atividade de gestão para o usuario '{request.user}'" )
         return HttpResponseRedirect(reverse('core:processo-editar', kwargs={'pk' :processo.pk}))
-    
+
     if request.method == 'POST':
         try:
             form = RegistroAtividadeForm(request.POST)
             if form.is_valid():                
                 registro = form.save(commit=False)
-                if not RegistroAtividade.objects.filter(atividade=registro.atividade, processo=processo).exists():
+                # verifica se já foi cadastrada a atividade no processo
+                if not processo.registros_atividade.encontra_por_atividade(registro.atividade).exists():
                     registro.save()
                     processo.save()
                     messages.success(request, 'Atividade de gestão importada com sucesso!')
@@ -394,6 +406,7 @@ def importar_atividade_gestao(request, pk):
     
     return render(request, 'core/processo/atividades/importar_atividade_gestao.html', {'processo': processo, 'responsavel': responsavel, 'form': form, 'tipo_atividade': tipo_atividade})
 
+
 @login_required
 @transaction.atomic
 def importar_disciplinas(request, pk):
@@ -402,13 +415,16 @@ def importar_disciplinas(request, pk):
         logger.info(f"O usuário '{request.user}' concordou em importar as turmas ABERTAS encontradas no SIGAA para o processo {processo}.")
         importSig = ImportarInformacoesSIG()
         arredondamento = Arredondamento()
+        # importa as disciplinas da API do SIGAA
         resultado = importSig.importar_disciplina(processo.interessado, processo.ano)
         add = 0
         alt = 0
         if resultado:
             if resultado['objects']:
+                # limpa as disciplinas importadas
                 disciplinas = limpar_disciplinas_importadas(resultado, processo.semestre)
                 for r in disciplinas:
+                    # Monta os campos a ser salvos para cada disciplina
                     if r['curso']['nivel'] == 'TÉCNICO':
                         tipo_curso = r['curso']['nivel']  + ' - ' + r['curso']['tipo_tecnico']
                     else:
@@ -420,14 +436,16 @@ def importar_disciplinas(request, pk):
                     periodo_letivo = f"{r['ano']}/{r['periodo']}" 
                     ch_diciplina = Decimal(r['carga_horaria'])
                     ch_docente = Decimal(r['carga_horaria_docente'])
-                    argumento = ArgumentoCategoria.objects.filter(categoria_atividade=atividade.categoria_atividade)
+                    argumento = atividade.categoria_atividade.argumentos.all()
 
-                    atividade_existe = InformacaoArgumento.objects.filter(argumento__campo='Disciplina', valor_texto=disciplina, registro_atividade__processo=processo).exists()
-                    if not atividade_existe:
+                    # Verifica se a turma já foi cadastrada no processo pelas informações dos campos adicionais
+                    atividade_existe = InformacaoArgumento.objects.encontra_por_processo(processo).encontra_por_campo('Disciplina').filter(valor_texto=disciplina)
+                    if not atividade_existe.exists():
                         ch_semanal = CalculaCargahorariaSemanal()
                         qtd_aulas = ch_semanal.calcular_qtdaulas(horario, ch_diciplina, ch_docente)
-                        registro_atividade = RegistroAtividade(atividade=atividade, processo=processo, ch_semanal=arredondamento.qtd_horas_aula(qtd_aulas), is_obrigatorio=True, is_editavel=False)
-                        registro_atividade.save()
+                        # cria o registro da atividade com os dados comuns a todas atividades e categorias
+                        registro_atividade = RegistroAtividade.objects.create(atividade=atividade, processo=processo, ch_semanal=arredondamento.qtd_horas_aula(qtd_aulas), is_obrigatorio=True, is_editavel=False)
+                        # Salva as informações dos campos adicionais para cada disciplina
                         for a in argumento:
                             informacao_argumento = InformacaoArgumento()
                             informacao_argumento.argumento = a
@@ -452,9 +470,10 @@ def importar_disciplinas(request, pk):
                             informacao_argumento.save()
                         add = add + 1
                     else:
+                        # Pega o registro da atividade das primeira informação retornada dos campos adicionais
+                        registro = atividade_existe.first().registro_atividade
                         
-                        registro = InformacaoArgumento.objects.filter(argumento__campo='Disciplina', valor_texto=disciplina, registro_atividade__processo=processo).first().registro_atividade
-                        
+                        # Se o precesso está com situação igual a "Alterações Necessárias" a situação do registro da atividade será "Editada"
                         if processo.situacao.slug == 'alteracoes-necessarias':
                             reg_ativ = registro.registro_atividade
                             reg_ativ.situacao = RegistroAtividade.EDITADA
@@ -462,6 +481,7 @@ def importar_disciplinas(request, pk):
                             
                         ch_semanal = CalculaCargahorariaSemanal()
                         qtd_aulas = ch_semanal.calcular_qtdaulas(horario)
+                        # atualiza as informações dos campos adicionais para cada disciplina
                         for a in argumento:
                             for info in registro.informacoes_argumentos.all():
                                 if info.argumento == a:
@@ -506,7 +526,7 @@ def excluir_atividade(request):
 
         if not registro.is_obrigatorio:
             try:
-                informacao = InformacaoArgumento.objects.filter(registro_atividade=registro)
+                informacao = registro.informacoes_argumentos.all()
                 for i in informacao:
                     i.delete()
                 registro.delete()
@@ -532,21 +552,21 @@ def detalha_atividade(request, pk):
     data['html_form'] = render_to_string('core/ajax/partial_atividade_detalhe.html', context, request=request,)
     return JsonResponse(data)
 
+
 def cria_contexto_lista_atividades(pk, id_tipo_atividade):
     context = {}
     processo = get_object_or_404(Processo, pk=pk)
     tipo_atividade = get_object_or_404(CategoriaAtividade, pk=id_tipo_atividade)
-    registros_list = RegistroAtividade.objects.filter(Q(processo=processo) & (Q(atividade__categoria_atividade=tipo_atividade) | Q(atividade__categoria_atividade__categoria_pai=tipo_atividade)))
-    informacao = InformacaoArgumento.objects.filter(registro_atividade__in=registros_list)
-    context['registros'] = registros_list
-    context['informacao'] = informacao
-    if processo.situacao.slug != 'rascunho' and processo.ultima_movimentacao().exists():
-        unidade_avaliadora = UnidadeFluxoProcesso.objects.filter(unidade=processo.ultima_movimentacao().unidade_destino, is_ativo=True, is_avaliadora=True).first()
+    registros_list = processo.registros_atividade.encontra_por_categoria_ou_categoria_pai(tipo_atividade).prefetch_related('informacoes_argumentos')
+    if processo.tramites.ultima_movimentacao():
+        unidade_avaliadora = UnidadeFluxoProcesso.objects.avaliadora().filter(unidade=processo.tramites.ultima_movimentacao().unidade_destino).first()
         if unidade_avaliadora:
             context['in_unidade_avaliadora'] = unidade_avaliadora.is_avaliadora
         else:
             context['in_unidade_avaliadora'] = False
+    context['registros'] = registros_list
     return context
+
 
 @login_required
 def carregar_lista_atividades_editando(request, pk, id_tipo_atividade):
@@ -554,24 +574,26 @@ def carregar_lista_atividades_editando(request, pk, id_tipo_atividade):
     data['html_item_list'] = render_to_string('core/ajax/partial_atividade_list_edit.html', cria_contexto_lista_atividades(pk, id_tipo_atividade), request=request,)
     return JsonResponse(data)
 
+
 @login_required
 def carregar_lista_atividades_detalhe(request, pk, id_tipo_atividade):
     data = dict()
     data['html_item_list'] = render_to_string('core/ajax/partial_atividade_list.html', cria_contexto_lista_atividades(pk, id_tipo_atividade), request=request,)
     return JsonResponse(data)
 
+
 @login_required
 def verifica_atividades_obrigatorias_view(request, pk, slug):
-    processo = get_object_or_404(Processo, pk=pk)
+    processo = get_object_or_404(Processo, pk=pk).select_related('registros_atividade')
     tipo_atividade = get_object_or_404(CategoriaAtividade, slug=slug)
     verificar_atividade = VerificarAtividadesObrigatorias()
     atividades_obg = verificar_atividade.verificar_atividades_obrigatorias(processo, tipo_atividade)
-    atividades = Atividade.objects.filter(categoria_atividade=tipo_atividade, is_ativo=True)
+    atividades = Atividade.objects.encontra_por_categoria(tipo_atividade)
     ensino = CategoriaAtividade.objects.get(slug='atividades-de-ensino')
     comp_ensino = CategoriaAtividade.objects.get(slug='atividades-complementares-de-ensino')
     logger.info(f'O usuário {request.user} solicitou para adicionar uma atividade da categoria "{tipo_atividade}" no processo {processo}, mas o sistema está verificando se existe atividades obrigatórias a serem inseridas.')
 
-    atividades_ensino = RegistroAtividade.objects.filter(atividade__categoria_atividade=ensino, processo=processo)
+    atividades_ensino = processo.registros_atividade.encontra_por_categoria(ensino)
     
 
     if not atividades_ensino.exists():
@@ -579,12 +601,12 @@ def verifica_atividades_obrigatorias_view(request, pk, slug):
         messages.error(request, f'Antes de cadastrar as {tipo_atividade} primeiro você tem que importar as {ensino} do SIGAA.')
         return redirect('core:processo-editar', pk=processo.pk)
 
-    if tipo_atividade != comp_ensino and not RegistroAtividade.objects.filter(atividade__categoria_atividade=comp_ensino, processo=processo).exists():
+    if tipo_atividade != comp_ensino and not processo.registros_atividade.encontra_por_categoria(comp_ensino).exists():
         logger.warning(f'O usuário {request.user} não adicionou as {comp_ensino} obrigatórias para o processo {processo}, antes de adicionar uma nova {tipo_atividade}.')
         messages.error(request, f'Antes de cadastrar as {tipo_atividade} primeiro você tem que adicionar as {comp_ensino} obrigatórias.')
         return redirect('core:processo-editar', pk=processo.pk)
 
-    atividades_cadastradas = RegistroAtividade.objects.filter(atividade__in=atividades_obg, processo=processo)
+    atividades_cadastradas = processo.registros_atividade.filter(atividade__in=atividades_obg)
     if len(atividades_obg) > 0:
         if atividades_cadastradas.count() == len(atividades_obg):
             logger.info(f'O usuário {request.user} já adicionou todas as {len(atividades_obg)} atividade(s) obrigatórias da categoria "{tipo_atividade}" no processo {processo}.')
@@ -594,8 +616,7 @@ def verifica_atividades_obrigatorias_view(request, pk, slug):
         return redirect('core:atividade-novo', pk=processo.pk, slug=tipo_atividade.slug)
 
     argumento_ensino = ArgumentoCategoria.objects.get(categoria_atividade=ensino, campo='Tipo de curso')
-    registro_atividade_ensino = RegistroAtividade.objects.filter(atividade__categoria_atividade=ensino, processo=processo)
-    informacoes_argumentos_ensino = InformacaoArgumento.objects.filter(argumento=argumento_ensino, registro_atividade__in=registro_atividade_ensino)
+    informacoes_argumentos_ensino = InformacaoArgumento.objects.filter(argumento=argumento_ensino, registro_atividade__in=atividades_ensino)
 
     data = []
     for a in atividades_obg:
@@ -656,7 +677,7 @@ def verifica_atividades_obrigatorias_view(request, pk, slug):
 
     formset = RegistroAtividadeFormSet(initial=data)
     for form in formset:
-        form.fields['atividade'].queryset = Atividade.objects.filter(categoria_atividade=tipo_atividade, is_ativo=True)
+        form.fields['atividade'].queryset = Atividade.objects.encontra_por_categoria(tipo_atividade)
         form.fields['atividade'].widget.attrs['readonly'] = True
 
     if request.method == 'POST':
@@ -667,7 +688,7 @@ def verifica_atividades_obrigatorias_view(request, pk, slug):
                     cont = 0
                     for form in formset:
                         registro = form.save(commit=False)
-                        if not RegistroAtividade.objects.filter(atividade=registro.atividade, processo=processo).exists():
+                        if not processo.registros_atividade.encontra_por_atividade(registro.atividade).exists():
                             if registro.atividade.descricao == 'Preparação didática':
                                 registro.is_editavel = False
                             registro.is_obrigatorio = True
@@ -723,7 +744,8 @@ class RegistroAtividadeNovoView(LoginRequiredMixin, SuccessMessageMixin, generic
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super(RegistroAtividadeNovoView, self).get_form_kwargs(*args, **kwargs)
-        kwargs['atividade'] = Atividade.objects.filter(categoria_atividade=self.categoria_atividade, is_ativo=True)
+        Atividade.objects.encontra_por_categoria(tipo_atividade)
+        kwargs['atividade'] = Atividade.objects.encontra_por_categoria(self.categoria_atividade)
         return kwargs
 
     def form_valid(self, form):
@@ -737,14 +759,14 @@ class RegistroAtividadeNovoView(LoginRequiredMixin, SuccessMessageMixin, generic
                 else:
                     info_form = None
 
-                if RegistroAtividade.objects.filter(atividade=self.object.atividade, processo=self.processo).exists():
+                if self.processo.registros_atividade.encontra_por_atividade(self.object.atividade).exists():
                     raise ValidationError('A atividade "{}" já foi cadastrada neste processo.'.format(self.object.atividade.descricao))
                     return render(self.request, self.template_name, self.get_context_data())
                 
                 if self.categoria_atividade.slug != 'atividades-complementares-de-ensino':
                     ch_semanal = self.object.ch_semanal
                     if self.categoria_atividade.is_restricao_ch_semanal:
-                        ch_semanal_maxima = CHSemanalCategoriaAtividade.objects.get(categoria_atividade=self.categoria_atividade, grupo_docente=self.grupo_docente)
+                        ch_semanal_maxima = self.categoria_atividade.carga_horaria_semanal_categoria_atividade.filter(grupo_docente=self.processo.interessado.grupo).first()
                         retorno_subtotal = self.processo.subtotal_ch_semanal_tipo_atividade()
                         subtotal_semanal = Decimal(retorno_subtotal[self.categoria_atividade])
                         if Decimal(ch_semanal_maxima.ch_maxima) < (subtotal_semanal + ch_semanal):
@@ -766,7 +788,7 @@ class RegistroAtividadeNovoView(LoginRequiredMixin, SuccessMessageMixin, generic
                 self.object.save()
                 
                 if info_form:
-                    argumento = ArgumentoCategoria.objects.filter(categoria_atividade=self.categoria_atividade)
+                    argumento = self.categoria_atividade.argumentos.all()
                     for a in argumento:
                         informacao_argumento = InformacaoArgumento()
                         informacao_argumento.argumento = a
@@ -807,7 +829,7 @@ class RegistroAtividadeNovoView(LoginRequiredMixin, SuccessMessageMixin, generic
         logger.info(f'O usuário {self.request.user} solicitou para adicionar uma atividade da categoria "{self.categoria_atividade}" no processo {self.processo}.')
         context['categoria'] = self.categoria_atividade
         context['processo'] = self.processo
-        argumento = ArgumentoCategoria.objects.filter(categoria_atividade=self.categoria_atividade)
+        argumento = self.categoria_atividade.argumentos.all()
         if argumento.exists():
             new_fields = {}
             for a in argumento:
@@ -858,7 +880,7 @@ class EditarRegistroAtividadeView(LoginRequiredMixin, generic.UpdateView):
 
     @property
     def argumentos(self):
-        return ArgumentoCategoria.objects.filter(categoria_atividade=self.categoria_atividade)
+        return self.categoria_atividade.argumentos.all()
 
     def get_initial(self, *args, **kwargs):
         initial = super(EditarRegistroAtividadeView, self).get_initial(**kwargs)
@@ -869,7 +891,7 @@ class EditarRegistroAtividadeView(LoginRequiredMixin, generic.UpdateView):
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super(EditarRegistroAtividadeView, self).get_form_kwargs(*args, **kwargs)
-        kwargs['atividade'] = Atividade.objects.filter(categoria_atividade=self.categoria_atividade, is_ativo=True)
+        kwargs['atividade'] = Atividade.objects.encontra_por_categoria(self.categoria_atividade)
         return kwargs
         
     def form_valid(self, form):
@@ -885,7 +907,7 @@ class EditarRegistroAtividadeView(LoginRequiredMixin, generic.UpdateView):
 
                 ch_semanal = self.object.ch_semanal
                 if self.categoria_atividade.is_restricao_ch_semanal:
-                    ch_semanal_maxima = CHSemanalCategoriaAtividade.objects.get(categoria_atividade=self.categoria_atividade, grupo_docente=self.grupo_docente)
+                    ch_semanal_maxima = self.categoria_atividade.carga_horaria_semanal_categoria_atividade.filter(grupo_docente=self.processo.interessado.grupo).first()
                     retorno_subtotal = self.processo.subtotal_ch_semanal_tipo_atividade()
                     subtotal_semanal = Decimal(retorno_subtotal[self.categoria_atividade]) - Decimal(self.registro.ch_semanal)
                     if Decimal(ch_semanal_maxima.ch_maxima) < (subtotal_semanal + ch_semanal):
@@ -1019,7 +1041,7 @@ class ProjetoNovoView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateVie
 
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super(ProjetoNovoView, self).get_form_kwargs(*args, **kwargs)
-        kwargs['atividade'] = Atividade.objects.filter(categoria_atividade=self.categoria_atividade, is_ativo=True)
+        kwargs['atividade'] = Atividade.objects.encontra_por_categoria(self.categoria_atividade)
         return kwargs
     
     def get_context_data(self, **kwargs):
@@ -1036,12 +1058,12 @@ class ProjetoNovoView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateVie
 
                 titulo = form.cleaned_data['titulo']
                 
-                if InformacaoArgumento.objects.filter(argumento__campo='Título', registro_atividade__processo=self.processo, valor_texto=titulo).exists():
+                if InformacaoArgumento.objects.encontra_por_processo(processo).encontra_por_campo('Título').filter(valor_texto=titulo).exists():
                     raise ValidationError('O projeto "{}" já foi cadastrado neste processo.'.format(titulo))
                 
                 if self.categoria_atividade.is_restricao_ch_semanal:
                     ch_semanal = self.object.ch_semanal
-                    ch_semanal_maxima = CHSemanalCategoriaAtividade.objects.get(categoria_atividade=self.categoria_atividade.categoria_pai, grupo_docente=self.grupo_docente)
+                    ch_semanal_maxima = self.categoria_atividade.categoria_pai.carga_horaria_semanal_categoria_atividade.filter(grupo_docente=self.processo.interessado.grupo).first()
                     retorno_subtotal = self.processo.subtotal_ch_semanal_tipo_atividade()
                     subtotal_semanal = Decimal(retorno_subtotal[self.categoria_atividade.categoria_pai])
 
@@ -1050,9 +1072,9 @@ class ProjetoNovoView(LoginRequiredMixin, SuccessMessageMixin, generic.CreateVie
                 
                 self.object.save()
 
-                argumento = ArgumentoCategoria.objects.filter(categoria_atividade=self.categoria_atividade)
+                argumentos = self.categoria_atividade.argumentos.all()
 
-                for a in argumento:
+                for a in argumentos:
                     informacao_argumento = InformacaoArgumento()
                     informacao_argumento.argumento = a
                     informacao_argumento.registro_atividade = self.object
@@ -1108,11 +1130,11 @@ class EditarProjetoView(LoginRequiredMixin, generic.UpdateView):
     
     @property
     def informacao_argumento(self):
-        return InformacaoArgumento.objects.filter(registro_atividade=self.registro)
+        return self.registro.informacoes_argumentos.all()
 
     @property
     def argumentos(self):
-        return ArgumentoCategoria.objects.filter(categoria_atividade=self.categoria_atividade)
+        return self.categoria_atividade.argumentos.all()
 
     def get_initial(self, *args, **kwargs):
         initial = super(EditarProjetoView, self).get_initial(**kwargs)
@@ -1144,7 +1166,7 @@ class EditarProjetoView(LoginRequiredMixin, generic.UpdateView):
     
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super(EditarProjetoView, self).get_form_kwargs(*args, **kwargs)
-        kwargs['atividade'] = Atividade.objects.filter(categoria_atividade=self.categoria_atividade, is_ativo=True)
+        kwargs['atividade'] = Atividade.objects.encontra_por_categoria(self.categoria_atividade)
         return kwargs
 
     def form_valid(self, form):
@@ -1154,7 +1176,7 @@ class EditarProjetoView(LoginRequiredMixin, generic.UpdateView):
 
                 titulo = form.cleaned_data['titulo']
                 
-                if_ag = InformacaoArgumento.objects.filter(argumento__campo='Título', registro_atividade__processo=self.processo, valor_texto=titulo)
+                if_ag = InformacaoArgumento.objects.encontra_por_processo(processo).encontra_por_campo('Título').filter(valor_texto=titulo)
                 if if_ag.exists():
                     if_ag = if_ag.first()
                     if if_ag.registro_atividade.pk != self.object.pk:
@@ -1162,7 +1184,7 @@ class EditarProjetoView(LoginRequiredMixin, generic.UpdateView):
                 
                 if self.categoria_atividade.is_restricao_ch_semanal:
                     ch_semanal = self.object.ch_semanal
-                    ch_semanal_maxima = CHSemanalCategoriaAtividade.objects.get(categoria_atividade=self.categoria_atividade.categoria_pai, grupo_docente=self.grupo_docente)
+                    ch_semanal_maxima = self.categoria_atividade.categoria_pai.carga_horaria_semanal_categoria_atividade.filter(grupo_docente=self.processo.interessado.grupo).first()
                     retorno_subtotal = self.processo.subtotal_ch_semanal_tipo_atividade()
                     subtotal_semanal = Decimal(retorno_subtotal[self.categoria_atividade.categoria_pai]) - Decimal(self.registro.ch_semanal)
                     
@@ -1174,7 +1196,7 @@ class EditarProjetoView(LoginRequiredMixin, generic.UpdateView):
 
                 self.object.save()
 
-                argumento = ArgumentoCategoria.objects.filter(categoria_atividade=self.categoria_atividade)
+                argumento = self.categoria_atividade.argumentos.all()
 
                 for a in self.argumentos:
                     for info in self.informacao_argumento:
@@ -1242,7 +1264,7 @@ def resumo_processo(request, pk, editando):
     
     for k, v in processo.subtotal_ch_semanal_tipo_atividade().items():
         if k.is_restricao_ch_semanal:
-            limitacao =  CHSemanalCategoriaAtividade.objects.filter(grupo_docente=processo.interessado.grupo, categoria_atividade=k).first()
+            limitacao = k.carga_horaria_semanal_categoria_atividade.filter(grupo_docente=self.processo.interessado.grupo).first()
             if limitacao.ch_minima > 0 and v < limitacao.ch_minima:
                 messages.warning(request, f"A carga horária mínima semanal das suas {k.label} para o {processo.interessado.grupo} está abaixo da regulamentada, que é de {limitacao.ch_minima} horas.")
 
@@ -1254,6 +1276,7 @@ def resumo_processo(request, pk, editando):
     context['pode_enviar'] = pode_enviar
     data['html_form'] = render_to_string('core/ajax/partial_resumo_processo.html', context, request=request,)
     return JsonResponse(data)
+
 
 @login_required
 def form_assinatura(request, pk):
@@ -1273,26 +1296,28 @@ def assinar_envio_processo(request, pk):
     processo = get_object_or_404(Processo, pk=pk)
     context['processo'] = processo
     form = ConfirmPasswordForm(instance=request.user)
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
 
     if request.method == 'POST':
         form = ConfirmPasswordForm(request.POST, instance=request.user)
     
         if form.is_valid():
 
-            fluxo = FluxoProcesso.objects.filter(tipo_fluxo=FluxoProcesso.PRINCIPAL, tipo_processo=processo.tipo_processo, is_ativo=True, unidade=processo.interessado.unidade_responsavel).first()
+            fluxo = processo.tipo_processo.fluxos.fluxo_principal().filter(unidade=processo.interessado.unidade_responsavel).first()
             
             if processo.situacao.slug != 'alteracoes-necessarias':
                 ''' Caso a carga horária de ensino esteja abaixo da regulamentada '''
                 for k, v in processo.subtotal_ch_semanal_tipo_atividade().items():
                     if k.slug == 'atividades-de-ensino':
-                        limitacao =  CHSemanalCategoriaAtividade.objects.filter(grupo_docente=processo.interessado.grupo, categoria_atividade=k).first()
+                        limitacao = k.carga_horaria_semanal_categoria_atividade.filter(grupo_docente=self.processo.interessado.grupo).first()
                         if v < limitacao.ch_minima:
                             proxima_unidade = processo.interessado.unidade_lotacao
                         else:
-                            proxima_unidade = UnidadeFluxoProcesso.objects.filter(fluxo_processo=fluxo).first().unidade
+                            proxima_unidade = fluxo.unidades_fluxo.all().first().unidade
+                            # proxima_unidade = UnidadeFluxoProcesso.objects.filter(fluxo_processo=fluxo).first().unidade
             else:
-                proxima_unidade = UnidadeFluxoProcesso.objects.filter(fluxo_processo=fluxo).first().unidade
+                # proxima_unidade = UnidadeFluxoProcesso.objects.filter(fluxo_processo=fluxo).first().unidade
+                proxima_unidade = fluxo.unidades_fluxo.all().first().unidade
 
 
             if processo.interessado.unidade_exercicio:
@@ -1304,7 +1329,7 @@ def assinar_envio_processo(request, pk):
 
             assinatura = cria_assinatura(tramite, servidor, True)
 
-            situacao = SituacaoProcesso.objects.get(slug='enviado', categorias_processo=processo.tipo_processo)
+            situacao = processo.tipo_processo.situacao_processso.enviado()
             processo.situacao = situacao
             processo.save()
 
@@ -1331,6 +1356,7 @@ def cria_tramite(servidor_origem, unidade_origem, processo, proxima_unidade):
     
     return tramite
 
+
 def cria_assinatura(content_object, servidor, is_autenticador):
     assinatura = Assinatura()
     assinatura.content_object = content_object
@@ -1343,7 +1369,7 @@ def cria_assinatura(content_object, servidor, is_autenticador):
 @login_required
 def busca_avancada_processo(request):
     context = {}
-    processos_list = Processo.objects.all().exclude(situacao__slug='rascunho')
+    processos_list = Processo.objects.pesquisaveis()
     processos_filter = ProcessoFilter(request.GET, queryset=processos_list)
     paginator = Paginator(processos_filter.qs, 20)
 
@@ -1360,7 +1386,7 @@ def carregar_lista_movimentacao(request, pk):
     data = dict()
     context = {}
     processo = get_object_or_404(Processo, pk=pk)
-    tramites = processo.processo_tramitado.all()
+    tramites = processo.tramites.all()
     context['tramites'] = tramites
     data['html_item_list'] = render_to_string('core/ajax/partial_tramite_list_mov.html', context, request=request,)
     return JsonResponse(data)
@@ -1371,7 +1397,7 @@ def carregar_lista_tramite_detalhe(request, pk):
     data = dict()
     context = {}
     processo = get_object_or_404(Processo, pk=pk)
-    tramites = processo.processo_tramitado.all()
+    tramites = processo.tramites.all()
     context['tramites'] = tramites
     data['html_item_list'] = render_to_string('core/ajax/partial_tramite_list.html', context, request=request,)
     return JsonResponse(data)
@@ -1381,15 +1407,16 @@ def carregar_lista_tramite_detalhe(request, pk):
 @transaction.atomic
 def receber_processo(request):
     url = 'core:caixa-entrada'
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
     if request.method == 'POST':
         if request.POST.get('idurl'):
             url = request.POST.get('idurl')
         processo = Processo.objects.get(pk=request.POST.get('idprocesso'))
         tramite = Tramite.objects.filter(processo=processo).last()
         tramite.data_recebimento = dt.now()
-        tramite.servidor_recebimento = ServidorProfile.objects.get(pessoa__user=request.user)
+        tramite.servidor_recebimento = servidor
         tramite.save()
-        situacao = SituacaoProcesso.objects.get(slug='recebido', categorias_processo=processo.tipo_processo)
+        situacao = processo.tipo_processo.situacao_processso.recebido()
         processo.situacao = situacao
         processo.save()
         logger.info(f'O usuário {request.user} recebeu digitalmente o envio do {processo}')
@@ -1412,7 +1439,7 @@ class MovimentaProcessoView(LoginRequiredMixin, generic.View):
 
     @property
     def servidor(self):
-        return ServidorProfile.objects.get(pk=self.request.session['perfil'])
+        return get_object_or_404(ServidorProfile, pk=self.request.session['perfil'])
 
     def dispatch(self, request, *args, **kwargs):
         logger.info(f'O usuário {request.user} solicitou acesso a página de movimentação do "{self.processo}".')
@@ -1422,15 +1449,11 @@ class MovimentaProcessoView(LoginRequiredMixin, generic.View):
             return redirect('core:consulta-movimentar', pk=self.processo.pk)
 
         return super().dispatch(request, *args, **kwargs)
-        
 
     def get(self, request, *args, **kwargs):
         # Alerta de Categorias de Atividade com carga horárias semanal abaixo da mínima
-        for k, v in self.processo.subtotal_ch_semanal_tipo_atividade().items():
-            if k.is_restricao_ch_semanal:
-                limitacao =  CHSemanalCategoriaAtividade.objects.filter(grupo_docente=self.processo.interessado.grupo, categoria_atividade=k).first()
-                if limitacao.ch_minima > 0 and v < limitacao.ch_minima:
-                    messages.warning(request, f"A carga horária mínima semanal das {k.label} para o {self.processo.interessado.grupo} está abaixo da regulamentada, que é de {limitacao.ch_minima} horas.")
+        for msg in self.processo.alertas():
+            messages.add_message(request, messages.WARNING, msg)
 
         return render(request, self.template_name, self.carregar_context(request)) 
 
@@ -1439,47 +1462,52 @@ class MovimentaProcessoView(LoginRequiredMixin, generic.View):
         context['processo'] = self.processo
         try:
             tipo_atividade = CategoriaAtividade.objects.get(slug='atividades-de-ensino')
-            self.registro = RegistroAtividade.objects.filter(processo=self.processo, atividade__categoria_atividade=tipo_atividade)
+            self.registro = self.processo.registros_atividade.encontra_por_categoria(tipo_atividade).prefetch_related('informacoes_argumentos')
             context['registros'] = self.registro
-        except:
+        except CategoriaAtividade.DoesNotExist as e:
             context['registros'] = None
-        self.informacao = InformacaoArgumento.objects.filter(registro_atividade__in=self.registro)
-        context['informacao'] = self.informacao
        
         context['slug'] = 'atividades-de-ensino'
 
         context['categorias_atividades'] = self.processo.tipo_processo.categoria_atividade.all()
 
-        vinculos = VinculoServidorUnidade.objects.filter(servidor=self.servidor, is_ativo=True)
-        
-        if self.processo.ultima_movimentacao():
-            unidade_avaliadora = UnidadeFluxoProcesso.objects.filter(unidade=self.processo.ultima_movimentacao().unidade_destino, is_ativo=True, is_avaliadora=True).first()
+        # vinculos = VinculoServidorUnidade.objects.filter(servidor=self.servidor, is_ativo=True)
+        vinculos = self.servidor.vinculos_unidade.ativo()
+
+        if self.processo.tramites.ultima_movimentacao():
+            unidade_avaliadora = self.processo.tramites.ultima_movimentacao().unidade_destino.unidades_fluxo_processo.avaliadora().first()
             if unidade_avaliadora:
                 context['in_unidade_avaliadora'] = unidade_avaliadora.is_avaliadora
             else:
                 context['in_unidade_avaliadora'] = False
 
-            unidade_origem = self.processo.ultima_movimentacao().unidade_destino
-            
-            fluxo = FluxoProcesso.objects.filter(tipo_fluxo=FluxoProcesso.PRINCIPAL, tipo_processo=self.processo.tipo_processo, is_ativo=True, unidade=unidade_origem.estrutura_pai).first()
-            unidades_fluxo  = fluxo.unidades_fluxo_processo.all()
+            unidade_origem = self.processo.tramites.ultima_movimentacao().unidade_destino
 
-            if unidades_fluxo.filter(unidade=unidade_origem, is_ativo=True).exists():
+            fluxo = self.processo.tipo_processo.fluxos.fluxo_principal().filter(unidade=unidade_origem.estrutura_pai).first()
+
+            unidades_fluxo = fluxo.unidades_fluxo_processo.all()
+
+            if unidades_fluxo.ativo().filter(unidade=unidade_origem).exists():
                 context['is_unidade_fluxo'] = True
             else:
                 context['is_unidade_fluxo'] = False
 
         for v in vinculos:
-            if UnidadeFluxoProcesso.objects.filter(unidade=v.unidade, is_avaliadora=True, is_ativo=True).exists():
+            if UnidadeFluxoProcesso.objects.avaliadora().filter(unidade=v.unidade).exists():
                 self.request.session['avaliador'] = True
 
-        tramite_ultimo = self.processo.ultima_movimentacao()
+        tramite_ultimo = self.processo.tramites.ultima_movimentacao()
+
+        vinculos_chefia = self.servidor.vinculos_unidade.responde_por()
+        funcoes_gratificadas = self.servidor.responsaveis_unidade.responde_por()
+        
         if tramite_ultimo:
-            vinculos_chefia = VinculoServidorUnidade.objects.filter(Q(servidor=self.servidor) & Q(is_ativo=True) & Q(unidade=tramite_ultimo.unidade_destino) & (Q(tipo_vinculo=VinculoServidorUnidade.PRESIDENTE) | Q(tipo_vinculo=VinculoServidorUnidade.VICE_PRESIDENTE)))
-            funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=self.servidor) & Q(data_termino__isnull=True) & Q(unidade=tramite_ultimo.unidade_destino) &(Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
-        if self.processo.unidade_interessada and self.processo.situacao.slug == 'rascunho':
-            vinculos_chefia = VinculoServidorUnidade.objects.filter(Q(servidor=self.servidor) & Q(is_ativo=True) & Q(unidade=processo.unidade_interessada) & (Q(tipo_vinculo=VinculoServidorUnidade.PRESIDENTE) | Q(tipo_vinculo=VinculoServidorUnidade.VICE_PRESIDENTE)))
-            funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=self.servidor) & Q(data_termino__isnull=True) & Q(unidade=processo.unidade_interessada) &(Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
+            vinculos_chefia = vinculos_chefia.filter(unidade=tramite_ultimo.unidade_destino)
+            funcoes_gratificadas = funcoes_gratificadas.filter(unidade=tramite_ultimo.unidade_destino)
+        
+        elif self.processo.unidade_interessada and self.processo.situacao.slug == 'rascunho':
+            vinculos_chefia = vinculos_chefia.filter(unidade=self.processo.unidade_interessada)
+            funcoes_gratificadas = funcoes_gratificadas.filter(unidade=self.processo.unidade_interessada)
 
         if vinculos_chefia.exists() or funcoes_gratificadas.exists():
             context['is_chefia'] = True
@@ -1488,23 +1516,27 @@ class MovimentaProcessoView(LoginRequiredMixin, generic.View):
                 
         return context
 
+
 @login_required
 @transaction.atomic
 def criar_documento(request, pk):
     context = {}
     processo = get_object_or_404(Processo, pk=pk)
-    tramite_ultimo = processo.ultima_movimentacao()
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+    tramite_ultimo = processo.tramites.ultima_movimentacao()
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
 
     logger.info(f'O usuário {request.user} acessou a página de criação de um despacho para o "{processo}".')
     
     validar_acesso_movimentacao(request.user, processo, servidor)
+
+    vinculos_chefia = servidor.vinculos_unidade.responde_por()
+    funcoes_gratificadas = servidor.responsaveis_unidade.responde_por()
     if tramite_ultimo:
-        vinculos = VinculoServidorUnidade.objects.filter(Q(servidor=servidor) & Q(is_ativo=True) & Q(unidade=tramite_ultimo.unidade_destino) & (Q(tipo_vinculo=VinculoServidorUnidade.PRESIDENTE) | Q(tipo_vinculo=VinculoServidorUnidade.VICE_PRESIDENTE)))
-        funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=servidor) & Q(data_termino__isnull=True) & Q(unidade=tramite_ultimo.unidade_destino) &(Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
-    if processo.unidade_interessada and processo.situacao.slug == 'rascunho':
-        vinculos = VinculoServidorUnidade.objects.filter(Q(servidor=servidor) & Q(is_ativo=True) & Q(unidade=processo.unidade_interessada) & (Q(tipo_vinculo=VinculoServidorUnidade.PRESIDENTE) | Q(tipo_vinculo=VinculoServidorUnidade.VICE_PRESIDENTE)))
-        funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=servidor) & Q(data_termino__isnull=True) & Q(unidade=processo.unidade_interessada) &(Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
+        vinculos_chefia = vinculos_chefia.filter(unidade=tramite_ultimo.unidade_destino)
+        funcoes_gratificadas = funcoes_gratificadas.filter(unidade=tramite_ultimo.unidade_destino)
+    elif processo.unidade_interessada and processo.situacao.slug == 'rascunho':
+        vinculos_chefia = vinculos_chefia.filter(unidade=processo.unidade_interessada)
+        funcoes_gratificadas = funcoes_gratificadas.filter(unidade=processo.unidade_interessada)
 
     form = DocumentoForm()
 
@@ -1524,18 +1556,18 @@ def criar_documento(request, pk):
         form.fields['tipo_documento'].widget = forms.HiddenInput()
         form.fields['tipo_documento'].initial = DocumentoProcesso.PARECER
         
-        if processo.registros_atividade.filter(situacao=RegistroAtividade.INVALIDA).exists():
+        if processo.registros_atividade.invalida().exists():
             texto = '<p>Justificativas cadastradas para as atividades inválidas:</p>'
             texto = texto + "<ul>"
-            for r in processo.registros_atividade.filter(situacao=RegistroAtividade.INVALIDA): 
+            for r in processo.registros_atividade.invalida(): 
                 texto = texto + f'<li>A atividade "{r}" está inválida, pois {r.justificativa}.</li>'
             
             texto = texto + "</ul>"
             
             form.fields['texto'].initial = str(form.fields['texto']) + texto
 
-
     if request.method == 'POST':
+        btn = request.POST
         form = DocumentoForm(request.POST)
     
         if form.is_valid():
@@ -1547,7 +1579,13 @@ def criar_documento(request, pk):
 
             documento.save()
             messages.success(request, f'O {documento} foi salvo com sucesso!')
-            return redirect('core:processo-movimentar', pk=processo.pk)
+            
+            if '_save' in btn:
+                return redirect('core:processo-movimentar', pk=processo.pk)
+            elif '_continue' in btn:
+                return redirect('core:documento-editar', id_processo=processo.pk, pk=documento.pk)
+
+            
     context['processo'] = processo
     context['form'] = form
     # context['ass_form'] = ass_form
@@ -1561,8 +1599,8 @@ def editar_documento(request, id_processo, pk):
     context = {}
     processo = get_object_or_404(Processo, pk=id_processo)
     documento = get_object_or_404(DocumentoProcesso, pk=pk)
-    tramite_ultimo = processo.ultima_movimentacao()
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+    tramite_ultimo = processo.tramites.ultima_movimentacao()
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
 
     logger.info(f'O usuário {request.user} acessou a página de criação de um despacho para o "{processo}".')
     
@@ -1572,8 +1610,13 @@ def editar_documento(request, id_processo, pk):
         if documento.criado_por != request.user or not documento.assinaturas.filter(servidor_assinante=servidor).exists():
             raise PermissionDenied(f'O usuário {request.user} não tem permissão para editar o {documento}, pois somente quem o criou ou o assinou pode editá-lo.')
 
-    vinculos = VinculoServidorUnidade.objects.filter(Q(servidor=servidor) & Q(is_ativo=True) & Q(unidade=tramite_ultimo.unidade_destino) & (Q(tipo_vinculo=VinculoServidorUnidade.PRESIDENTE) | Q(tipo_vinculo=VinculoServidorUnidade.VICE_PRESIDENTE)))
-    funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=servidor) & Q(data_termino__isnull=True) & Q(unidade=tramite_ultimo.unidade_destino) &(Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
+    if tramite_ultimo:
+        unidade = tramite_ultimo.unidade_destino
+    elif processo.situacao.slug == 'rascunho' and processo.unidade_interessada:
+        unidade = processo.unidade_interessada
+
+    vinculos = servidor.vinculos_unidade.responde_por().filter(unidade=unidade)
+    funcoes_gratificadas = servidor.responsaveis_unidade.responde_por().filter(unidade=unidade)
 
     form = DocumentoForm(instance=documento)
 
@@ -1586,6 +1629,7 @@ def editar_documento(request, id_processo, pk):
 
     if request.method == 'POST':
         form = DocumentoForm(request.POST, instance=documento)
+        btn = request.POST
     
         if form.is_valid():
             documento = form.save(commit=False)
@@ -1596,9 +1640,15 @@ def editar_documento(request, id_processo, pk):
                 ass.delete()
 
             messages.success(request, f'O {documento} foi salvo com sucesso!')
-            return redirect('core:processo-movimentar', pk=processo.pk)
+            
+            if '_save' in btn:
+                return redirect('core:processo-movimentar', pk=processo.pk)
+            elif '_continue' in btn:
+                return redirect('core:documento-editar', id_processo=processo.pk, pk=documento.pk)
+
     context['processo'] = processo
     context['form'] = form
+    context['documento'] = documento
     # context['ass_form'] = ass_form
     return render(request, 'core/processo/documento/form.html', context)
 
@@ -1608,7 +1658,7 @@ def detalha_tramite(request, pk):
     data = dict()
     tramite = get_object_or_404(Tramite, pk=pk)
     context = {'tramite': tramite}
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
     if servidor == tramite.processo.interessado:
         context['is_interessado'] = True
     data['html_form'] = render_to_string('core/ajax/partial_tramite_detalhe.html', context, request=request,)
@@ -1620,7 +1670,7 @@ def detalha_tramite_movimentacao(request, pk):
     data = dict()
     tramite = get_object_or_404(Tramite, pk=pk)
     context = {'tramite': tramite}
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
     data['html_form'] = render_to_string('core/ajax/partial_tramite_detalhe_mov.html', context, request=request,)
     return JsonResponse(data)
 
@@ -1631,7 +1681,7 @@ def detalha_atividade_movimentacao(request, pk):
     registro = get_object_or_404(RegistroAtividade, pk=pk)
     form = AvaliacaoAtividadeForm(instance=registro)
     context = {'registro': registro, 'dados_registro': registro.informacoes_argumentos.all(), 'form': form,}
-    unidade_avaliadora = UnidadeFluxoProcesso.objects.filter(unidade=registro.processo.ultima_movimentacao().unidade_destino, is_ativo=True, is_avaliadora=True).first()
+    unidade_avaliadora = self.processo.tramites.ultima_movimentacao().unidade_destino.unidades_fluxo_processo.avaliadora().first()
     if unidade_avaliadora:
         context['in_unidade_avaliadora'] = unidade_avaliadora.is_avaliadora
     else:
@@ -1639,6 +1689,7 @@ def detalha_atividade_movimentacao(request, pk):
     
     data['html_form'] = render_to_string('core/ajax/partial_atividade_detalhe_mov.html', context, request=request,)
     return JsonResponse(data)
+
 
 @login_required
 def carregar_lista_atividades_movimentacao(request, pk, id_tipo_atividade):
@@ -1648,10 +1699,10 @@ def carregar_lista_atividades_movimentacao(request, pk, id_tipo_atividade):
 
 
 def validar_acesso_movimentacao(user, processo, servidor):
-    ultimo_tramite = processo.ultima_movimentacao()
+    ultimo_tramite = processo.tramites.ultima_movimentacao()
 
-    vinculos = VinculoServidorUnidade.objects.filter(servidor=servidor, is_ativo=True)
-    funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=servidor) & Q(data_termino__isnull=True) & (Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
+    vinculos = servidor.vinculos_unidade.ativo()
+    funcoes_gratificadas = servidor.responsaveis_unidade.responde_por()
 
     com_processo = False
     
@@ -1685,7 +1736,7 @@ def avaliar_atividade(request, id_processo, pk):
     context = {}
     processo = get_object_or_404(Processo, pk=id_processo)
     registro = get_object_or_404(RegistroAtividade, pk=pk)
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
     request.session['slug'] = registro.atividade.categoria_atividade.slug
 
     context['registro'] = registro
@@ -1721,6 +1772,7 @@ def avaliar_atividade(request, id_processo, pk):
     data['html_form'] = render_to_string('core/ajax/partial_atividade_detalhe_mov.html', context, request=request,)
     return JsonResponse(data)
 
+
 @login_required
 def carregar_lista_documentos(request, pk):
     data = dict()
@@ -1735,6 +1787,7 @@ def carregar_lista_documentos(request, pk):
     data['html_item_list'] = render_to_string('core/ajax/partial_documento_list.html', context, request=request,)
     return JsonResponse(data)
 
+
 @login_required
 def carregar_lista_documentos_movimentacao(request, pk):
     data = dict()
@@ -1745,12 +1798,13 @@ def carregar_lista_documentos_movimentacao(request, pk):
     data['html_item_list'] = render_to_string('core/ajax/partial_documento_list_mov.html', context, request=request,)
     return JsonResponse(data)
 
+
 @login_required
 def detalha_documento(request, pk):
     data = dict()
     documento = get_object_or_404(DocumentoProcesso, pk=pk)
     context = {'documento': documento}
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
     data['html_form'] = render_to_string('core/ajax/partial_documento_detalhe.html', context, request=request,)
     return JsonResponse(data)
 
@@ -1766,14 +1820,13 @@ def excluir_documento(request):
         idprocesso = request.POST.get('idprocesso')
         iddocumento = request.POST.get('iddocumento')
         documento = DocumentoProcesso.objects.get(id=iddocumento)
-        servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+        servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
         logger.info(f"O usuário {request.user} solicitou a exclusão do documento '{documento}'.")
         
         if documento.assinaturas.all().exists():
             if documento.criado_por != request.user or not documento.assinaturas.filter(servidor_assinante=servidor).exists():
                 raise PermissionDenied(f'O usuário {request.user} não tem permissão para editar o {documento}, pois somente quem o criou ou o assinou pode editá-lo.')
             
-
         try:
             documento.delete()
             messages.success(request, 'Documento excluído com sucesso!')
@@ -1793,14 +1846,18 @@ def assinar_documento(request, pk):
     context = {}
     documento = get_object_or_404(DocumentoProcesso, pk=pk)
     form = ConfirmPasswordForm(instance=request.user)
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
 
     if documento.criado_por != request.user:
         raise PermissionDenied(f'O usuário {request.user} não tem permissão para assinar digitalmente o {documento}, pois somente quem o criou ou o assiná-lo.')
 
-    vinculos = VinculoServidorUnidade.objects.filter(Q(servidor=servidor) & Q(is_ativo=True) & Q(unidade=documento.processo.ultima_movimentacao().unidade_destino) & (Q(tipo_vinculo=VinculoServidorUnidade.PRESIDENTE) | Q(tipo_vinculo=VinculoServidorUnidade.VICE_PRESIDENTE)))
-    funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=servidor) & Q(data_termino__isnull=True) & (Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
+    if documento.processo.situacao.slug == 'rascunho' and documento.processo.unidade_interessada:
+        unidade = documento.processo.unidade_interessada
+    elif tramite_ultimo:
+        unidade = documento.processo.tramites.ultima_movimentacao()
 
+    vinculos = servidor.vinculos_unidade.responde_por().filter(unidade=unidade)
+    funcoes_gratificadas = servidor.responsaveis_unidade.responde_por().filter(unidade=unidade)
 
     if vinculos.exists() or funcoes_gratificadas.exists():
         is_autenticador = True
@@ -1815,7 +1872,7 @@ def assinar_documento(request, pk):
             assinatura = cria_assinatura(documento, servidor, is_autenticador)
 
             logger.info(f'O usuário {request.user} assinou digitalmente o documento {documento}')
-            messages.success(request, f'O {documento} foi assinado digitalmento!')
+            messages.success(request, f'O {documento} foi assinado digitalmente!')
             data['form_is_valid'] = True
         else:
             data['form_is_valid'] = False
@@ -1831,13 +1888,16 @@ def assinar_documento(request, pk):
 def encaminhar_processo(request, pk):
     context = {}
     processo = get_object_or_404(Processo, pk=pk)
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
+    servidor = get_object_or_404(ServidorProfile, pk=request.session['perfil'])
 
     logger.info(f'O usuário {request.user} acessou a página de criação de um despacho para o "{processo}".')
     
     validar_acesso_movimentacao(request.user, processo, servidor)
 
-    unidade_origem = processo.ultima_movimentacao().unidade_destino
+    if processo.tramites.ultima_movimentacao():
+        unidade_origem = processo.tramites.ultima_movimentacao().unidade_destino
+    elif processo.situacao.slug == 'rascunho' and processo.unidade_interessada:
+        unidade_origem = processo.unidade_interessada
     
     ''' Verifica documentos sem assinatura'''
     doc_sem_ass = False
@@ -1852,7 +1912,8 @@ def encaminhar_processo(request, pk):
     ''' Verifica se tem atividade que não foi validada'''
     list_messages = []
     
-    unidade_avaliadora = UnidadeFluxoProcesso.objects.filter(unidade=unidade_origem, is_ativo=True, is_avaliadora=True).first()
+    unidade_avaliadora = unidade_origem.unidades_fluxo_processo.avaliadora().first()
+    
     if unidade_avaliadora:
         tem_atividade_nao_validada = False
         for at in processo.registros_atividade.all():
@@ -1867,22 +1928,26 @@ def encaminhar_processo(request, pk):
 
     context['processo'] = processo
     
+    vinculos_pres = servidor.vinculos_unidade.responde_por().filter(unidade=unidade_origem)
 
-    vinculos_pres = VinculoServidorUnidade.objects.filter(Q(servidor=servidor) & Q(is_ativo=True) & Q(unidade=unidade_origem) & (Q(tipo_vinculo=VinculoServidorUnidade.PRESIDENTE) | Q(tipo_vinculo=VinculoServidorUnidade.VICE_PRESIDENTE)))
-    
-    fluxo = FluxoProcesso.objects.filter(tipo_fluxo=FluxoProcesso.PRINCIPAL, tipo_processo=processo.tipo_processo, is_ativo=True, unidade=unidade_origem.estrutura_pai).first()
+    fluxo = processo.tipo_processo.fluxos.fluxo_principal()
+
+    if processo.tipo_processo.nome not in ('Consulta', 'Recurso'):
+        fluxo = fluxo.filter(unidade=unidade_origem.estrutura_pai).first()
+
     unidades_fluxo  = fluxo.unidades_fluxo_processo.all()
     
-
     primeira_unidade_fluxo = unidades_fluxo.first()
 
     lista_unidades = []
-
+    
+    vl_interessado_str = 'servidor' if isinstance(processo.get_interessado(), DocenteProfile) else 'unidade'
+    
     ''' Verifica se a unidade é uma unidade do fluxo '''
-    if not unidades_fluxo.filter(unidade=unidade_origem, is_ativo=True).exists():
+    if not unidades_fluxo.ativo().filter(unidade=unidade_origem).exists():
         item = {
-            'value': f'servidor-{processo.interessado.pk}',
-            'str':processo.interessado,
+            'value': f'{vl_interessado_str}-{processo.get_interessado().pk}',
+            'str':processo.get_interessado(),
         }
         lista_unidades.append(item)
         item = {
@@ -1893,12 +1958,12 @@ def encaminhar_processo(request, pk):
     elif unidade_origem == primeira_unidade_fluxo.unidade:
         if vinculos_pres.exists():
             item = {
-                'value': f'servidor-{processo.interessado.pk}',
-                'str':processo.interessado,
+                'value': f'{vl_interessado_str}-{processo.get_interessado().pk}',
+                'str':processo.get_interessado(),
             }
             lista_unidades.append(item)
             ordem_proxima = primeira_unidade_fluxo.ordem + 1
-            proxima_unidade = unidades_fluxo.filter(ordem=ordem_proxima, is_ativo=True).first().unidade
+            proxima_unidade = unidades_fluxo.ativo().filter(ordem=ordem_proxima).first().unidade
             item = {
                 'value': f'unidade-{proxima_unidade.pk}',
                 'str':proxima_unidade,
@@ -1917,7 +1982,7 @@ def encaminhar_processo(request, pk):
         }
         lista_unidades.append(item)
         ordem_proxima = primeira_unidade_fluxo.ordem + 1
-        proxima_unidade = unidades_fluxo.filter(ordem=ordem_proxima, is_ativo=True).first().unidade
+        proxima_unidade = unidades_fluxo.ativo().filter(ordem=ordem_proxima).first().unidade
         item = {
             'value': f'unidade-{proxima_unidade.pk}',
             'str':proxima_unidade,
@@ -1944,11 +2009,11 @@ def encaminhar_processo(request, pk):
                 tramite.unidade_destino = unidade
                 # para o presidente
                 if unidade == unidade_origem:
-                    presidente = VinculoServidorUnidade.objects.filter(is_ativo=True, tipo_vinculo=VinculoServidorUnidade.PRESIDENTE, unidade=unidade_origem).first().servidor
+                    presidente = VinculoServidorUnidade.objects.chefe().filter(unidade=unidade_origem).first().servidor
                     tramite.servidor_destino = presidente
                 tramite.save()
 
-                situacao = SituacaoProcesso.objects.get(slug='enviado', categorias_processo=processo.tipo_processo)
+                situacao = processo.tipo_processo.situacao_processso.enviado()
                 processo.situacao = situacao
                 processo.save()
 
@@ -1965,13 +2030,13 @@ def encaminhar_processo(request, pk):
                 tramite.servidor_destino = processo.interessado
                 tramite.save()
 
-                unidade_avaliadora = UnidadeFluxoProcesso.objects.filter(unidade=unidade_origem, is_ativo=True, is_avaliadora=True).first()
+                unidade_avaliadora = UnidadeFluxoProcesso.objects.avaliadora().filter(unidade=unidade_origem).first()
                 if unidade_avaliadora:
-                    situacao = SituacaoProcesso.objects.get(slug='alteracoes-necessarias', categorias_processo=processo.tipo_processo)
+                    situacao = processo.tipo_processo.situacao_processso.alteracoes_necessarias()
                     processo.situacao = situacao
                     processo.save()
                 else:
-                    situacao = SituacaoProcesso.objects.get(slug='envio-recusado', categorias_processo=processo.tipo_processo)
+                    situacao = processo.tipo_processo.situacao_processso.envio_recusado()
                     processo.situacao = situacao
                     processo.save()
 
@@ -2003,51 +2068,6 @@ def carrega_texto_parecer_novo(request, pk):
     return JsonResponse(data)
 
 
-# Consulta Comissão Central
-@login_required
-@transaction.atomic
-def realizar_consulta_novo(request, pk):
-    template_name = 'core/processo/consulta/novo.html'
-    context = {}
-    processo = get_object_or_404(Processo, pk=pk)
-    categoria_processo = CategoriaProcesso.objects.filter(nome='Consulta', categoria_pai=processo.tipo_processo).first()
-    unidade_interessada = processo.ultima_movimentacao().unidade_destino
-    
-    try:
-        novo_processo = Processo.objects.get(~Q(situacao__slug='arquivado'), ano=processo.ano, semestre=processo.semestre, processo_pai=processo, tipo_processo=categoria_processo, unidade_interessada=unidade_interessada)
-    except:
-        novo_processo = Processo(ano=processo.ano, semestre=processo.semestre, processo_pai=processo, tipo_processo=categoria_processo, unidade_interessada=unidade_interessada, criado_por=request.user)
-
-    novo_processo.assunto = f"{categoria_processo.nome} do {processo}"
-    novo_processo.modificado_por = request.user
-    novo_processo.save()
-
-    form = DocumentoForm()
-
-    context['tipo_documento'] = 'Solicitação'
-    form.fields['tipo_documento'].widget = forms.HiddenInput()
-    form.fields['tipo_documento'].initial = DocumentoProcesso.SOLICITACAO
-
-    if request.method == 'POST':
-        form = DocumentoForm(request.POST)
-    
-        if form.is_valid():
-            documento = form.save(commit=False)
-
-            documento.processo = novo_processo
-            documento.criado_por = request.user
-            documento.modificado_por = request.user
-
-            documento.save()
-            messages.success(request, f'O {documento} foi salvo com sucesso!')
-            return redirect('core:processo-movimentar', pk=processo.pk)
-    
-    context['form'] = form
-    context['processo'] = processo
-    context['novo_processo'] = novo_processo
-
-    return render(request, template_name, context)
-
 @login_required
 def carregar_lista_processos_anexos(request, pk):
     data = dict()
@@ -2072,28 +2092,3 @@ def carregar_lista_processos_anexos_movimentacao(request, pk):
     context['processo_anexos'] = processo_anexos
     data['html_item_list'] = render_to_string('core/ajax/partial_processos_anexos_mov.html', context, request=request,)
     return JsonResponse(data)
-
-
-@login_required
-def consulta_detalhe(request, pk):
-    template_name = 'core/processo/consulta/detalhe.html'
-    context = {}
-    processo = get_object_or_404(Processo, pk=pk)
-    servidor = ServidorProfile.objects.get(pk=request.session['perfil'])
-
-    context['processo'] = processo
-
-    tramite_ultimo = processo.ultima_movimentacao()
-    if tramite_ultimo:
-        vinculos_chefia = VinculoServidorUnidade.objects.filter(Q(servidor=servidor) & Q(is_ativo=True) & Q(unidade=tramite_ultimo.unidade_destino) & (Q(tipo_vinculo=VinculoServidorUnidade.PRESIDENTE) | Q(tipo_vinculo=VinculoServidorUnidade.VICE_PRESIDENTE)))
-        funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=servidor) & Q(data_termino__isnull=True) & Q(unidade=tramite_ultimo.unidade_destino) &(Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
-    if processo.unidade_interessada and processo.situacao.slug == 'rascunho':
-        vinculos_chefia = VinculoServidorUnidade.objects.filter(Q(servidor=servidor) & Q(is_ativo=True) & Q(unidade=processo.unidade_interessada) & (Q(tipo_vinculo=VinculoServidorUnidade.PRESIDENTE) | Q(tipo_vinculo=VinculoServidorUnidade.VICE_PRESIDENTE)))
-        funcoes_gratificadas = ResponsavelUnidade.objects.filter(Q(servidor=servidor) & Q(data_termino__isnull=True) & Q(unidade=processo.unidade_interessada) &(Q(nivel_responsabilidade=ResponsavelUnidade.CHEFE) | Q(nivel_responsabilidade=ResponsavelUnidade.VICE_CHEFIA)))
-
-    if vinculos_chefia.exists() or funcoes_gratificadas.exists():
-        context['is_chefia'] = True
-    else:
-        context['is_chefia'] = False
-
-    return render(request, template_name, context)

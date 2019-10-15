@@ -1,13 +1,18 @@
-from django.db import models
-from django.urls import reverse
-from django.conf import settings
-from django.contrib.auth.models import AbstractUser
-from manhana.core.models.parametro import AreaContratacao, EstruturaOrganizacional
-from .choices import *
-from django.contrib.auth.models import User
-from django.dispatch import receiver
-from django.db.models.signals import post_save
 from datetime import date
+
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser, User
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.urls import reverse
+
+from manhana.authentication.choices import *
+from manhana.authentication.managers import (DiscenteQuerySet,
+                                             GrupoDocenteQuerySet,
+                                             ServidorQuerySet)
+from manhana.core.models.parametro import (AreaContratacao,
+                                           EstruturaOrganizacional)
 
 
 # Create your models here.
@@ -42,7 +47,7 @@ def create_or_update_user_pessoa(sender, instance, created, **kwargs):
     if created:
         Pessoa.objects.create(user=instance)
     instance.pessoa.save()
-    
+
 
 class ServidorProfile(models.Model):
     pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
@@ -59,11 +64,15 @@ class ServidorProfile(models.Model):
     titulacao = models.CharField('Titulação', max_length=200)
     is_ativo = models.BooleanField('Ativo?', default=True,  help_text='Indica que o perfil será tratado como ativo. Ao invés de excluir perfis, desmarque isso.')
 
+    objects = ServidorQuerySet.as_manager()
+
     def __str__(self):
         return f"{self.pessoa.user.get_full_name()} ({self.siape}): {self.cargo}"
 
 
 class TaeProfile(ServidorProfile):
+
+    objects = ServidorQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Técnico Administrativo'
@@ -76,19 +85,24 @@ class GrupoDocente(models.Model):
     is_ativo = models.BooleanField('Ativo?', default=True,  help_text='Indica que o grupo será tratado como ativo. Ao invés de excluir grupos, desmarque isso.')
     grupo_pai = models.ForeignKey('self', on_delete=models.PROTECT, related_name='grupos_pai', null=True, blank=True)
     ch_semanal = models.DecimalField('Carga horária semanal', max_digits=10, decimal_places=2, blank=True, null=True)
-    
+
+    objects = GrupoDocenteQuerySet.as_manager()
+
     class Meta:
         verbose_name = 'Grupo do docente'
         verbose_name_plural = 'Grupos dos docentes'
-        ordering = ('nome',)
+        ordering = ('nome', )
 
     def __str__(self):
         return self.nome
+
 
 class DocenteProfile(ServidorProfile):
     lattes = models.URLField('Link do lattes', unique=True, help_text='Ex: http://lattes.cnpq.br/2076449581151181', blank=True, null=True)
     grupo = models.ForeignKey(GrupoDocente, verbose_name='Grupo em função da carga horária', on_delete=models.PROTECT, related_name='docentes_grupo', blank=True, null=True)
     area_contratacao = models.ForeignKey(AreaContratacao, on_delete=models.PROTECT, related_name='docentes_area_contratacao', blank=True, null=True)
+
+    objects = ServidorQuerySet.as_manager()
 
     class Meta:
         verbose_name = 'Docente'
@@ -101,17 +115,8 @@ class DiscenteProfile(models.Model):
     id_discente_sig = models.IntegerField('ID do discente nos SIGAA', unique=True, blank=True, null=True)
     is_ativo = models.BooleanField('Ativo?', default=True, help_text='Indica que o perfil será tratado como ativo. Ao invés de excluir perfis, desmarque isso.')
 
+    objects = DiscenteQuerySet.as_manager()
+
     class Meta:
         verbose_name = 'Discente'
         verbose_name_plural = 'Discentes'
-
-
-
-
-
-
-
-
-
-
-

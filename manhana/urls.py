@@ -13,15 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path, re_path
+
+from manhana.core.views.principal import HomeView
 
 urlpatterns = [
     path('config/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('authentication/', include('manhana.authentication.urls', namespace="auth")),
+    path('', HomeView.as_view(), name='home'),
     path('admin/', include('manhana.core.urls.principal', namespace="core")),
 
     re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),
