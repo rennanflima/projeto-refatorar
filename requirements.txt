@@ -7,7 +7,7 @@ brazilnum==0.8.8
 certifi==2018.11.29
 chardet==3.0.4
 coverage==4.5.3
-Django==2.2.4
+Django==2.2.24
 django-auth-ldap==1.7.0
 django-bootstrap4==0.0.7
 django-cas-ng==3.6.0
